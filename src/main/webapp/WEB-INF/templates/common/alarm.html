@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header">
+<body>
+	<script type="text/javascript" th:inline="javascript">
+		
+		//알람타입, 수신자IDX, 요청IDX
+		let jsonObj = {
+				'alarmType' : '[(${alarmType})]',
+				'receiverIdx' : '[(${receiverIdx})]',
+				'reqIdx' : '[(${reqIdx})]'
+		}
+		
+		sock.onopen = function(){
+			if('[(${alarmType})]') {
+				let message = JSON.stringify(jsonObj);
+				
+				sock.send(message);
+				if('[(${url})]'){
+					location.href = '[(${url})]';
+				} else {
+					history.back();
+				}
+			}
+		};
+		
+		
+	</script>
+</body>
+</html>

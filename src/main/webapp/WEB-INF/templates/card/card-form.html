@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<link rel="stylesheet" href="../resources/css/all.css">
+<link rel="stylesheet" href="../resources/css/reset.css">
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="../resources/css/member/join.css">
+<title>Bootstrap Form Style </title>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<header th:replace="fragments/subBodyHeader :: header"></header>
+<section>
+<div class="demo form-bg">
+	<div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <form class="form-horizontal"
+                	th:action="|/card/card-form?${_csrf.parameterName}=${_csrf.token}|" method="post" name="card" id="frm_card" enctype="multipart/form-data">
+                    <div class="header">new card</div>
+                    <div class="form-content">
+                    	<!-- <h4 class="heading">교환 나눔</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+								<label><input type="radio" name="isfree" value="N">교환</label>
+								<label><input type="radio"  name="isfree" value="Y">나눔</label>
+                            </div>
+                        </div> -->
+                    	<h4 class="heading">카테고리</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                              <select name="category"  style="font-size: 20px;">
+	                             	<option disabled selected >-카테고리-</option>
+                             		<option value="전자기기/생활가전">전자기기/생활가전</option>
+									<option value="가구/인테리어">가구/인테리어</option>
+									<option value="유아동">유아동</option>
+									<option value="생활/가공식품">생활/가공식품</option>
+									<option value="스포츠/레저">스포츠/레저</option>
+									<option value="패션/잡화">패션/잡화</option>
+									<option value="게임/만화">게임/만화</option>
+									<option value="뷰티/미용">뷰티/미용</option>
+									<option value="반려 동물 용품">반려 동물 용품</option>
+									<option value="도서/티켓/음반">도서/티켓/음반</option>
+									<option value="기타">기타</option>
+							  </select>
+                            </div>
+                        </div>
+                    	<h4 class="heading">이름</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                               <input class="form-control" id="email" name="name" type="text" required/>
+                            </div>
+                        </div>
+                        <h4 class="heading">상태</h4>
+                        <div class="form-group">
+                             <div class="col-sm-12">
+								<label><input type="radio" name="condition" value="1">매우 나쁨</label>
+								<label><input type="radio"  name="condition" value="2">나쁨</label>
+								<label><input type="radio"  name="condition" value="3">보통</label>
+								<label><input type="radio"  name="condition" value="4">좋음</label>
+								<label><input type="radio"  name="condition" value="5">매우 좋음</label>
+                            </div>
+                           
+                        </div>
+                        <h4 class="heading">이미지</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                               <input class="form-control" id="image" name="imgList" type="file" multiple="multiple"
+                               onchange="fileCheck(this.files)" required/>
+                            </div>
+                        </div>
+                        <div class="rejectMsg"></div>
+                        <div class="form-group">
+                            <div class="preview">
+                               <p>No files currently selected for upload</p>
+                            </div>
+                        </div>
+                        <h4 class="heading">지역</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                              <select name="region" style="font-size: 18px;"  onChange="cat1_change(this.value,regionDetail)" class="region">
+								  <option disabled selected>-시/도-</option>
+								  <option value='서울'>서울</option>
+								  <option value='부산'>부산</option>
+								  <option value='대구'>대구</option>
+								  <option value='인천'>인천</option>
+								  <option value='광주'>광주</option>
+								  <option value='대전'>대전</option>
+								  <option value='울산'>울산</option>
+								  <option value='강원'>강원</option>
+								  <option value='경기'>경기</option>
+								  <option value='경남'>경남</option>
+								  <option value='경북'>경북</option>
+								  <option value='전남' >전남</option>
+								  <option value='전북'>전북</option>
+								  <option value='제주'>제주</option>
+								  <option value='충남'>충남</option>
+								  <option value='충북'>충북</option>
+								</select>
+								<select name="regionDetail" style="font-size: 18px;">
+								  <option disabled="disabled" selected>-구/군/시-</option>
+								</select>
+                            </div>
+                        </div>
+                        <h4 class="heading">배송비 여부</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+								<label><input type="radio" name="deliveryCharge" value="Y">유</label>
+								<label><input type="radio"  name="deliveryCharge" value="N">무</label>
+                            </div>
+                        </div>
+                        <h4 class="heading">거래방식</h4>
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <select name="method"  style="font-size: 20px;">
+									<option value="배송">배송</option>
+									<option value="직거래">직거래</option>
+									<option value="상관 없음">상관 없음</option>
+									<option value="협의 후 결정" selected>협의 후 결정</option>
+							  </select>
+                            </div>
+                        </div>
+                         <h4 class="heading">교환 희망 카테고리</h4>
+                        <div class="form-group">
+                           <div class="col-sm-12">                            
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="전자기기/생활가전"> 전자기기/생활가전</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="가구/인테리어"> 가구/인테리어</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="유아동">유아동</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="생활/가공식품">생활/가공식품</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="스포츠/레저">스포츠/레저</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="패션/잡화">패션/잡화</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="게임/만화">게임/만화</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="뷰티/미용">뷰티/미용</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="반려 동물 용품">반려 동물 용품</label>
+									<label><input type="checkbox" name="hopeKind" onclick="cc(this)"value="도서/티켓/음반">도서/티켓/음반</label>
+                            </div>
+                        </div>
+                        <h4 class="heading">설명</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                              <textarea name="content" rows="" cols=""></textarea>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                        	<button type="button" class="btn btn-default" id="btn_cancel">취소</button>
+                            <button type="submit" class="btn btn-default" >카드등록</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<footer>
+	<div th:replace="fragments/footer :: footer"></div>
+</footer>
+<script type="text/javascript" src="../resources/js/member/join.js"></script>
+<script type="text/javascript">
+
+var input = document.querySelector('#image');
+var preview = document.querySelector('.preview');
+
+input.addEventListener('change', updateImageDisplay);
+
+function updateImageDisplay() {
+	  while(preview.firstChild) {
+	    preview.removeChild(preview.firstChild);
+	  }
+
+	  const curFiles = input.files;
+	  if(curFiles.length === 0) {
+	    const para = document.createElement('p');
+	    para.textContent = 'No files currently selected for upload';
+	    preview.appendChild(para);
+	  } else {
+	    const list = document.createElement('ol');
+	    preview.appendChild(list);
+
+	    for(const file of curFiles) {
+	      const listItem = document.createElement('li');
+	      const para = document.createElement('p');
+	      if(validFileType(file)) {
+	        para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+	        const image = document.createElement('img');
+	        
+	        image.style.setProperty("width","300px");
+	        image.style.setProperty("height","200px");
+	        
+	        image.src = URL.createObjectURL(file);
+
+	        listItem.appendChild(image);
+	        listItem.appendChild(para);
+	      } else {
+	        para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+	        listItem.appendChild(para);
+	      }
+
+	      list.appendChild(listItem);
+	    }
+	  }
+}
+	
+const fileTypes = [
+	  "image/gif",
+	  "image/jpeg",
+	  "image/png",
+	  "image/jpg"
+];
+
+function validFileType(file) {
+	 return fileTypes.includes(file.type);
+}
+	
+function returnFileSize(number) {
+	if(number < 1024) {
+		return number + 'bytes';
+	} else if(number >= 1024 && number < 1048576) {
+		return (number/1024).toFixed(1) + 'KB';
+	} else if(number >= 1048576) {
+		return (number/1048576).toFixed(1) + 'MB';
+	}
+}
+
+let fileCheck = (e) => {
+    if (e.length > 4) {
+        alert("이미지는 최대 4개까지 업로드 가능합니다.");
+        document.getElementById("image").value = "";
+        return;
+    }
+    if (e.length < 1) {
+        alert("이미지는 최소 1개이상 업로드 해야 합니다.");
+        document.getElementById("image").value = "";
+        return;
+    }
+	
+	for(let i of e){
+		cnt += 1;
+		let file = i.name.split('.');
+		let filetype = file[file.length-1].toLowerCase();
+		if(filetype == 'jpg' || filetype == 'gif' || filetype == 'jpeg' || filetype=='png'){
+			document.querySelector(".rejectMsg").innerHTML = '';
+		} else{
+			document.querySelector(".rejectMsg").innerHTML = '<i class="fas fa-times-circle"></i>JPG/GIF/PNG 파일만 업로드 가능합니다.';
+			i.value='';
+			return false;
+		}
+	}
+	
+	
+}
+
+var mc = 3;  //체크박스 갯수제한
+var tc = 0; // 카운트 증가
+
+function cc(ff) { 
+    if (ff.checked) 
+        tc += 1; 
+    else 
+        tc -= 1; 
+
+    if (tc > mc) { 
+        alert ("교환 희망 카테고리는 3개까지 선택 가능합니다."); 
+        
+    ff.checked = false; 
+    tc -= 1; 
+    } 
+
+if(tc<1){
+ alert ("교환 희망 카테고리는 최소 1개이상 선택해야 합니다.."); 
+return false;
+}    
+} 
+function ResetCount(){ tc = 0; }
+
+
+
+
+
+var cat1_name = new Array('서울','부산','대구','인천','광주','대전','울산','강원','경기','경남','경북','전남','전북','제주','충남','충북');
+
+var cat2_name = new Array();
+
+cat2_name[1] = new Array('강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구');
+
+cat2_name[2] = new Array('강서구','금정구','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군');
+
+cat2_name[3] = new Array('남구','달서구','동구','북구','서구','수성구','중구','달성군');
+
+cat2_name[4] = new Array('계양구','남구','남동구','동구','부평구','서구','연수구','중구','강화군','옹진군');
+
+cat2_name[5] = new Array('광산구','남구','동구','북구','서구');
+
+cat2_name[6] = new Array('대덕구','동구','서구','유성구','중구');
+
+cat2_name[7] = new Array('남구','동구','북구','중구','울주군');
+
+cat2_name[8] = new Array('강릉시','동해시','삼척시','속초시','원주시','춘천시','태백시','고성군','양구군','양양군','영월군','인제군','정선군','철원군','평창군','홍천군','화천군','횡성군');
+
+cat2_name[9] = new Array('고양시 덕양구','고양시 일산구','과천시','광명시','광주시','구리시','군포시','김포시','남양주시','동두천시','부천시 소사구','부천시 오정구','부천시 원미구','성남시 분당구','성남시 수정구','성남시 중원구','수원시 권선구','수원시 장안구','수원시 팔달구','시흥시','안산시 단원구','안산시 상록구','안성시','안양시 동안구','안양시 만안구','오산시','용인시','의왕시','의정부시','이천시','파주시','평택시','하남시','화성시','가평군','양주군','양평군','여주군','연천군','포천군');
+
+cat2_name[10] = new Array('거제시','김해시','마산시','밀양시','사천시','양산시','진주시','진해시','창원시','통영시','거창군','고성군','남해군','산청군','의령군','창녕군','하동군','함안군','함양군','합천군');
+
+cat2_name[11] = new Array('경산시','경주시','구미시','김천시','문경시','상주시','안동시','영주시','영천시','포항시 남구','포항시 북구','고령군','군위군','봉화군','성주군','영덕군','영양군','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군');
+
+cat2_name[12] = new Array('광양시','나주시','목포시','순천시','여수시','강진군','고흥군','곡성군','구례군','담양군','무안군','보성군','신안군','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군');
+
+cat2_name[13] = new Array('군산시','김제시','남원시','익산시','전주시 덕진구','전주시 완산구','정읍시','고창군','무주군','부안군','순창군','완주군','임실군','장수군','진안군');
+
+cat2_name[14] = new Array('서귀포시','제주시','남제주군','북제주군');
+
+cat2_name[15] = new Array('공주시','논산시','보령시','서산시','아산시','천안시','금산군','당진군','부여군','서천군','연기군','예산군','청양군','태안군','홍성군');
+
+cat2_name[16] = new Array('제천시','청주시 상당구','청주시 흥덕구','충주시','괴산군','단양군','보은군','영동군','옥천군','음성군','진천군','청원군');
+
+function cat1_change(key,sel){
+	
+	if(key == '') return;
+	let index = cat1_name.indexOf(key)+1;
+	let name = cat2_name[index];
+	
+	for(i=sel.length-1; i>=0; i--)
+		 sel.options[i] = null;
+		 sel.options[0] = new Option('-선택-','', '', 'true');
+	for(i=0; i<name.length; i++){
+		 sel.options[i+1] = new Option(name[i]);
+	}
+	
+}
+
+document.querySelector("#btn_cancel").addEventListener("click", ()=>{
+	history.back;
+})
+</script>
+</body>
+</html>

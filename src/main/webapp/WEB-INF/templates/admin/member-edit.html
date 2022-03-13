@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<th:block th:replace="admin/fragments/head :: admin_head"></th:block>
+<style type="text/css">
+
+.valid-msg, .valid-msg-e{
+	font-size: 0.5vw !important;
+	color : red !important;
+}
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:500;
+}
+</style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<th:block th:replace="admin/fragments/nav :: admin_nav"></th:block>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<th:block th:replace="admin/fragments/sidebar :: admin_sidebar"></th:block>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<div class="clearfix">
+						<!-- LEFT COLUMN -->
+						<div class="profile-left" style="margin-left: 30%;">
+							<!-- PROFILE HEADER -->
+							<div class="profile-header">
+								<div class="overlay"></div>
+								<!-- 
+								<div class="profile-main">
+									<th:block th:if="${memberDetail.member.flIdx}">
+										<img  th:src="|/${memberDetail.memberImg.getDownloadURL()}|" class="img-circle" alt="Avatar"  style="width: 55px; height: 55px;">
+									</th:block>
+									<th:block th:unless="${memberDetail.member.flIdx}">
+										<img  th:src="@{/resources/img/undraw_profile.svg}" class="img-circle" alt="Avatar"  style="width: 55px; height: 55px;">
+									</th:block>
+									<h3 class="name" style="color: white;"
+										th:text="${memberDetail.member.memberName}"></h3>
+								</div>
+								 -->
+							</div>
+							<!-- END PROFILE HEADER -->
+							<!-- PROFILE DETAIL -->
+							<div class="profile-detail">
+								<form
+									th:action="|/admin/member-edit/${memberDetail.member.memberIdx}?${_csrf.headerName}=${_csrf.token}|"
+									th:object="${memberUpdate}" id="frm_modify" method="post">
+									<div class="profile-info">
+										<h4 class="heading">사용자 정보</h4>
+										<ul class="list-unstyled list-justify">
+											<li>이메일</li>
+											<li th:text="${memberDetail.member.memberEmail}"></li>
+											<li>비밀번호 <input type="password" name="memberPass"
+												class="form-control" placeholder="비밀번호 입력" th:field="*{memberPass}">
+												<span
+												th:unless="${#fields.hasErrors('memberPass')}"
+												id="" class="valid-msg"></span>
+												<span th:if="${#fields.hasErrors('memberPass')}"
+												th:errors="*{memberPass}" class="valid-msg-e"></span>
+											</li>
+											<li>닉네임 <input type="text" name="memberNick"
+												id="memberNick" class="form-control" placeholder="닉네임 입력" th:field="*{memberNick}">
+												<button type="button" id="btnNickCheck">중복확인</button> <span
+												th:unless="${#fields.hasErrors('memberNick')}"
+												id="nickNameCheck" class="valid-msg"></span> <span
+												th:if="${#fields.hasErrors('memberNick')}"
+												th:errors="*{memberNick}" class="valid-msg"></span>
+											</li>
+											<li>연락처 <input type="text" name="memberTell"
+												class="form-control" placeholder="연락처 입력"></li>
+											<li>주소
+												<div style="display: flex;">
+													<input id="zipNo" name="zipNo" class="form-control"
+														type="text" readonly="readonly" style="width: 100px">
+													<button type="button" id="searchAddr"
+														style="margin-left: 1%;">검색</button>
+												</div>
+											</li>
+											<li><input class="form-control" id="address"
+												name="address" type="text" readonly="readonly"></li>
+											<li><br>
+											<a
+												th:href="@{/admin/memberLeave(memberIdx=${memberDetail.member.memberIdx})}">회원탈퇴</a></li>
+										</ul>
+										<input type="hidden" name="memberIdx"
+											th:value="${memberDetail.member.memberIdx}">
+									</div>
+									<div class="profile-info"></div>
+									<div class="profile-info"></div>
+									<div class="text-center">
+										<button class="btn btn-primary">수정완료</button>
+									</div>
+								</form>
+							</div>
+							<!-- END PROFILE DETAIL -->
+						</div>
+						<!-- END LEFT COLUMN -->
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					© 2021 SwitchSwitch. All rights reserved.
+				</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<th:block th:replace="admin/fragments/footer :: admin_footer"></th:block>
+	<script type="text/javascript"
+		src="/resources/js/admin/adminModifyForm.js"></script>
+	<script type="text/javascript">
+	var pop;
+	
+    $("#searchAddr").click(()=>{
+    	//경로는 시스템에 맞게 수정하여 사용
+    	//호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+    	pop = window.open("/member/addrPopup","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+    })
+    var jusoCallBack = (zipNo, roadFullAddr)=>{
+    	$('#zipNo').val(zipNo);
+    	$('#address').val(roadFullAddr);
+    } 
+	</script>
+</body>
+
+</html>

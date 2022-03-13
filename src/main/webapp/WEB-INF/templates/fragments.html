@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:fragment="flg_head">
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" th:href="@{/resources/css/all.css}">
+		<script type="text/javascript" th:src="@{/resources/js/webUtil.js}"></script>
+		<script type="text/javascript" th:src="@{/resources/js/urlEncoder.js}"></script>
+		
+		<!-- CSS only -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<!-- JavaScript Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<style type="text/css">
+			a{
+				color:black;
+				text-decoration: none;	
+				cursor:pointer;
+				}		
+		</style>
+	</th:block>
+	<th:block th:fragment="leave_head">
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    <title>SB Admin 2 - Register</title>
+	    <!-- Custom fonts for this template-->
+	    <link href="../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	    <link
+	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	        rel="stylesheet">
+	    <!-- Custom styles for this template-->
+	    <link href="../resources/css/mypage/sb-admin-2.min.css" rel="stylesheet">
+	</th:block>
+</head>
+<body>
+
+
+<script type="text/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">
+
+/* 비동기 통신시 header는 headerObj를 가져와서 사용하고 추가로 header를 지정해야할 때도 여기에 추가해서 사용 */
+   let getCsrfHeader = () =>{
+       let headerObj = new Headers();
+       let csrfHeader = "[(${_csrf.headerName})]";
+       let csrfToken = "[(${_csrf.token})]";
+       headerObj.append(csrfHeader,csrfToken);
+       return headerObj;
+   }
+</script>
+
+/* 카드 컨테이너 및 카테고리 아이콘 */
+<script type="text/javascript" th:inline="javascript" th:fragment="card">
+	document.querySelectorAll(".card-box").forEach(function(e){
+		switch(e.previousElementSibling.value){
+		case '1' : e.setAttribute("src","/resources/img/ddongCard.png"); break;
+		case '2' : e.setAttribute("src","/resources/img/BrownCard.png"); break;
+		case '3' : e.setAttribute("src","/resources/img/silverCard.png"); break;
+		case '4' : e.setAttribute("src","/resources/img/goldCard.png"); break;
+		case '5' : e.setAttribute("src","/resources/img/diaCard.png"); break;
+		default : console.dir("error!!!");
+		};
+	})
+	
+	document.querySelectorAll("#icon-val").forEach(function(e){
+		switch(e.previousElementSibling.value){
+		case '전자기기/생활가전' : e.setAttribute("class","fas fa-bolt"); break;
+		case '가구/인테리어' : e.setAttribute("class","fas fa-couch"); break;
+		case '유아동' : e.setAttribute("class","fal fa-baby"); break;
+		case '생활/가공식품' : e.setAttribute("class","fas fa-utensils"); break;
+		case '스포츠/레저' : e.setAttribute("class","fas fa-basketball-ball"); break;
+		case '패션/잡화' : e.setAttribute("class","fas fa-tshirt"); break;
+		case '게임/만화' : e.setAttribute("class","fas fa-gamepad"); break;
+		case '뷰티/미용' : e.setAttribute("class","fas fa-air-freshener"); break;
+		case '반려 동물 용품' : e.setAttribute("class","fas fa-paw"); break;
+		case '도서/티켓/음반' : e.setAttribute("class","fas fa-compact-disc"); break;
+		case '기타' : e.setAttribute("class","fas fa-cogs"); break;
+		default : console.dir("error!!!");
+		};
+	})
+</script>
+
+/* 알림 생성 */
+<script type="text/javascript" th:inline="javascript" th:fragment="alarm">
+	let sock = new SockJS('/alarm');
+	sock.onmessage = function(msg){
+		var data = msg.data;
+		//JSON -> 객체 또는 JavaScript 값 
+		let message = JSON.parse(data);
+		console.dir(message);
+		
+		//알림 생성
+		let alarmIdxInput = document.createElement("input");
+		alarmIdxInput.setAttribute("name","alarmIdx");
+		alarmIdxInput.setAttribute("type","hidden");
+		alarmIdxInput.setAttribute("value",message.alarmIdx);
+		document.body.appendChild(alarmIdxInput);
+		
+		let alarmBox = document.createElement("div");
+		alarmBox.setAttribute("class", "alarm");
+		
+		alarmBox.innerHTML = message.message;
+		document.body.appendChild(alarmBox);
+		
+		//5초동안 보이게
+		setTimeout(()=>{
+			alarmBox.style.display = "none";
+		}, 5000);
+		
+		alarmBox.addEventListener("click",function(){
+			fetch("/alarm/read?alarmIdx=" + message.alarmIdx, { headers : getCsrfHeader()})
+			.then((response)=>{
+				if(response.ok){
+					location.href="/exchange/detail/"+ message.reqIdx;
+				} else {
+					throw new Error(response.status);
+				}
+			})
+		})
+	};
+</script>
+
+/* 카드 조회수 */
+<script type="text/javascript" th:inline="javascript" th:replace="fragments :: ajax-csrf-header"></script>
+<script type="text/javascript" th:inline="javascript" th:fragment="view">
+function updateView(e,cardIdx,ownerIdx,views){
+	console.log("views"+views)
+	let currMemberIdx = $('.id-Check').val()
+	if(ownerIdx == currMemberIdx){
+		return;
+	}
+	fetch("/card/view?cardIdx=" + cardIdx + "&views=" + views, { headers : getCsrfHeader()})
+	.then(response => {
+		if(response.ok){
+			console.dir("card 조회수 +1");
+		} else {
+			throw new Error(response.status);
+		}
+	})
+}
+/* 키워드 */
+
+
+</script>
+
+</body>
+</html>

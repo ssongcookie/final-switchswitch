@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+   <configuration>
+  	<settings>
+  		<setting name="mapUnderscoreToCamelCase" value="true"/>
+  	</settings>
+  
+	<mappers>
+	  	<mapper resource="mybatis/mapper/cardMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/memberMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/kakaoMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/savePointMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/alarmMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/exchangeStatusMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/cardRequestCancelListRepositoryMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/cardRequestListRepositoryMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/boardMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/adminMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/noticeMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/inquiryMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/inquiryRealNameMapper.xml"/>
+	  	<mapper resource="mybatis/mapper/pointRefundMapper.xml"/>
+	  	<mapper class="com.kh.switchswitch.point.model.repository.PointHistoryRepository"/>
+	  	<mapper resource="mybatis/mapper/topInquiryMapper.xml"/>
+	</mappers>
+  </configuration>

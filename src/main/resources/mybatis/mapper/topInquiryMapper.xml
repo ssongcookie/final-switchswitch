@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.inquiry.model.repository.TopInquiryRepository">
+
+  		<update id="modifyInquiry">
+  		update top_inquiry
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="title != null">title=#{title},</if>
+  		<if test="content != null">content=#{content},</if>
+  		<if test="regDate != null">reg_date=#{regDate},</if>
+  		</trim>
+  		where sup_idx = #{supIdx}
+  	</update>
+
+
+  </mapper>

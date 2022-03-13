@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+html {
+    width: 100%;
+}
+/* 카드 리스트랑 카드 정보 */
+.exchange-section {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exchange-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-info {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.mycard-list-container {
+    width: 75%;
+    box-sizing: border-box;
+}
+
+.mycard-list {
+    box-sizing: border-box;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    margin-top: 10px;
+    max-width: 100%;
+    width: 100%;
+    height:300px;
+    border: 1px solid red;
+    overflow: scroll;
+}
+
+.mycard-list::-webkit-scrollbar{
+    display: none;
+}
+
+.card-info-container {
+    box-sizing: border-box;
+    width: 25%;
+}
+
+.card-info {
+    box-sizing: border-box;
+    padding: 20px;
+    margin-top: 10px;
+    width: 100%;
+    height: 300px;
+    border: 1px solid red
+}
+
+.wishCard {
+    margin-top: 40px;
+    width: 100%;
+}
+
+/* 교환 희망 카드 리스트 */
+.wishCard-container {
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid red;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.top-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 42%;
+    border: 1px solid red;
+}
+
+.exchange-icon {
+    box-sizing: border-box;
+    padding: 20px;
+    width: 100%;
+    height: 5%;
+}
+
+.bottom-container {
+    margin: 0 auto;
+    box-sizing: border-box;
+    /* padding: 20px;  */
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+    overflow: hidden;
+    width: 100%;
+    height: 45%;
+    border: 1px solid red;
+}
+
+.exchange-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: aquamarine;
+    animation: rotation 3s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+/* -------------------------------------- */
+
+
+.point {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-top: 20px;
+}
+
+.balance {
+    width: 45%;
+    
+}
+.balance-inner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.balance input {
+    width: 40%;
+}
+
+.balance p {
+    margin:0 10px;
+}
+
+.proposal {
+    width: 45%;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.proposal-inner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.proposal p {
+    margin:0 10px;
+}
+
+.proposal input {
+    width: 40%;
+}
+
+.button {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button button {
+    height: 30px;
+    width: 45%;
+}

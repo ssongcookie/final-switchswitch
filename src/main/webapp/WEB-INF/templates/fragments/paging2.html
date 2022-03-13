@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      <div class="pagin-wrap"  th:fragment="paging2" >
+            <nav class="paging inner-size" th:object=${paging}>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link"
+                        th:href="|*{url}?page=*{prev}|" aria-label="Previous"> <span
+                            aria-hidden="true">&laquo;</span>
+                    </a></li>
+                    <li class="page-item"
+                        th:each="p : ${#numbers.sequence(paging.start,paging.end)}">
+                        <a th:href="|*{url}?page=${p}|" class="page-link"
+                        th:text="${p}">1</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#"
+                        th:href="|*{url}?page=*{next}|"> <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+	
+	
+</html>

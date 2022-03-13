@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="header">
+  	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- bottomalarm -->
+    <link rel="stylesheet" th:href="@{/resources/css/alarm/bottomalarm.css}">
+    
+    <!-- fontaawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+        
+    <!-- resetcss -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    
+    <!-- indexcss -->
+    <link rel="stylesheet" th:href="@{/resources/css/index/index.css}">
+    
+    <!-- cardcss -->
+    <link rel="stylesheet" th:href="@{/resources/css/card/card2.css}">
+    
+    <!-- favicon -->
+    <link rel="icon" th:type="@{/resources/img/x-icon}" th:href="@{/resources/img/favicon.ico}">
+    
+    <!-- submenu -->
+    <link rel="stylesheet" th:href="@{/resources/css/subMenu.css}">
+    
+    <!-- submenujquery -->
+    <script defer th:src="@{/resources/js/subMenu.js}"></script>
+    
+    <!-- jQuery 스크립트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <title>SwitchSwitch</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <th:block sec:authorize="isAuthenticated()">
+     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+     <script type="text/javascript" th:inline="javascript" th:replace="fragments :: ajax-csrf-header"></script>
+   	 <script type="text/javascript" th:inline="javascript" th:replace="fragments :: alarm"></script>
+    </th:block>
+   
+</head>

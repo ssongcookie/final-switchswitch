@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.member.model.repository.MemberRepository">
+  	<select id="selectPasswordByUserId" resultType="string">
+  		select password from member where user_id = #{userId}
+  	</select>
+  	<insert id="insertMember">
+  		insert into member(MEMBER_IDX,CODE,MEMBER_PASS,MEMBER_EMAIL
+  		<if test="memberTell != null">,MEMBER_TELL</if>
+  		,MEMBER_NICK,MEMBER_ADDRESS,MEMBER_NAME)
+		values(SC_MEMBER_IDX.NEXTVAL,'B',#{memberPass},#{memberEmail}
+		<if test="memberTell != null">,#{memberTell}</if>
+		,#{memberNick},#{memberAddress},#{memberName})
+  	</insert>
+  	<update id="updateMember">
+  		update member
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="memberPass != null">member_pass=#{memberPass}, </if>
+  		<if test="memberEmail != null">member_email=#{memberEmail}, </if>
+  		<if test="memberDelYn != null">member_del_yn=#{memberDelYn}, </if>
+  		<if test="memberAddress != null">member_address=#{memberAddress}, </if>
+  		<if test="memberDelDate != null">member_del_date=#{memberDelDate}, </if>
+  		<if test="memberScore != null">member_score=#{memberScore}, </if>
+  		<if test="memberNick != null">member_nick=#{memberNick}, </if>
+  		<if test="memberTell != null">member_tell=#{memberTell}</if>
+  		</trim>
+  		where member_idx = #{memberIdx}
+  	</update>
+  	
+  	<update id="updateMemberForFile">
+  		update member
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="memberPass != null">member_pass=#{memberPass},</if>
+  		<if test="memberEmail != null">member_email=#{memberEmail},</if>
+  		<if test="memberDelYn != null">member_del_yn=#{memberDelYn},</if>
+  		<if test="memberAddress != null">member_address=#{memberAddress},</if>
+  		<if test="memberDelDate != null">member_del_date=#{memberDelDate},</if>
+  		<if test="memberScore != null">member_score=#{memberScore},</if>
+  		<if test="memberNick != null">member_nick=#{memberNick},</if>
+  		<if test="memberTell != null">member_tell=#{memberTell}</if>
+  		</trim>
+  		, fl_idx= sc_file_idx.currval
+  		where member_idx = #{memberIdx}
+  	</update>
+  </mapper>

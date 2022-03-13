@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="admin/fragments/head :: admin_head"></th:block>
+<style type="text/css">
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:500;
+}
+</style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<th:block th:replace="admin/fragments/nav :: admin_nav"></th:block>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<th:block th:replace="admin/fragments/sidebar :: admin_sidebar"></th:block>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">전체 회원 조회</h3>
+					<div class="col-md-13 row">
+						<!-- TABLE HOVER -->
+						<div class="panel" style="background-color: white;">
+							<div class="panel-heading" style="height: 70px;">
+								<form action="/admin/all-members" method="get">
+									<div style="display: flex; float: right;">
+									<select class="form-control" name="searchDetail" style="width: 120px;">
+									  <option th:selected="${#strings.equals(param.searchDetail, 'member_idx')}" value="member_idx">회원번호</option>
+									  <option th:selected="${#strings.equals(param.searchDetail, 'member_email')}" value="member_email">회원이메일</option>
+									  <option th:selected="${#strings.equals(param.searchDetail, 'member_name')}" value="member_name">회원이름</option>
+									  <option th:selected="${#strings.equals(param.searchDetail, 'member_nick')}" value="member_nick">회원닉네임</option>
+									  <option th:selected="${#strings.equals(param.searchDetail, 'member_tell')}" value="member_tell">연락처</option>
+									</select>
+									<div class="" style="display: flex; width: 250px;">
+									  <input type="search" name="searchKeyword" class="form-control rounded" placeholder="Search" aria-label="Search"
+									  aria-describedby="search-addon" th:value="${param.searchKeyword}" />
+									  <span class="input-group-text border-0" id="search-addon">
+									    <button class="fa fa-search" aria-hidden="true" style="font-size: 30px;"></button>
+									  </span>
+									</div>
+									</div>
+								</form>
+							</div>
+							<div class="panel-body">
+								<table class="table table-hover text-center">
+									<thead>
+										<tr class="">
+											<th class="text-center">회원번호</th>
+											<th class="text-center">이메일</th>
+											<th class="text-center">이름</th>
+											<th class="text-center">닉네임</th>
+											<th class="text-center">연락처</th>
+											<th class="text-center">가입일자</th>
+											<th class="text-center">블랙리스트</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="" th:each="memberList : ${memberList}">
+											<td><a th:href="|/admin/member-profile/${memberList.memberIdx}|" th:text="${memberList.memberIdx}"></a></td>
+											<td th:text="${memberList.memberEmail}"></td>
+											<td th:text="${memberList.memberName}"></td>
+											<td th:text="${memberList.memberNick}"></td>
+											<td th:text="${memberList.memberTell}"></td>
+											<td th:text="${memberList.memberRegDate}"></td>
+											<td>
+											<button th:if="${memberList.code} == 'D'" th:text="해제하기" type="button" class="btn btn-secondary btn-sm" th:onclick="'location.href=\''+ @{/admin/changeMemberStatus(code=${memberList.code},memberIdx=${memberList.memberIdx})}+'\''"></button>
+											<button th:unless="${memberList.code} == 'D'" th:text="등록하기" type="button" class="btn btn-secondary btn-sm" th:onclick="'location.href=\''+ @{/admin/changeMemberStatus(code=${memberList.code},memberIdx=${memberList.memberIdx})}+'\''"></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div style="display: flex; justify-content: center;">
+								<ul class="pagination" th:object=${paging}>
+							    <li>
+							      <a th:if="${param.searchDetail}" th:href="|*{url}?page=*{prev}&searchDetail=${param.searchDetail}&searchKeyword=${param.searchKeyword}|" aria-label="Previous">
+							        <span aria-hidden="true" style="color: black">&laquo;</span>
+							      </a>
+							      <a th:unless="${param.searchDetail}" th:href="|*{url}?page=*{prev}|" aria-label="Previous">
+							    	<span aria-hidden="true" style="color: black">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a th:if="${param.searchDetail}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}&searchDetail=${param.searchDetail}&searchKeyword=${param.searchKeyword}|" th:text="${p}" style="color: black"></a></li>
+							    <li><a th:unless="${param.searchDetail}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}|" th:text="${p}" style="color: black"></a></li>
+							    <li>
+							      <a th:if="${param.searchDetail}" th:href="|*{url}?page=*{next}&searchDetail=${param.searchDetail}&searchKeyword=${param.searchKeyword}|" aria-label="Next">
+							        <span aria-hidden="true" style="color: black">&raquo;</span>
+							      </a>
+							      <a th:unless="${param.searchDetail}" th:href="|*{url}?page=*{next}|" aria-label="Next">
+							        <span aria-hidden="true" style="color: black">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					© 2021 SwitchSwitch. All rights reserved.
+				</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<th:block th:replace="admin/fragments/footer :: admin_footer"></th:block>
+</body>
+
+</html>

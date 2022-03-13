@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardList-header"></head>	
+<body>
+    <header th:replace="fragments/subBodyHeader :: header">
+    </header>
+	<nav th:replace="fragments/subMenu" :: subNav>
+    </nav>
+    <section>
+        <div class="ref-title-container">
+            <div class="ref-innerwrap inner-size">
+                <div class="ref-title">
+                    <h1>자주묻는질문</h1>
+                </div>
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+            </div>
+             <div class="single-title inner-size">
+                <div class="search">
+                    <input type="text" placeholder="검색어를 입력해주세요." maxlength="15">
+                </div>
+             	 <th:block sec:authorize = "hasAuthority('C')">
+               	 <a class="board-write" href="/top/top-form">글쓰기</a>
+                </th:block>
+            </div>
+            <div class="refund-container inner-size">
+                <div class="histroy-table">
+                    <table>
+                        <thead>
+                            <tr>
+                            	<th style="width: 10%">작성자</th>
+                                <th style="width: 65%;">제목</th>
+                                <th style="width: 15%;">작성일</th>
+                            </tr>  
+                        </thead>
+                        <tbody>
+                            <tr th:each="topInquiry : ${inquiryList}"
+									style="height: 30px; line-height: 30px;">
+									<td th:text="${topInquiry.userId}"></td>
+									<td><a th:text="${topInquiry.title}"
+										th:href="@{/top/top-detail(supIdx=${topInquiry.supIdx})}"></a></td>
+									<td th:text="${topInquiry.regDate}"></td>
+								</tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+          <!-- 페이징 -->
+	 <div th:replace="fragments/paging2 :: paging2" ></div>
+    </section>
+   <footer>
+       <div th:replace="fragments/footer :: footer" ></div>
+   	</footer> 
+</body>
+</html>

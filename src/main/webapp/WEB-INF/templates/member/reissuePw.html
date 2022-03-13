@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head th:replace="fragments/subHeader :: findingIdReissuePw-header"></head>
+</head>
+<body>
+
+<header th:replace="fragments/subBodyHeader :: header"></header>
+
+<section>
+
+	<div class="finding-conainer">
+		<div class="finding-inner inner-size">
+			<form class="finding" th:action="@{/member/reissuePw}" method="post">
+				<div class="title">
+					<h3>비밀번호 재발급</h3>
+				</div>
+				<th:block th:unless="${success}">
+				<div class="email-input">
+					<input type="text" name="email" class="email"
+						placeholder="이메일을 입력해주세요.">
+					<div class="error-msg-email" style="visibility: hidden">
+						<p>이메일은 필수 입력입니다.</p>
+					</div>
+				</div>
+				<div class="finding-sm">
+					<button type="button" class="findingButton" onclick="checkBlank()">
+						비밀번호 재발급</button>
+				</div>
+				</th:block>
+			</form>
+			<div class="form-group" th:if="${success}">
+				<span class="result-box" style="font-size: 18px">[[${success}]]</span>
+			</div>
+			<div class="find-container">
+				아직 회원이 아니신가요? <a class="" th:href="@{/member/consentForm}">회원가입</a>
+				<div class="divid"></div>
+				<a th:href="@{/member/findingId}">아이디 찾기</a>
+				<div class="divid"></div>
+				<a th:href="@{/member/login}">로그인</a>
+			</div>
+		</div>
+	</div>
+
+</section>
+<script type="text/javascript" th:inline="javascript">
+	if ('[(${error})]'){
+		alert("[(${error})]");
+	}
+
+	function checkBlank() {
+		document.querySelector(".error-msg-email").style.visibility = 'hidden';
+		if (!$(".email").val() || !document.querySelector(".email").value.trim()) {
+			document.querySelector(".error-msg-email").style.visibility = 'visible';
+		} else {
+			$(".finding").submit();
+		}
+
+	}
+</script>
+</body>
+</html>

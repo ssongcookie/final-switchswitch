@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ <header th:fragment="subBodyHeader">
+
+         <div class="header-container">
+
+            <div class="login-join-container ">
+                <div sec:authorize="isAnonymous()" class="login-join inner-size">
+                    <a th:href="@{/member/login}">로그인</a>
+                    <div class="divid"></div>
+                    <a th:href="@{/member/consentForm}">회원가입</a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="login-join inner-size">
+                    <a th:href="@{/mypage/profile}">[[${#authentication.principal.memberNick}]]</a>
+                    <div class="divid"></div>
+                    <a sec:authorize="hasAuthority('C')" th:href="@{/admin/real-time-cards}">관리자 페이지로 이동</a>
+                    <div sec:authorize="hasAuthority('C')" class="divid"></div>
+                    <form th:action="@{/member/logout}" method="post"><button style="border:none; background: none; color:#000; font-size:12px; font-weight: 100;">로그아웃</button></form>
+                </div>
+            </div>
+
+            <div class="menu-container inner-size">
+                <div class="inner-logo">
+                    <div class="logo">
+                        <a href="/"><img th:src="@{/resources/img/maincolorlogo.png}" alt=""></a>
+                    </div>
+                </div>
+                <div class="inner-menu">
+                    <div class="trade-market hover"><a th:href="@{/market/cardmarket}" class="color-bl">교환마켓</a></div>
+                    <!-- <div class="share-market hover"><a th:href="@{/market/freemarket}" class="color-bl">나눔마켓</a></div> -->
+                    <div class="board hover"><a th:href="@{/board/board-list2}" class="color-bl">게시판</a></div>
+                    <div class="myCard hover"><a th:href="@{/card/my-card}" class="color-bl">내카드</a></div>
+                    <div class="myPage hover"><a th:href="@{/mypage/profile}" class="color-bl">마이페이지</a></div>
+                </div>
+            </div>
+
+        </div>
+        
+		<nav th:replace="fragments/subMenu" :: subNav></nav>
+
+    </header>

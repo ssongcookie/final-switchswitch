@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+	<head>
+<style type="text/css">
+pre {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 200px;
+    overflow: hidden;
+    font-size: 0.875em;
+}
+div#\31 42 {
+    max-width: 1080px;
+    width: 100%;
+    display: flex;
+    padding-right: 780px;
+}
+.cmt_wrap {
+    margin-top: 15px;
+    align-items: baseline;
+    margin-bottom: 15px;
+    display: flex;
+    /* justify-content: space-evenly; */
+    max-width: 1080px;
+    width: 100%;
+    /* display: grid; */
+    /* place-content: center; */
+    /* width: 100%; */
+    /* max-width: 1080px; */
+    padding-left: 210px;
+    padding-right: 100px;
+}
+.writer_profile {
+    /* width: 250px; */
+    height: 50px;
+    margin-left: 10px;
+}
+</style>		    
+	</head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+ <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>자주 묻는 질문</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>			
+            <div class='section' th:object="${datas}">
+				<div class='section_wrap'>
+					<div class="section_content_box"  th:object="${datas}">
+						<div class="section_header">
+							<div class="section_title">
+								<span th:text="|제목 : *{topInquiry.title}|"></span>
+							</div>
+							<div class="writer_profile">
+								<span th:text="|등록일 : *{topInquiry.regDate}|"></span>
+									<span th:text="|작성자 : *{topInquiry.userId}|"></span>
+							</div>
+						</div>
+						<div class="content_area" id=editor1>
+							<pre>[[*{topInquiry.content}]]</pre>
+						</div>
+					</div>
+					<div class='btn_area'>
+							<form class='frm_post'
+									th:action="|/top/delete?${_csrf.parameterName}=${_csrf.token}&supIdx=${datas.topInquiry.supIdx}|"
+									method="post" enctype="multipart/form-data">
+									<div class='btn_area'>
+									<span th:if="${#authentication.principal.memberName} == ${datas.topInquiry.userId}">
+										<a class="btn"
+											th:href="@{/top/top-modify(supIdx=${datas.topInquiry.supIdx})}">수정</a>
+										<button id="btnDelete" class="btn">삭제</button>
+									</span>
+										<a class="btn" th:href="@{/top/top-list2}">목록</a>
+									</div>
+							</form>
+						</div>
+				</div>				
+			</div>
+		</div>
+</section>
+ <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+	<script type="text/javascript" th:inline="javascript">
+	let header = "[(${_csrf.headerName})]";
+    let token = "[(${_csrf.token})]";
+    let supIdx = [[${param.supIdx}]];
+    let userId = [[${#authentication.principal.memberName}]];
+	</script>
+<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/answer/inquiry-detail.js}">
+</script>
+</body>
+</html>

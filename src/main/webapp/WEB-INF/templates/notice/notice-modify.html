@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+  <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>공지사항 수정페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+		<div class='section'  th:object="${datas}">
+				<form class='frm_post'  th:action="|/notice/modify?${_csrf.parameterName}=${_csrf.token}|" method="post" enctype="multipart/form-data">
+				<div class='frm_tag_area'>
+					<select class='select_subject' name='type'>
+							<option selected value='중요공지'>중요공지</option>
+							<option value='일반'>일반</option>
+					</select>
+				</div>
+				<div class='frm_title_area'>
+					<div>
+					<input type="text" class="post_title" name="title" required="required" th:value="*{notice.title}" placeholder='제목을 입력하세요'>
+					</div>
+				</div>
+				<div class='frm_content_area'>
+					<textarea id="editor1" name="content" required="required" th:text="*{notice.content}" data-sample-short></textarea>
+				</div>			
+					<div class="add_file_box">
+						<input class="form-control" id="file" name="files" type="file" multiple="multiple"
+	                               onchange="fileCheck(this.files)" />
+                               	<div class="file-wrap" th:each="file : ${datas.files}" th:object="${file}">
+                               		<a style="float:left" th:text="${file.originFileName }"></a>
+                               		<input type="button" id="delete_file" th:value="파일삭제" alt="" th:onclick="|removeFile(this,*{flIdx})|">
+								</div>
+					</div>
+				<div class='info file_info'></div>
+					<div class='btn_area'>
+							<button id="btnModify" class="btn" onclick="alert('수정되었습니다.');">수정</button>	
+					</div>
+				<input type="hidden" name="noticeIdx" th:value="*{notice.noticeIdx}"/>
+			</form>
+			</div>
+		</div>
+  </section>
+<footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+<script type="text/javascript" th:inline="javascript">
+
+var input = document.querySelector('#file');
+var preview = document.querySelector('.preview');
+
+input.addEventListener('change', updateImageDisplay);
+
+function updateImageDisplay() {
+	  while(preview.firstChild) {
+	    preview.removeChild(preview.firstChild);
+	  }
+
+	  const curFiles = input.files;
+	  if(curFiles.length === 0) {
+	    const para = document.createElement('p');
+	    para.textContent = 'No files currently selected for upload';
+	    preview.appendChild(para);
+	  } else {
+	    const list = document.createElement('ol');
+	    preview.appendChild(list);
+
+	    for(const file of curFiles) {
+	      const listItem = document.createElement('li');
+	      const para = document.createElement('p');
+	      if(validFileType(file)) {
+	        para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+	        const image = document.createElement('img');
+	        
+	        image.style.setProperty("width","300px");
+	        image.style.setProperty("height","200px");
+	        
+	        image.src = URL.createObjectURL(file);
+
+	        listItem.appendChild(image);
+	        listItem.appendChild(para);
+	      } else {
+	        para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+	        listItem.appendChild(para);
+	      }
+
+	      list.appendChild(listItem);
+	    }
+	  }
+}
+	
+function returnFileSize(number) {
+	if(number < 1024) {
+		return number + 'bytes';
+	} else if(number >= 1024 && number < 1048576) {
+		return (number/1024).toFixed(1) + 'KB';
+	} else if(number >= 1048576) {
+		return (number/1048576).toFixed(1) + 'MB';
+	}
+}
+
+
+
+
+let removeFile = (e,flIdx) => {
+
+	e.remove();
+	
+	let hidden = document.createElement('input');
+	hidden.type = 'hidden';
+	hidden.name = 'removeFlIdx';
+	hidden.value = flIdx;
+	
+	document.querySelector('form').append(hidden);
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>

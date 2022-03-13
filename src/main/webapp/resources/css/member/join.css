@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'Hahmlet-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Hahmlet-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.demo
+{
+	padding: 100px 0;
+}
+
+form{
+    font-family: 'Roboto', sans-serif;
+}
+
+label{
+	margin-left: 10px;
+}
+
+.header{
+    background: #f9c0a8;
+    padding: 30px 25px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 3px 3px 0 0;
+}
+
+.heading{
+    font-size: 16px;
+    font-weight: bolder;
+    color: #bebebe211211211;
+    margin: 10px 0 20px 0;
+    text-transform: capitalize;
+}
+
+.valid-msg-e{
+	color: red;
+}
+
+.form-content{
+    padding: 25px;
+    background: #fff;
+}
+
+.form-control{
+    padding: 12px 16px 12px 39px;
+    height: 50px;
+    font-size: 14px;
+    color: #2b2a2a;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 15px;
+}
+
+.form-control:focus{
+    border-color: #3f9cb5;
+    box-shadow: none;
+}
+
+.heading-title
+{
+	color:#333333;
+	font-family: 'Hahmlet-Bold';
+	font-size: 3.5em;
+	margin-bottom: 50px;
+}
+.form-horizontal .control-label{
+    font-size: 17px;
+    color: #ccc;
+    position: absolute;
+    top: 5px;
+    left: 27px;
+    text-align: center;
+}
+
+.inner_btn{
+	font-size: 14px;
+    font-weight: bold;
+    color: #4e4e4e;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding: 12px 30px 12px 30px;
+    transition: all 0.5s ease 0s;
+}
+
+.inner_btn:hover{
+    background: #fff;
+    border-color: #3f9cb5;
+}
+
+
+.form-horizontal .btn{
+    font-size: 18px;
+    color: #4e4e4e;
+    float: right;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding: 10px 25px;
+    transition: all 0.5s ease 0s;
+    margin-left: 10px;
+}
+
+.form-horizontal .btn:hover{
+    background: #fff;
+    border-color: #3f9cb5;
+}
+
+@media (min-width: 992px){
+	.col-md-offset-3 {
+    	margin-left: 20%;
+	}
+}
+
+@media (min-width: 992px){
+	.col-md-6 {
+    	width: 60%;
+	}
+}
+
+
+@charset "utf-8";
+/* CSS Document */
+

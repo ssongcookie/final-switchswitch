@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head>
+			<!-- refund -->
+		    <link rel="stylesheet" href="../resources/css/board/inquiry2.css">
+	</head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+ <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>문의사항 작성페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+		<div class='section'>
+			<form class='frm_post' th:action="|/inquiry/upload?${_csrf.parameterName}=${_csrf.token}|" method="post" enctype="multipart/form-data">
+				<div class='frm_tag_area'>
+					<select class='select_subject' name='type'>
+							<option selected value='불편사항'>불편사항</option>
+							<option value='신고'>신고</option>
+							<option value='기타'>기타</option>
+					</select>
+				</div>
+				<div class='frm_title_area'>
+					<div>
+					<input type='text' class="post_title" name="title" required="required" placeholder='제목을 입력하세요'>
+					</div>
+				</div>
+				<div class='frm_content_area'>
+					<textarea id="editor1" name="content" placeholder="내용을 입력하세요" data-sample-short></textarea>
+				</div>
+
+				<div class='btn_area'>
+						<button id="btnSubmit" class="btn">문의사항 등록하기</button>
+					</div>
+				
+			</form>
+		</div>
+		
+	</div>
+   </section>
+<footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+</body>
+</html>

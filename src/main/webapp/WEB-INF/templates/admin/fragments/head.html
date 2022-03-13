@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:fragment="admin_head">
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="_csrf" th:content="${_csrf.token}">
+		<meta name="_csrf_header" th:content="${_csrf.headerName}">
+		<title>SwitchSwitch-관리자 페이지</title>
+		
+		<link rel="stylesheet" href="/resources/css/admin/admin-common/bootstrap.min.css">
+		<link rel="stylesheet" href="/resources/css/admin/admin-common/font-awesome.min.css">
+		<link rel="stylesheet" href="/resources/css/admin/admin-common/style.css">
+		<link rel="stylesheet" href="/resources/css/admin/admin-common/main.css">
+		<link rel="stylesheet" href="/resources/css/admin/admin-common/demo.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700">
+		<!-- ICONS -->
+		<link rel="apple-touch-icon" sizes="76x76" href="/resources/img/favicon.ico">
+		<link rel="icon" sizes="96x96" href="/resources/img/favicon.ico">
+	</th:block>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="subHeader">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    
+    <!-- bottomalarm -->
+    <link rel="stylesheet" th:href="@{/resources/css/alarm/bottomalarm.css}">
+    
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+        
+    <!-- resetcss -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    
+    <!-- headerfootercss -->
+    <link rel="stylesheet" th:href="@{/resources/css/haederFooter.css}">
+    
+    <!-- marketcss -->
+    <link rel="stylesheet" th:href="@{/resources/css/market/cardmarket.css}">
+    
+    <!-- logincss -->
+    <link rel="stylesheet" th:href="@{/resources/css/member/login.css}">
+    
+    <!-- cardcss -->
+    <link rel="stylesheet" th:href="@{/resources/css/card/card2.css}">
+    
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/resources/img/favicon.ico}">
+    
+    <!-- detailpop -->
+    <link rel="stylesheet" th:href="@{/resources/css/card/carddetail.css}">
+     
+    <!-- refund -->
+    <link rel="stylesheet" th:href="@{/resources/css/point/refund.css}">
+    
+    <!-- submenu -->
+    <link rel="stylesheet" th:href="@{/resources/css/subMenu.css}">
+    
+    <!-- submenujquery -->
+    <script defer th:src="@{/resources/js/subMenu.js}"></script>
+     
+    <!-- slick css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+     
+    <!-- jQuery 스크립트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!-- slick -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    
+    <title>SwitchSwitch</title>
+    
+    <th:block sec:authorize="isAuthenticated()">
+     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   	 <script type="text/javascript" th:inline="javascript" th:replace="fragments :: ajax-csrf-header"></script>
+   	 <script type="text/javascript" th:inline="javascript" th:replace="fragments :: alarm"></script>
+    </th:block>
+    
+</head>
+
+<head th:fragment="consentForm-header">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous">
+	
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		crossorigin="anonymous">
+	<link
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+		rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+		crossorigin="anonymous">
+		
+	<link rel="stylesheet" href="../resources/css/member/consentForm.css">
+</head>
+
+<head th:fragment="findingIdReissuePw-header">
+	<!-- findingcss -->
+	<link rel="stylesheet" th:href="@{/resources/css/member/finding.css}">
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+</head>
+
+<head th:fragment="join-header">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<link rel="stylesheet" href="../resources/css/all.css">
+	<link rel="stylesheet" href="../resources/css/reset.css">
+	
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="../resources/css/member/join.css">
+	<title>Bootstrap Form Style </title>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+
+<head th:fragment="alarm-header">
+	<!-- refund -->
+    <link rel="stylesheet" th:href="@{/resources/css/board/boardList.css}">
+    <!-- alarm -->
+	<link rel="stylesheet" th:href="@{/resources/css/alarm/alarm.css}">
+	<!-- star -->
+	<link rel="stylesheet" th:href="@{/resources/css/exchange/detail.css}">
+</head>
+
+<head th:fragment="boardDetail-header">
+	<!-- refund -->
+	 <link href="../../../resources/css/board/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../resources/css/board/board3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<head th:fragment="boardList-header">
+	<!-- refund -->
+    <link rel="stylesheet" href="../resources/css/board/boardList.css">
+</head>
+<head th:fragment="boardModify-header">
+		<!-- refund -->
+	    <link rel="stylesheet" href="../resources/css/board/board2.css">
+	    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>	    
+</head>
+<head th:fragment="noticeForm-header">
+		<!-- refund -->
+	    <link rel="stylesheet" href="../resources/css/board/notice2.css">
+</head>
+<head th:fragment="inquiryForm-header">
+		<!-- refund -->
+	    <link rel="stylesheet" href="../resources/css/board/inquiry2.css">
+</head>

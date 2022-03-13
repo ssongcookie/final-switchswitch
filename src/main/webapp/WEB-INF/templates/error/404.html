@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/subHeader :: subHeader">
+</head>
+
+
+<body>
+
+
+    <header style="display: flex;height: 90px;">
+    	<div style="position: relative; left: 40%; top:80%;"><img src="/resources/img/maincolorlogo.png"></div>
+    </header>
+
+    <section class="market-section" style="height: 230px;background-color: white;text-align: left;width: 1000px;">
+	    <div id="textWraaper" style="position: relative;width: 500px;left: 81%;font-size: 13px;top:20%;">
+			<p style="float: left;">죄송합니다.</p>
+			<br>
+			<br>
+			<p>요청하신 페이지를 찾을 수 없습니다.</p>
+			<br>
+			<br>
+			<p style="color:#646464;">방문하시려는 페이지의 주소가 잘못 입력되었거나,</p>
+			<br>
+			<p style="color:#646464;">페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.</p>
+			<br>
+			<p style="color:#646464;">입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</p>
+			<br>
+			<p style="color:#646464;">감사합니다.</p>
+			<br>
+			<br>
+			<a id="home" class="btn btn-warning" href="/" style="position:relative;background-color: #ff5403;border-radius: 8px;border:none;color:white;font-size: 12px;padding: 7px 13px;">목록으로</a>
+	    </div>
+    </section>
+
+    <footer style="display: flex; position: relative; left:42%; width: 500px;height: 100px;">
+       <div><img src="/resources/img/maincolorlogo.png" style="width: 80px;"></div><div style="font-weight: 100;font-size: 10px;height: 100%;position: relative;top: 14%;left:4%;">© 2021 SwitchSwitch. All rights reserved.</div>
+   	</footer>
+   	
+   	<input class="id-Check" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.memberNick} != null" type="hidden" th:value="${#authentication.principal.memberNick}">
+   	
+   	<script type="text/javascript" th:inline="javascript" th:replace="fragments :: ajax-csrf-header"></script>
+	<script type="text/javascript" th:inline="javascript" th:replace="fragments :: view"></script>
+   	
+</body>
+
+</html>

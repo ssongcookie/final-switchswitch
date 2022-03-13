@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+ <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>공지사항 상세페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+			<div class='section' th:object="${datas}">
+				<div class='section_wrap'>					
+					<div class="section_content_box">
+						<div class="section_header">
+							<div class="section_title">
+								<span th:text="|제목 : *{notice.title}|"></span>
+							</div>
+							<div class="writer_info">
+
+								<div class="writer_profile">
+									<span th:text="|등록일 : *{notice.regDate}|"></span>
+								</div>
+								<div class="writer_board_info">
+									<ul class="dep1">
+										<li>
+											<th:if test="${not empty files}">
+											<a>첨부파일</a>
+											<ul class="dep2">
+											
+											<li th:each="file : ${datas.files}" th:object="${file}"
+												th:onclick="downloadFile([[*{originFileName}]],[[*{renameFileName}]],[[*{savePath}]])">
+												<a th:href="${file.downloadURL }" >[[*{originFileName}]]</a>
+											</li>
+											</ul>
+											</th:if> 
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="section_container">
+							<pre>[[*{notice.content}]]</pre>
+						</div>
+					</div>
+					
+
+						<div class='btn_area'>
+							 <a class="btn"  th:href="@{/notice/notice-list2}">목록</a>
+							 <th:block sec:authorize = "hasAuthority('C')">
+								 <a class="btn" th:href="@{/notice/notice-modify(noticeIdx=${datas.notice.noticeIdx})}">수정</a> 
+								 <a class="btn" th:href="@{/notice/delete(noticeIdx=${datas.notice.noticeIdx})}">삭제</a> 
+							</th:block>
+					 		<!-- <button id="btnDelete" class="btn"th:onclick="deleteNotice([[${datas.notice.noticeIdx}]])">삭제</button> -->
+						</div>
+					<input type="hidden" name="noticeIdx" th:value="*{notice.noticeIdx}"/>				
+				</div>
+			</div>
+		</div>
+	</section>
+ <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+	<script type="text/javascript" th:inline="javascript">
+	let header = "[(${_csrf.headerName})]";
+    let token = "[(${_csrf.token})]";
+    let bdIdx = [[${param.bdIdx}]];
+    let cmIdx = [[${param.cmIdx}]];
+    let userId = [[${#authentication.principal.memberName}]];
+    
+    let downloadFile = (ofn,rfn,path) =>{
+    	let paramObj = {
+    			originFileName : ofn,
+    			renameFileName : rfn,
+    			savePath : path
+    	}
+    	location.href = '/download?'+urlEncoder(paramObj)
+    }
+	</script>
+<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/board/board-detail.js}">
+</script>
+</body>
+</html>

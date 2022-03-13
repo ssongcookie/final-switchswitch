@@ -1,0 +1,144 @@
+@charset "UTF-8";
+.section * {
+    font-size: 13px;
+}
+
+.ref-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ref-innerwrap {
+    height: 170px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    box-sizing: border-box;
+    background-color: #2b53a9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ref-title {
+    color: #fff;
+    font-size: 30px;
+}
+
+.ref-title p{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 25px;
+}
+
+.ref-title span {
+    border: 1px solid #fff;
+    border-radius: 15px;
+    padding: 0 15px;
+    font-size: 20px;
+    margin-left: 10px;
+    animation: bring 1s infinite;
+}
+
+.ref-img {
+    position: absolute;
+    left: 70%;
+}
+
+.ref-img img {    
+    width: 350px; 
+}
+
+.inner-size {
+    max-width: 1080px;
+    width: 100%;
+}
+.section {
+    padding: 20px 30px;
+    background-color: #f7f7f9;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1080px;
+    width: 100%;
+}
+.post_title {
+    width: 100%;
+    height: 38px;
+    font-size: 15px;
+    border: none;
+    margin-left: 5px;
+    border-radius: 8px;
+}
+.frm_post {
+    /* width: 100%; */
+    /* height: 100%; */
+    box-sizing: border-box;
+    /* display: flex; */
+    padding: 20px 30px;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 25%);
+}
+
+.frm_header_area {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-width: 1px;
+}
+
+.frm_title_area {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.frm_title_area>div {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    border: solid;
+    border-width: 1px;
+    border-radius: 8px;
+}
+
+.frm_content_area>textarea {
+    width: 100%;
+    height: 400px;
+    resize: none;
+    border-radius: 8px;
+}
+.btn_area{
+    height: 36px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.btn{
+	border-color: transparent;
+}
+.btn_area>button{
+    padding: 6px 50px;
+    border-radius: 8px;
+    background: #2b53a9;
+    color: white;
+    margin-left: 10px;
+}
+.btn_area>a {
+padding: 11px 66px;
+    border-radius: 8px;
+    background: #2b53a9;
+    color: white;
+    margin-left: 10px
+}

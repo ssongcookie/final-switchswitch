@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.admin.model.repository.AdminRepository">
+  	<update id="updateMemberInfo">
+  		update member
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="memberPass != null">member_pass=#{memberPass}, </if>
+  		<if test="memberEmail != null">member_email=#{memberEmail}, </if>
+  		<if test="memberDelYn != null">member_del_yn=#{memberDelYn}, </if>
+  		<if test="memberAddress != null">member_address=#{memberAddress}, </if>
+  		<if test="memberDelDate != null">member_del_date=#{memberDelDate}, </if>
+  		<if test="memberScore != null">member_score=#{memberScore}, </if>
+  		<if test="memberNick != null">member_nick=#{memberNick}, </if>
+  		<if test="memberTell != null">member_tell=#{memberTell}</if>
+  		</trim>
+  		where member_idx = #{memberIdx}
+  	</update>
+  	<!-- 
+  	<resultMap type="com.kh.switchswitch.member.model.dto.Member" id="memberMap">
+  		<result column="member_idx" property="memberIdx"/>
+  		<result column="code" property="code"/>
+  		<result column="member_reg_date" property="memberRegDate"/>
+  		<result column="member_pass" property="memberPass"/>
+  		<result column="member_email" property="memberEmail"/>
+  		<result column="member_del_yn" property="memberDelYn"/>
+  		<result column="member_tell" property="memberTell"/>
+  		<result column="member_nick" property="memberNick"/>
+  		<result column="member_address" property="memberAddress"/>
+  		<result column="member_del_date" property="memberDelDate"/>
+  		<result column="member_score" property="memberScore"/>
+  		<result column="member_name" property="memberName"/>
+  		<result column="fl_idx" property="flIdx"/>
+  	</resultMap>
+  	
+  	<resultMap type="com.kh.switchswitch.common.util.FileDTO" id="memberImg">
+  		<result column="fl_idx" property="flIdx"/>
+  		<result column="bd_idx" property="bdIdx"/>
+  		<result column="origin_file_name" property="originFileName"/>
+  		<result column="rename_file_name" property="renameFileName"/>
+  		<result column="save_path" property="savePath"/>
+  		<result column="reg_date" property="regDate"/>
+  		<result column="is_del" property="isDel"/>
+  		<result column="card_idx" property="cardIdx"/>
+  	</resultMap>
+  	<resultMap type="com.kh.switchswitch.admin.model.dto.MemberInfo" id="MemberInfoMap">
+  		<collection property="member" resultMap="memberMap"/>
+  		<collection property="fileDTO" resultMap="memberImg"/>
+  	</resultMap>
+  	<select id="selectMemberByIdx" resultMap="MemberInfoMap" parameterType="int">
+  		select * 
+  		from member
+  		<if test="flIdx != null">
+  		inner join file_info using(fl_idx) 
+  		</if>
+  		where member_idx = #{memberIdx}
+  	</select>
+  	 -->
+  	 
+  	 <resultMap type="com.kh.switchswitch.member.model.dto.Member" id="memberData">
+  		<result column="member_idx" property="memberIdx"/>
+  		<result column="code" property="code"/>
+  		<result column="member_reg_date" property="memberRegDate"/>
+  		<result column="member_pass" property="memberPass"/>
+  		<result column="member_email" property="memberEmail"/>
+  		<result column="member_del_yn" property="memberDelYn"/>
+  		<result column="member_tell" property="memberTell"/>
+  		<result column="member_nick" property="memberNick"/>
+  		<result column="member_address" property="memberAddress"/>
+  		<result column="member_del_date" property="memberDelDate"/>
+  		<result column="member_score" property="memberScore"/>
+  		<result column="member_name" property="memberName"/>
+  		<result column="fl_idx" property="flIdx"/>
+  	</resultMap>
+  	 
+  	 <select id="selectMemberAllList" resultType="com.kh.switchswitch.member.model.dto.Member">
+  	 	select * 
+  	 	from 
+  	 		(select A.*, rownum rownum_ 
+  	 		from 
+  	 			(select 
+  	 				* 
+  	 			 from member where 
+  	 			 member_del_yn=0 
+  	 			 and code in('B','D') 
+  	 	<if test="searchType != null">
+	  	 	<if test="searchType == 'member_idx'">
+	  	 	and member_idx like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_email'">
+	  	 	and member_email like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_name'">
+	  	 	and member_name like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_nick'">
+	  	 	and member_nick like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_tell'">
+	  	 	and member_tell like '%'||#{keyword}||'%'
+	  	 	</if>
+  	 	</if>
+  	 	 order by member_idx desc) A 
+  	 	 )
+  	 	 where rownum_ between #{page} and #{cntPerPage}
+  	 </select>
+  	 <select id="memberCount" resultType="_int">
+  	 	select count(*) 
+			 from member where 
+			 member_del_yn=0 
+			 and code in('B','D') 
+  	 	<if test="searchType != null">
+	  	 	<if test="searchType == 'member_idx'">
+	  	 	and member_idx like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_email'">
+	  	 	and member_email like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_name'">
+	  	 	and member_name like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_nick'">
+	  	 	and member_nick like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_tell'">
+	  	 	and member_tell like '%'||#{keyword}||'%'
+	  	 	</if>
+  	 	</if>
+  	 </select>
+  	 <select id="selectMemberBlackList" resultType="com.kh.switchswitch.member.model.dto.Member">
+  	 	select * 
+  	 	from 
+  	 		(select A.*, rownum rownum_ 
+  	 		from 
+  	 			(select 
+  	 				* 
+  	 			 from member where 
+  	 	member_del_yn=0 
+  	 	and code = 'D' 
+  	 	<if test="searchType != null">
+	  	 	<if test="searchType == 'member_idx'">
+	  	 	and member_idx like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_email'">
+	  	 	and member_email like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_name'">
+	  	 	and member_name like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_nick'">
+	  	 	and member_nick like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_tell'">
+	  	 	and member_tell like '%'||#{keyword}||'%'
+	  	 	</if>
+  	 	</if>
+  	 	 order by member_idx desc) A 
+  	 	 )
+  	 	 where rownum_ between #{page} and #{cntPerPage}
+  	 </select>
+  	 <select id="memberBlackListCount" resultType="_int">
+  	 	select count(*) 
+  	 	from member 
+  	 	where member_del_yn=0 
+  	 	and code = 'D' 
+  	 	<if test="searchType != null">
+	  	 	<if test="searchType == 'member_idx'">
+	  	 	and member_idx like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_email'">
+	  	 	and member_email like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_name'">
+	  	 	and member_name like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_nick'">
+	  	 	and member_nick like '%'||#{keyword}||'%'
+	  	 	</if>
+	  	 	<if test="searchType == 'member_tell'">
+	  	 	and member_tell like '%'||#{keyword}||'%'
+	  	 	</if>
+  	 	</if>
+  	 </select>
+  	 <select id="selectCardsDetail" resultType="com.kh.switchswitch.card.model.dto.Card">
+  	 	select * 
+  	 	from 
+  	 		(select A.*, rownum rownum_ 
+  	 		from 
+  	 			(select 
+  	 				* 
+  	 			 from card where 
+  	 			 is_del=0 
+  	 	<if test="searchPeriod != null and searchType != null and searchKeyword != null">
+  	 		<if test="searchPeriod == 'recent'">
+				<if test="searchType == 'card_idx'">
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'week'">
+  	 			<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'month'">
+				<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'year'">
+				<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 	</if>
+  	 	order by card_idx desc) A 
+  	 	 )
+  	 	 where rownum_ between #{page} and #{cntPerPage}
+  	 </select>
+  	 <select id="cardCount" resultType="_int">
+  	 	select count(*)
+			 from card where 
+			 is_del=0 
+  	 	<if test="searchPeriod != null and searchType != null and searchKeyword != null">
+  	 		<if test="searchPeriod == 'recent'">
+				<if test="searchType == 'card_idx'">
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'week'">
+  	 			<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(sysdate-7,'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'month'">
+				<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-1),'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 		<if test="searchPeriod == 'year'">
+				<if test="searchType == 'card_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and card_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'name'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_idx'">
+  	 				and (reg_date &lt; to_char(add_months(sysdate,-12),'yyyy-mm-dd')) 
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 		</if>
+  	 	</if>
+  	 </select>
+  	 <select id="selectRefundHistoryList" resultType="com.kh.switchswitch.point.model.dto.PointRefund">
+  	 	select * 
+  	 		from 
+  	 		(select A.*, rownum rownum_ 
+  	 		from 
+  	 			(select 
+  	 				* 
+  	 			 from point_refund 
+  	 	<if test="statusCode != null">
+  	 		<if test="statusCode != '전체보기'">
+  	 		where status_code = #{statusCode} 
+  	 		</if>
+  	 	</if>
+  	 	order by pr_idx desc) A 
+  	 	 )
+  	 	 where rownum_ between #{page} and #{cntPerPage}
+  	 </select>
+  	 <select id="selectMemberByIdxWithDetail" resultType="com.kh.switchswitch.member.model.dto.Member">
+  	 	select * 
+			from member 
+			where member_del_yn=0 
+			and member_idx = #{memberIdx} 
+  	 	<if test="searchType != null and searchKeyword != null">
+				<if test="searchType == 'member_idx'">
+  	 				and member_idx like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_name'">
+  	 				and member_name like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_nick'">
+  	 				and member_nick like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 			<if test="searchType == 'member_tell'">
+  	 				and member_tell like '%'||#{searchKeyword}||'%'
+  	 			</if>
+  	 	</if>
+  	 </select>
+  	 <select id="selectRefundHistoryListForCount" resultType="com.kh.switchswitch.point.model.dto.PointRefund">
+  	 	select * 
+  	 		from point_refund 
+  	 	<if test="statusCode != null">
+  	 		<if test="statusCode != '전체보기'">
+  	 		where status_code = #{statusCode} 
+  	 		</if>
+  	 	</if>
+  	 </select>
+  </mapper>

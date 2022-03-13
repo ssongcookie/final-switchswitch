@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>포인트 충전</title>
+    <!-- Custom fonts for this template-->
+    <link href="../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="../resources/css/mypage/sb-admin-2.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../resources/css/mypage/mypage-form.css" />
+	<link href="../resources/css/mypage/styles.css" rel="stylesheet" />
+	<style type="text/css">
+	.card-header{
+		background-image: url("../resources/img/상단탑배경.png");
+		color: white;
+	}
+	
+	</style>
+</head>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+       <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"
+        	style="background-image: url('../resources/img/상단탑배경.png');">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15" style="margin-left: 12px;">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">SwitchSwitch</div>
+            </a>
+
+           <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-user-alt"></i>
+                    <span>내 프로필</span></a>
+            </li>
+			
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Pages Collapse Menu -->
+           <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                   <i class="fas fa-history"></i>
+                    <span>카드 거래 내역 관리</span></a>
+            </li>            
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-coins"></i>
+                    <span>포인트</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">포인트</h6>
+                        <a class="collapse-item" href="buttons.html">포인트 사용 및 충전 내역</a>
+                        <a class="collapse-item" href="cards.html">포인트 충전 및 환급</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                   <i class="fas fa-question-circle"></i>
+                    <span>문의 내역</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                   <i class="fas fa-comment-dots"></i>
+                    <span>채팅 목록</span></a>
+            </li>
+
+        </ul>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content" style="background-image: url('../resources/img/배경.jpg');">
+
+                 <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">new</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">new</span>
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle"
+                                    src="../resources/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">카드 거래 내역 관리</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- Content Column 거래내역 -->
+                         <div class="col-lg-6 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold ">나의 가용 포인트</h6>
+                                </div>
+                                 <div class="card-body">
+									<div class="mypage-con">
+										<div style=" width: 30%; margin-left: 33%">
+											<div style="text-align: center; font-size: 40px; font-weight: bolder;">[[${availableBal}]]</div>
+										</div>
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-12 mb-4" style="">
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4" >
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold ">포인트 환급하기</h6>
+                                </div>
+                                <div class="card-body">
+									<div class="mypage-con" style="font-size: 40px; font-weight: bolder;">
+										<div >신청 금액</div>
+										<form th:action="@{/point/refund}" id="refundInfo">
+											<input type="number" step="100" id="refundPoint" name="refundPoint">p
+											<div style="font-size: 20px; margin-top: 30px;">생년월일</div>
+											<input type="number" style="font-size: 20px;" id="birth" placeholder="YYMMDD">
+											<div style="font-size: 20px; margin-top: 30px;">환급 계좌 번호</div>
+											<input type="number" style="font-size: 20px;" id="account" name="account">
+											<select id="bankName" name="bankName" style="font-size: 20px;">
+												<option value="004">국민은행</option>
+												<option value="020">우리은행</option>
+												<option value="081">하나은행</option>
+												<option value="088">신한은행</option>
+												<option value="090">카카오뱅크</option>
+											</select>
+											<div>
+												<button type="button" onclick="checkAccount()">계좌조회</button>
+												<button type="button" onclick="doExchange()" class="btn btn-primary btn-user btn-block" style="width: 300px;" >
+	                                   			환전하기
+	                                			</button>
+											</div>
+										</form>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+                
+				
+            </div>
+            
+            
+            
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white" style="background-image: url('../resources/img/상단탑배경.png');">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span style="color: white;">Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    
+    <!-- SwitchSwitch 첫 사용자인증용 
+      <form method="get" action="https://testapi.openbanking.or.kr/oauth/2.0/authorize" target="_blank">
+	  <input type="hidden" name="response_type" value="code"/>
+	  <input type="hidden" name="client_id" value="4bd8e1e3-6c00-4aa1-bb89-46613a436a04"/>
+	  <input type="hidden" name="redirect_uri" value="http://localhost:9090/point/checkAccount"/>
+	  <input type="hidden" name="scope" value="login inquiry transfer"/>
+	  <input type="hidden" name="state" value="b80BLsfigm9OokPTjy03elbJqRHOfGSY"/>
+	  <input type="hidden" name="auth_type" value="0"/>
+	  <input type="submit" value="requestAuth"/>
+	</form> 
+	-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../resources/vendor/jquery/jquery.min.js"></script>
+    <script src="../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../resources/js/sb-admin-2.min.js"></script>
+    
+    <script type="text/javascript" th:inline="javascript">
+    let validUserName = ""; //이름
+    let account = ""; // 계좌
+    let bankName = ""; // 은행이름
+    let bankCode = ""; //은행코드
+    function checkAccount(){
+    	let inputAccount = $("#account").val();
+    	let inputBankCode = $("select[name=bankName]").val();
+    	let birth = $("#birth").val();
+    	
+    	fetch("/point/checkAccount?accountNum="+ inputAccount + "&bankCodeStd=" + inputBankCode + "&accountHolderInfo=" + birth)
+    	.then(response =>{
+    		console.dir(response);
+    		if(response.ok){
+    			return response.text();
+    		}else{
+    			throw new Error(response.status);
+    		}
+    	})
+    	.then(text => {
+    		console.dir(text);
+			if(text == '실패'){
+				console.dir(text);
+			}else{
+				let texts = text.split(",");
+				console.dir(texts[1]);
+				console.dir([[${#authentication.principal.memberName}]]);
+				if(texts[1] == [[${#authentication.principal.memberName}]] ){
+					alert("계좌실명인증이 완료되었습니다.");
+					validUserName = texts[1];
+					account = texts[0];
+					bankName = texts[2];
+					bankCode = texts[3];
+				} else {
+					alert("회원가입 시 입력한 이름과 계좌 소유주 이름이 다른 경우 어떻게 할까요?????");
+				}
+				
+			}
+		})
+		.catch(error => {
+			console.dir(error);
+		});
+    }
+    
+   function doExchange(){
+	   let availableBal = [[${availableBal}]];
+	   let refundPoint = parseInt($("#refundPoint").val(), 10);
+	   console.dir(availableBal);
+	   console.dir(typeof availableBal);
+	   console.dir(refundPoint);
+	   console.dir(typeof refundPoint);
+	   if(refundPoint > availableBal){
+		   alert("환급 가능 포인트를 초과하였습니다.");
+		   return;
+	   }
+	   if(validUserName != [[${#authentication.principal.memberName}]]){
+		   alert("제출된 정보와 일치하지 않습니다./1");
+		   return;
+	   }
+	   if(account != $("#account").val()){
+		   console.dir(account);
+		   console.dir($("#account").val());
+		   alert("제출된 정보와 일치하지 않습니다./2");
+		   return;
+	   }
+	   
+	   if(bankCode != $("select[name=bankName]").val()){
+		   console.dir(bankCode);
+		   console.dir($("select[name=bankName]").val());
+		   alert("제출된 정보와 일치하지 않습니다./3");
+		   return;
+	   }
+	   
+	   $("#refundInfo").submit();
+   }
+    </script>
+
+</body>
+
+</html>

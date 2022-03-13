@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+	<head>
+ <style type="text/css">
+  pre {
+	  display: block;
+	  margin-top: 0;
+	  margin-bottom: 1rem;
+	  overflow: auto;
+	  margin-top: 40px;
+	  margin-bottom: 300px;
+	  font-size: 0.875em;
+	  }
+.section_content_box {
+	   /* padding: 0px 20px 0px 20px; */
+	   border: 1px solid;
+	   margin-top: 15px;
+	   /* padding-bottom: 5px; */
+	   border-radius: 8px;
+	   margin-bottom: 30px;
+	   max-width: 1080px;
+	   width: 100%;
+	   position: relative;
+	   /* display: flex; */
+	   justify-content: space-between;
+	   align-items: center;
+	   padding: 20px 50px;
+	   box-sizing: border-box;
+}
+textarea {
+    max-width: 1080px;
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border-radius: 8px;
+    /* display: flex; */
+    /* text-align: center; */
+    /* align-items: center; */
+    /* align-content: center; */
+    /* margin-top: 15px; */
+    align-items: baseline;
+    margin-bottom: 15px;
+    display: flex;
+    /* justify-content: space-evenly; */
+    max-width: 1080px;
+    width: 100%;
+    display: grid;
+    /* place-content: center; */
+    /* width: 100%; */
+    /* max-width: 1080px; */
+    /* padding-left: 210px; */
+    margin-left: 215px;
+    /* padding-right: 100px; */
+}
+.frm_content_area>textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border-radius: 8px;
+}
+.btn_area {
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  </style>  
+	</head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+  <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>정보공유 수정페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+		<div class='section' th:object="${datas}">
+			<div class="section_content_box">
+				<div class="section_header">
+					<div class="section_title">
+						<span th:text="|제목 : *{inquiry.title}|"></span>
+					</div>
+					<div class="writer_profile">
+						<span th:text="|등록일 : *{inquiry.regDate}|"></span>
+							<span th:text="|작성자 : *{inquiry.userId}|"></span>
+					</div>
+				</div>
+				<div class="content_area" id=editor1>
+					<pre>[[*{inquiry.content}]]</pre>
+				</div>
+				<input type="hidden" name="inquiryIdx" th:value="*{inquiry.inquiryIdx}"/>
+			</div>
+		</div>
+		
+			<form class='frm_post' th:action="|/inquiry/answer?${_csrf.parameterName}=${_csrf.token}|" method="post" enctype="multipart/form-data">
+				<!-- 답변 -->
+			<div class='frm_content_area' >
+				<textarea id="editor1" name="answer" required="required" placeholder="답변을 입력하세요"data-sample-short></textarea>
+			</div>
+			<div class='btn_area' th:object="${datas}">
+						<button id="btnSubmit" class="btn">등록</button>
+						<input type="hidden" name="inquiryIdx" th:value="*{inquiry.inquiryIdx}"/>
+						<a id="btnSubmit" class="btn" th:href="@{/inquiry/inquiry-list2}">목록</a>
+			</div>
+		</form>
+	</div>
+  </section>
+  <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+</body>
+</html>

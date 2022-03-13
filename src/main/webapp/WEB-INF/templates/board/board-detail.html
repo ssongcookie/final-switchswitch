@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+	<head>
+<style type="text/css">
+	.btn-default{
+	    background: #dadce0;
+	    width: 1110px;
+	    /* display: flex; */
+	    align-items: center;
+	    text-align: center;
+	    border: 0;
+	    color: white;
+	    /* margin-top: 10px; */
+	    border-radius: 8px;
+	}
+	.btnReply{
+		order-color: transparent;
+	    /* padding: 6px 50px; */
+	    border-radius: 8px;
+	    background: #dadce0;
+	    color: white;
+	    border: 0;
+	}
+	
+	.btnReply:hover {
+	    color: #fff;
+	    background-color: #bb2d3b;
+	    border-color: #b02a37;
+	}
+</style>		    
+	</head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+ <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>정보공유 상세페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+			<div class='section' th:object="${datas}">
+				<div class='section_wrap'>
+					<div class="section_content_box">
+						<div class="section_header">
+							<div class="section_title">
+								<span th:text="|제목 : *{board.title}|"></span>
+							</div>
+							<div class="writer_info">
+
+								<div class="writer_profile">
+									<span th:text="|등록일 : *{board.regDate}|"></span> <span th:text="|작성자 : *{board.userId}|"></span>
+								</div>
+								<div class="info file_info">
+									<ol>
+										<li th:each="file : ${datas.files}" th:object="${file}"
+											th:onclick="downloadFile([[*{originFileName}]],[[*{renameFileName}]],[[*{savePath}]])">
+											<a> [[*{originFileName}]]</a>
+										</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+						<div class="section_container">
+							<pre>[[*{board.content}]]</pre>
+							<div class="file-img">
+								<!--  이미지 -->
+								<img th:each="file : ${datas.files}" th:object="${file}" alt="" th:src="*{getDownloadURL()}" width="500px" height="auto">
+							</div>
+						</div>
+					</div>
+					<div class='btn_area'>
+						<form class='frm_post'
+							th:action="|/board/delete?${_csrf.parameterName}=${_csrf.token}&bdIdx=${datas.board.bdIdx}|"
+							method="post" enctype="multipart/form-data">
+							<div class='btn_area'>
+								<span th:if="${#authentication.principal.memberNick} == ${datas.board.userId}">						
+									<a class="btn" id="btnModify" th:href="@{/board/board-modify(bdIdx=${datas.board.bdIdx})}">수정</a>
+									<button id="btnDelete" class="btn">삭제</button>						
+								</span>
+								<a class="btn" th:href="@{/board/board-list2}">목록</a>	
+							</div>
+						</form>
+					</div>
+				</div>
+		</div>
+	</div>
+					<!-- 댓글 -->				
+					<div  id="commentList">
+						<div class="cmt_wrap" th:each="comment : ${commentList}" th:id="${comment.cmIdx}">
+							<div>
+									<div class="cmt_info">
+										<div>
+											<a th:text="|작성자 : ${comment.userId}|"
+												style="margin-left: 10px;"><i class="fas fa-times"></i></a>
+										</div>
+									</div>						
+								<pre>[[${comment.content}]]</pre>
+							</div>
+							<span th:if="${#authentication.principal.memberName} == ${comment.userId}">
+						        <button id="btn-delete" class="btnReply" type="submit" name="submit" value="delete" th:onclick="'deleteConfirm(' + ${comment.cmIdx} + ')'">삭제</button>
+						        <!-- <button id="btn-update" class="btnReply" type="submit" name="submit" value="update" onclick="updateComment()">수정</button> -->
+						    </span>
+						    <input type="hidden"  th:value="${comment.cmIdx}" class="cmIdx">
+						</div>
+					</div>
+
+
+				<!-- 댓글 입력란 
+					<div class="form-group shadow-textarea">
+						<sec:authorize access="isAuthenticated()" >
+							<div style="position: relative; height: 100%">
+								<div>
+										<textarea id="commentContent" name="content" class="form-control z-depth-1" rows="3" maxlength="1000"	 placeholder="댓글을 입력해주세요."></textarea>
+										<input type="button" class="btn-default" id="commentCreate" onclick="uploadConfirm()"  value="작성">
+										<input type="hidden"  th:value="${datas.board.bdIdx}" class="bdIdx">
+								</div>
+							</div>
+						</sec:authorize>
+
+					</div>	-->				
+ </section> 
+ <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+	<script type="text/javascript" th:inline="javascript">
+	let header = "[(${_csrf.headerName})]";
+    let token = "[(${_csrf.token})]";
+    let bdIdx = [[${param.bdIdx}]];
+    let cmIdx = [[${param.cmIdx}]];
+    let userId = [[${#authentication.principal.memberName}]];
+	</script>
+<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/board/board-detail.js}">
+</script>
+</body>
+</html>

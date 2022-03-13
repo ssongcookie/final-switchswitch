@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.point.model.repository.SavePointRepository">
+  	<update id="updateSavePoint">
+  		update save_point 
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="code != null">code=#{code},</if>
+  		<if test="balance != null">balance=#{balance},</if>
+  		<if test="availableBal != null">available_bal=#{availableBal}</if>
+  		</trim>
+  		where member_idx = #{memberIdx}
+  	</update>
+  </mapper>

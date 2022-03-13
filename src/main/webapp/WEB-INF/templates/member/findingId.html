@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head th:replace="fragments/subHeader :: findingIdReissuePw-header"></head>
+</head>
+<body>
+
+	<header th:replace="fragments/subBodyHeader :: header"></header>
+
+	<section>
+
+		<div class="finding-conainer">
+			<div class="finding-inner inner-size">
+				<form class="finding" th:action="@{/member/findingId}" method="post">
+					<div class="title">
+						<h3>아이디 찾기</h3>
+					</div>
+					<th:block th:unless="${email}">
+					<div class="nick-input">
+						<input type="text" name="nickname" class="nickname"
+							placeholder="닉네임을 입력해주세요.">
+						<div class="error-msg-nick" style="visibility: hidden">
+							<p>닉네임은 필수 입력입니다.</p>
+						</div>
+					</div>
+					<div class="tel-input">
+						<input type="tel" name="tell" class="tell"
+							placeholder="전화번호를 입력해주세요.">
+						<div class="error-msg-tell" style="visibility: hidden">
+							<p>전화번호는 필수 입력입니다.</p>
+						</div>
+					</div>
+					<div class="finding-sm">
+						<button type="button" class="findingButton" onclick="checkBlank()">아이디 찾기</button>
+					</div>
+					</th:block>
+				</form>
+				<div class="form-group" th:if="${email}">
+					<span class="result-box" style="font-size: 18px">[[${email}]]</span>
+				</div>
+				<div class="find-container">
+					아직 회원이 아니신가요? <a class="" th:href="@{/member/consentForm}">회원가입</a>
+					<div class="divid"></div>
+					<a th:href="@{/member/reissuePw}">비밀번호 재발급</a>
+					<div class="divid"></div>
+					<a th:href="@{/member/login}">로그인</a>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<script type="text/javascript" th:inline="javascript">
+		if ('[(${error})]'){
+			alert("[(${error})]");
+		}
+
+		function checkBlank() {
+			document.querySelector(".error-msg-nick").style.visibility = 'hidden';
+			document.querySelector(".error-msg-tell").style.visibility = 'hidden';
+			let flg = true;
+			if (!$(".nickname").val() || !document.querySelector(".nickname").value.trim()) {
+				document.querySelector(".error-msg-nick").style.visibility = 'visible';
+				flg = false;
+			}
+			if (!$(".tell").val() || !document.querySelector(".tell").value.trim()) {
+				document.querySelector(".error-msg-tell").style.visibility = 'visible';
+				flg = false;
+			}
+			if (flg) {
+				$(".finding").submit();
+			}
+
+		}
+	</script>
+</body>
+</html>
+	

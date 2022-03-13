@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head>
+	<!-- chaat -->
+    <link rel="stylesheet" href="../resources/css/chat/chat.css">
+</head>
+<body>
+
+	<header th:replace="fragments/subBodyHeader :: header"></header>
+	
+	<nav th:replace="fragments/subMenu" :: subNav></nav>
+	
+	<section>
+		 <div class="chat-title-container">
+
+            <div class="refund-container inner-size">
+
+                <div class="chatting-input">
+                    <div class="chat-board">
+                    	<th:block th:if="${chatMessageList} != null" th:each ="chatMessage : ${chatMessageList}" th:object="${chatMessage}">
+                        	<th:block th:if="*{senderName} != ${#authentication.principal.memberNick}">
+		                        <div class="other-message">
+		                            <div class="other">
+		                                <div class="other-name">
+		                                    <p>[[${senderNick}]]</p>
+		                                </div>
+		                                <div class="other-content">
+		                                    <p>[[*{chatMessage.message}]]</p>
+		                                    <p class="is-read">[[*{chatMessage.isRead}]]</p>
+		                                </div>
+		                                <div class="other-date">
+		                                    <p>[[*{chatMessage.createdAt}]] [[*{sendTime}]]</p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                      </th:block>
+		                      <th:block th:if="*{senderName} == ${#authentication.principal.memberNick}">
+		                      	<div class="mychat-message">
+		                            <div class="mychat">
+		                                <div class="mychat-name">
+		                                    <p>[[*{senderName}]]</p>
+		                                </div>
+		                                <div class="mychat-content">
+		                                    <p>[[*{chatMessage.message}]]</p>
+		                                    <p class="mychat-is-read">[[*{chatMessage.isRead}]]</p>
+		                                </div>
+		                                <div class="mychat-date">
+		                                    <p>[[*{chatMessage.createdAt}]] [[*{sendTime}]]</p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                      </th:block>
+                        </th:block>
+                        
+                    </div>
+                    <input type="hidden" id="memberNcik" th:value="${#authentication.principal.memberNick}"> 
+                     <input type="hidden" id="memberIdx" th:value="${#authentication.principal.memberIdx}"> 
+                    <div class="chat-input-wrap">
+                    	<th:block th:if="${senderNick} == '(알수없음)'">
+                    		<div class="chat-input">
+                    			<input type="text" id="message" placeholder="상대방이 채팅방을 나가 채팅할 수 없습니다." readonly>
+                    		</div>
+						</th:block>
+						<th:block th:if="${senderNick} != '(알수없음)'">
+							<div class="chat-input">
+	                            <input type="text" id="message">
+	                        </div>
+	                        <div class="chat-submit">
+	                            <input type="button" value="전송"  id="btnSend" onclick="webSocket.sendChat()">
+	                        </div>
+						</th:block>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+	</section>
+	
+	<footer>
+       <div th:replace="fragments/footer :: footer"></div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	let roomUrl = window.location.search;
+	let roomNo = roomUrl.split('=')[1];
+	let myNick = $('#memberNcik').val();
+	let myIdx = $('#memberIdx').val();
+	var memberNick= $('input[type="hidden"]').val();
+	var d = new Date();
+	
+		var webSocket = {
+			init: function(param) {
+				this._url = param.url;
+				this._initSocket();
+			},
+			sendChat: function() {
+				this._sendMessage(roomNo, 'CMD_MSG_SEND', $('#message').val(),myIdx);
+				$('#message').val('');
+			},
+			sendEnter: function() {
+				this._sendMessage(roomNo, 'CMD_ENTER', $('#message').val(),myIdx);
+				$('#message').val('');
+			},
+			receiveMessage: function(msgData) {
+				// 정의된 CMD 코드에 따라서 분기 처리
+				if(msgData.cmd == 'CMD_MSG_SEND') {
+					if(msgData.senderId == myNick){
+						$('.chat-board').append(drawMyMassage(msgData));
+					}
+					if(msgData.senderId != myNick){
+						$('.chat-board').append(drawOtherMassage(msgData));
+					}
+				}
+				// 입장
+				else if(msgData.cmd == 'CMD_ENTER') {
+					$('.chat-board').append('<div>' + msgData.msg + '</div>');
+				}
+			},
+			closeMessage: function(str) {
+				$('.chat-board').append('<div>' + '연결 끊김 : ' + str + '</div>');
+			},
+			disconnect: function() {
+				this._socket.close();
+			},
+			_initSocket: function() {
+				this._socket = new SockJS(this._url);
+				this._socket.onopen = function(evt) {
+					webSocket.sendEnter();
+				};
+				this._socket.onmessage = function(evt) {
+					webSocket.receiveMessage(JSON.parse(evt.data));
+				};
+				this._socket.onclose = function(evt) {
+					webSocket. connect(webSocket.init({ url: 'http://toy-khj1220.ga/chat' }), 100); // 웹소켓을 재연결하는 코드 삽입
+					webSocket.closeMessage(JSON.parse(evt.data));
+				}
+			},
+			_sendMessage: function(bang_id, cmd, msg,myIdx) {
+				var msgData = {
+						bang_id : bang_id,
+						cmd : cmd,
+						msg : msg,
+						myIdx : myIdx
+				};
+				var jsonData = JSON.stringify(msgData);
+				this._socket.send(jsonData);
+			}
+		};
+		
+		function changeHours(date){
+			date = date.toString();
+			if(date.length<2){
+				return '0'+date;
+			}
+			return date;
+		}
+		
+        
+		function drawOtherMassage(msgData){
+			result = '';
+			result += '<div class="other-message">';
+			result += '<div class="other">';
+			result += '<div class="other-name"><p>'+ msgData.senderId+'</p></div>';
+			result += '<div class="other-content">';
+			result += '<p>'+ msgData.msg+'</p>';
+			result += '<p class="is-read">'+ msgData.isRead+'</p></div>';
+			result += '<div class="other-date"><p>'+ d.toISOString().split('T')[0]+' '+changeHours(d.getHours())+':'+d.getMinutes()+'</p></div></div></div>';
+			return result;
+		}
+				
+		function drawMyMassage(msgData){
+			console.dir(msgData.isRead);
+			result = '';
+			result += '<div class="mychat-message">';
+			result += '<div class="mychat">';
+			result += '<div class="mychat-name"><p>'+ msgData.senderId+'</p></div>';
+			result += '<div class="mychat-content"><p>'+ msgData.msg+'</p><p class="mychat-is-read">'+ msgData.isRead+'</p></div>';
+			result += '<div class="mychat-date"><p>'+ d.toISOString().split('T')[0]+' '+changeHours(d.getHours())+':'+d.getMinutes()+'</p></div>';
+			result += '</div></div>';
+			return result;
+		}
+	</script>	
+	<script type="text/javascript">
+        $(window).on('load', function () {
+			webSocket.init({ url: 'http://toy-khj1220.ga/chat' });	
+		});
+        
+	</script>
+	<script type="text/javascript">
+	$("#message").keydown(function (key) {
+		 
+        if(key.keyCode == 13){
+        	webSocket.sendChat();
+        }
+ 
+    });
+	$(document).ready(function() {
+		  $('#message').focus();
+		  console.dir($('.chat-board').height());
+		  $('.chat-board').scrollTop($('.chat-board').height());
+	});
+	
+	
+	</script>
+</body>
+</html>

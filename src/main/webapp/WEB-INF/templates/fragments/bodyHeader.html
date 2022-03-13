@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+ <header th:fragment="bodyHeader">
+
+        <div class="header-container">
+
+            <div class="login-join-container ">
+                <div sec:authorize="isAnonymous()" class="login-join inner-size">
+                    <a th:href="@{/member/login}">로그인</a>
+                    <div class="divid"></div>
+                    <a th:href="@{/member/consentForm}">회원가입</a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="login-join inner-size">
+                    <a th:href="@{/mypage/profile}">[[${#authentication.principal.memberNick}]]</a>
+                    <div class="divid"></div>
+                    <a sec:authorize="hasAuthority('C')" th:href="@{/admin/real-time-cards}">관리자 페이지로 이동</a>
+                    <div sec:authorize="hasAuthority('C')" class="divid"></div>
+                    <form th:action="@{/member/logout}" method="post"><button style="border:none; background: none; color:white; font-size:12px; font-weight: 100;">로그아웃</button></form>
+                </div>
+            </div>
+
+            <div class="menu-container inner-size">
+                <div class="inner-logo">
+                    <div class="logo">
+                        <a href="/"><img style="width:80%;" th:src="@{/resources/img/mainlogo.png}" alt=""></a>
+                    </div>
+                </div>
+                <div class="inner-menu">
+                    <div class="trade-market hover"><a th:href="@{/market/cardmarket}" class="color-wt">교환마켓</a></div>
+                    <!-- <div class="share-market hover"><a th:href="@{/market/freemarket}" class="color-wt">나눔마켓</a></div> -->
+
+                    <div class="board hover"><a th:href="@{/board/board-list2}" class="color-wt">게시판</a></div>
+                    <div class="myCard hover"><a th:href="@{/card/my-card}" class="color-wt">내카드</a></div>
+                    <div class="myPage hover"><a th:href="@{/mypage/profile}" class="color-wt">마이페이지</a></div>
+                </div>
+            </div>
+            
+		    <!-- submenu -->
+		    <nav style="margin-top: 10px;">
+		        <div class="sub-menu hide" id="mypage-sub">
+		            <div class="sub-menu-inner inner-size">
+		        
+		                <div class="first-line-sub">
+		                    <div class="my-profile"><a th:href="@{/mypage/profile}">내프로필</a></div>
+		                    <div class="exchange-history"><a th:href="@{/mypage/history}">카드거래내역관리</a></div>
+		                    <div class="point">
+		                        <a th:href="@{/point/point-history}">포인트</a>
+		                        <div class="point-sub">
+		                            <a th:href="@{/point/point-history}">포인트사용충전내역</a>
+		                            <a th:href="@{/point/point-charge}">포인트충전</a>
+		                            <a th:href="@{/point/point-return}">포인트환급</a>
+		                        </div>
+		                    </div>
+		                    <div class="inqury-detail"><a th:href="@{/mypage/personal-inquiry}">문의내역</a></div>
+		                    <div class="my-profile"><a th:href="@{/chat/chatting-list}">채팅</a></div>
+
+		                    <div class="my-profile"><a th:href="@{/mypage/alarm}">알람</a></div>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="sub-menu hide" id="board-sub">
+		            <div class="sub-menu-inner inner-size">
+		        
+		                <div class="first-line-sub">
+		                    <div class="my-profile"><a th:href="@{/board/board-list2}">정보공유</a></div>
+		                    <div class="exchange-history"><a th:href="@{/notice/notice-list2}">공지사항</a></div>
+		                    <div class="inqury-detail"><a th:href="@{/inquiry/inquiry-list2}">문의사항</a></div>
+		                    <div class="inqury-detail"><a th:href="@{/top/top-list2}">자주묻는질문</a></div>
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="sub-menu hide" id="myCard-sub">
+		            <div class="sub-menu-inner inner-size">
+		        
+		                <div class="first-line-sub">
+		                   <div class="my-profile"><a th:href="@{/card/my-card}">내카드리스트</a> </div>
+		                   <div class="exchange-history"><a th:href="@{/card/cardExStatus}">카드교환현황</a></div>
+		                   <!-- <div class="exchange-history"><a th:href="@{/card/freeCardExStatus}">카드나눔현황</a></div> -->
+		                   <div class="inqury-detail"><a th:href="@{/card/wish-card}">찜목록</a></div>
+		                   <div class="inqury-detail"><a th:href="@{/card/card-form}">카드등록</a></div>
+		                </div>
+		            </div>
+		        </div>
+		    </nav>    
+		    <!-- submenuEnd -->
+
+            <div class="pop-keyword inner-size">
+                <div class="pop-title">
+                    <p>인기키워드</p>
+                </div>
+                <div class="pop-product">
+                    <div class="product-name"><a href="">#아이폰</a></div>
+                    <div class="product-name"><a href="">#나이키</a></div>
+                    <div class="product-name"><a href="">#아디다스</a></div>
+                    <div class="product-name"><a href="">#선반</a></div>
+                </div>
+            </div>
+
+            <div class="main-image">
+                <img th:src="@{/resources/img/background-image.png}" alt="">
+            </div>
+        </div>
+
+    </header>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+</head>
+<body>
+
+    <header th:replace="fragments/subBodyHeader :: header">
+    </header>
+
+     <section>
+
+        <div class="login-conainer">
+            <div class="login-inner inner-size">
+                <form class="login" th:action="@{/member/login}" method="post">
+                    <input type="checkbox" id="idSave" name="remember-me">
+                    <label for="idSave"><span>이메일 저장</span></label>
+                    <div class="id-input">
+                        <input type="text" name="memberEmail" class="memberEmail" placeholder="이메일을 입력해주세요.">
+                       <div class="error-msg-id" style="visibility:hidden">
+                            <p>아이디는 필수 입력입니다.</p>
+                        </div>
+                    </div>
+                    <div class="pass-input">
+                        <input type="password" name="password" class="password" placeholder="비밀번호를 입력해주세요.">
+                       <div class="error-msg-pw" style="visibility:hidden">
+                            <p>비밀번호는 필수 입력입니다.</p>
+                        </div>
+                    </div>
+                    <div th:if="${param.error}">
+                    	<p style="color:red">아이디 또는 비밀번호가 잘못 입력 되었습니다. <br>아이디와 비밀번호를 정확히 입력해 주세요.</p>
+                    </div>
+                    <div class="login-sm">
+                        <button type="button" class="loginButton" onclick="checkBlank()">로그인</button>
+                    </div>
+                </form>
+				<form id="login-form"  action="" class="login-inner inner-size">
+                    <div class="kakao-sm">
+                        <button type="button" onclick="kakaoLogin()" class="kakaoButton">카카오로그인</button>
+                    </div>
+                </form>
+               
+                <div class="find-container">
+                    <a class="f-join" href="/member/consentForm">회원가입</a>
+                    <div class="divid"></div>
+                    <a class="f-id" href="/member/findingId">이메일 찾기</a>
+                    <div class="divid"></div>
+                    <a class="f-pass" href="/member/reissuePw">비밀번호 찾기</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+	<footer>
+		<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+
+	<input type="hidden" id="kakao" th:value="${kakao}">
+    <input type="hidden" id="expired" th:value="${param.session}">
+	<script type="text/javascript" th:inline="javascript">
+    let email = "[(${email})]";
+    let pw = "[(${password})]";
+    
+    function checkBlank(){
+    	document.querySelector(".error-msg-id").style.visibility = 'hidden';
+    	document.querySelector(".error-msg-pw").style.visibility = 'hidden';
+    	let flg = true;
+    	if(!$(".memberEmail").val() || !document.querySelector(".memberEmail").value.trim()){
+    		document.querySelector(".error-msg-id").style.visibility = 'visible';
+    		flg = false;
+    	}
+    	if(!$(".password").val() || !document.querySelector(".password").value.trim()){
+    		document.querySelector(".error-msg-pw").style.visibility = 'visible';
+    		flg = false;
+    	}
+    	if(flg){
+    		$(".login").submit();
+    	}
+    	
+    }
+	</script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/member/login.js}"></script>
+	
+</body>
+
+</html>

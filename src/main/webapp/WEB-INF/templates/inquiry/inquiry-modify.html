@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+  <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>정보공유 수정페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+		<div class='section' th:object="${datas}">
+			<form class='frm_post' th:action="|/inquiry/modify?${_csrf.parameterName}=${_csrf.token}|" method="post" enctype="multipart/form-data">
+				<div class='frm_header_area'>
+					<h2 class='sub_title'>문의사항 수정페이지</h2>
+					
+				</div>
+				<div class='frm_tag_area'>
+					<select class='select_subject' name='type'>
+							<option selected value='불편사항' th:selected="*{inquiry.type}=='불편사항'">불편사항</option>
+							<option value='후기' th:selected="*{inquiry.type}=='후기'">신고</option>
+							<option value='기타' th:selected="*{inquiry.type}=='기타'">기타</option>
+					</select>
+				</div>
+				<div class='frm_title_area' th:object="${datas}">
+					<div>
+					<input type='text' class="post_title" name="title" required="required" th:value="*{inquiry.title}" placeholder='제목을 입력하세요'>
+					</div>
+				</div>
+				<div class='frm_content_area' >
+					<textarea id="editor1" name="content" required="required" th:text="*{inquiry.content}" data-sample-short></textarea>
+				</div>
+
+				<div class='btn_area'>
+						<button id="btnModify" class="btn">수정</button>
+						<a id="btnSubmit" class="btn" th:href="@{/inquiry/inquiry-list2}">목록</a>
+					</div>
+				<input type="hidden" name="inquiryIdx" th:value="*{inquiry.inquiryIdx}"/>
+			</form>
+		</div>	
+	</div>
+  </section> 
+ <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+</body>
+</html>

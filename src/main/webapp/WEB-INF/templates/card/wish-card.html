@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/subHeader :: subHeader"></head>
+
+<head>
+    <link rel="stylesheet" href="../resources/css/card/wishCard.css">
+</head>
+
+<body>
+
+    <header th:replace="fragments/subBodyHeader :: subBodyHeader">
+	</header>
+
+    <section>
+
+        <div class="wscd-title-container">
+
+            <div class="wscd-innerwrap inner-size">
+                <div class="wscd-title">
+                    <h1>나의찜카드</h1>
+                </div>
+
+                <div class="wscd-img">
+                    <img src="../resources/img/wishCardBack.png" alt="">
+                </div>
+
+            </div>
+
+            <div class="mk-card-list inner-size">
+				
+                <div class="card-list">
+    
+	            <div class="card-container" style="width: 180px;" th:each="wishCard : ${wishCards}" th:object="${wishCard}">
+					<div class="card-name">
+						<p>[[*{wishCard.name}]]</p>
+					</div>
+					<div class="grade-container">
+						<div class="icon">
+							<!-- 아이콘 변경 -->
+							<i class="fas fa-bolt"></i>
+						</div>
+						<div class="user-grade">
+							<p>사용자 평점</p>
+							<!-- 사용자 별점 -->
+							<div class="star">
+								<th:block th:if="${myRate} >= 1">
+									<th:block
+										th:each="num : ${#numbers.sequence(1,myRate)}">
+										<i class="fas fa-star full-star"></i>
+									</th:block>
+								</th:block>
+								<th:block th:if="${myRate%1!=0}">
+									<i class="fas fa-star-half-alt"></i>
+								</th:block>
+								<th:block
+									th:each="num : ${#numbers.sequence(0,5-myRate)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+						<div class="item-grade">
+							<p>물건 평점</p>
+							<!-- 물건 별점 -->
+							<div class="star">
+								<th:block th:each="num : *{#numbers.sequence(1,wishCard.condition)}">
+									<i class="fas fa-star full-star"></i>
+								</th:block>
+								<th:block
+									th:each="num : *{#numbers.sequence(0,5-wishCard.condition)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+					</div>
+					<div class="address">
+						<!-- 주소 -->
+						<p>
+							지역 <span th:text="*{wishCard.region}"></span> <span
+								th:text="*{wishCard.regionDetail}"></span>
+						</p>
+					</div>
+					<div class="card">
+						<input type="hidden" th:value="*{wishCard.condition}"> <img
+							class="card-box" alt="">
+						<div class="card-img">
+							<!-- 카드 물건 이미지 -->
+							<img th:src="*{fileDTO.getDownloadURL()}" alt="">
+						</div>
+					</div>
+				</div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+   <footer>
+	<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	
+	<script type="text/javascript" th:inline="javascript" th:replace="fragments :: card"></script>
+
+</body>
+
+</html>

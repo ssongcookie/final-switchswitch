@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style type="text/css">
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+</style>
+</head>
+<body>
+	<th:block th:fragment="admin_sidebar">
+		<div id="sidebar-nav" class="sidebar" style="background-color: #ff5403; color: white;">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li><a href="/" class=""><i class="lnr lnr-home"></i> <span>메인페이지 이동</span></a></li>
+						<li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed" ><i class="fa fa-search"></i> <span>카드리스트</span> <i class="icon-submenu lnr lnr-chevron-left" style="color: white;"></i></a>
+							<div id="subPages" class="collapse " >
+								<ul class="nav" style="background-color: rgba(0, 0, 0, 0.445)">
+									<li><a href="/admin/real-time-cards" class="">실시간 카드 조회</a></li>
+									<li><a href="/admin/real-time-card-img" class="">실시간 카드이미지 조회</a></li>
+									<li><a href="/admin/all-cards" class="">전체 카드 조회</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="#collapseExample" data-toggle="collapse" class="collapsed" ><i class="fa fa-user-o" aria-hidden="true"></i> <span>회원리스트</span> <i class="icon-submenu lnr lnr-chevron-left" style="color: white;"></i></a>
+							<div id="collapseExample" class="collapse ">
+								<ul class="nav" style="background-color: rgba(0, 0, 0, 0.445)">
+									<li><a href="/admin/all-members" class="">전체 회원 조회</a></li>
+									<li><a href="/admin/black-list-members" class="">블랙리스트 회원 조회</a></li>
+								</ul>
+							</div>
+						</li>
+						<li><a href="/admin/refunds-history" class=""><i class="fa fa-krw" aria-hidden="true"></i> <span>환급 신청 내역</span><b> </b><span class="badge bg-danger" style="margin-bottom: 3px !important" th:if="${refundCount != 0}" th:text="${refundCount}"></span></a></li>
+						<li><a href="/notice/notice-form" class=""><i class="fa fa-clipboard" aria-hidden="true"></i> <span>공지사항 작성</span></a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

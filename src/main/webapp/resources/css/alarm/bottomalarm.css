@@ -1,0 +1,22 @@
+.alarm {
+    position: fixed;
+    right: 70px;
+    bottom: 50px;
+    background-color: #f65f08;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    padding: 15px 40px;
+    border-radius: 10px;
+    z-index: 5000;
+    animation: popup 1s;
+}
+
+@keyframes popup {
+    0% {
+        bottom: -50px;
+    }
+    100% {
+        bottom: 50px;
+    }
+}

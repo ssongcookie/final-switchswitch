@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<style type="text/css">
+	#msgArea{
+		border: 1px solid;
+		width: 220px;
+		height: 200px;
+		overflow: auto;
+	}
+	#close{
+		display: inline-block;
+	}
+</style>
+</head>
+<body>
+
+<div>
+	<h2>채팅</h2>
+	<div id="msgArea"></div>
+	</div>
+	<div>
+		<span id="userId" th:text="${#authentication.name}"></span> :
+		<input id="msg" type="text"> <br>
+		<button id="btn_send">전송</button>
+		<form id="close">
+		<button id="btn_leave">퇴장</button>
+		</form>
+	</div>
+
+<script type="text/javascript">
+var sock = new SockJS('http://localhost:9090/alarm');;
+var sendMessage;
+var flg = false; //소켓 연결 true, 미연결 false
+var cnt = 0; //소켓 연결 횟수
+
+
+sock.onopen = function(){
+	flg = true;
+	var msg = $("#userId").val() + "님이 입장하셨습니다.";
+	sock.send(msg);
+}
+
+sock.onclose = function(){
+	var str = "서버와의 연결이 끊어졌습니다."
+	console.log(str);
+}
+
+sock.onmessage = function(msg){
+	var data = msg.data;
+	var sessionId = null;
+	var message = null;
+	
+	var arr = data.split(":");
+	
+	if(arr.length != 2){
+		var str = arr[0];
+	} else {
+		sessionId = arr[0];
+		message = arr[1];
+		var str = "<div><b>" + sessionId + " : " + message + "</b></div>";
+	}
+	$("#msgArea").append(str);
+};
+
+sendMessage = function (){
+	sock.send($("#userId").val() + ":" + $('#msg').val());
+}
+
+$('#btn_send').on('click',function (e){
+	sendMessage();
+	$('#msg').val('');
+});
+
+$('#btn_leave').on('click',async function(e){
+	await sock.send($("#userId").val() + "님이 퇴장했습니다.");
+	sock.close();
+	flg = false;
+});
+</script>
+</body>
+</html>

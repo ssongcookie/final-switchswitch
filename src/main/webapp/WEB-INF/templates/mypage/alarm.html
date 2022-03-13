@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head th:replace="fragments/subHeader :: alarm-header"></head>
+<body>
+
+    <header th:replace="fragments/subBodyHeader :: header"></header>
+	
+	<nav th:replace="fragments/subMenu :: subNav"></nav>
+
+    <section>
+
+        <div class="ref-title-container">
+            <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>알림 메시지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img th:src="@{/resources/img/infoback.png}" alt="">
+                </div>
+
+            </div>
+
+			<div class="refund-container inner-size">
+
+				<div class="histroy-table">
+					<table>
+						<thead>
+							<tr>
+								<th style="width: 10%;">No</th>
+								<th style="width: 75%;">내용</th>
+								<th style="width: 15%;">받은날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="alarm,iterStat : ${alarms}" th:object="${alarm.alarm}">
+								<tr th:if="*{isRead == 0 && alarmType!='평점요청'}" th:onclick="|updateIsRead(this,*{alarmIdx})|"
+									style="height: 30px; line-height: 30px;background-color:lightyellow;">
+									<td th:text="${iterStat.count}"></td>
+									<td th:if="*{alarmType}=='요청거절'">
+									<a th:text="${alarm.message}" th:href="@{/mypage/alarm}"></a>
+									</td>
+									<td th:if="*{alarmType!='평점요청' && alarmType!='요청거절'}">
+									<a th:text="${alarm.message}" th:href="|/exchange/detail/*{reqIdx}|"></a>
+									</td>
+									<td th:text="*{sendDate}"></td>
+								</tr>
+								<tr th:if="*{isRead == 1 && alarmType!='평점요청'}" style="height: 30px; line-height: 30px;">
+									<td th:text="${iterStat.count}"></td>
+									<td><a th:text="${alarm.message}"
+										th:href="|/exchange/detail/*{reqIdx}|"></a></td>
+									<td th:text="*{sendDate}"></td>
+								</tr>
+								<tr th:if="*{alarmType=='평점요청' && isRead == 0}" th:onclick="|updateIsRead(this,*{alarmIdx})|"
+								style="height: 30px; line-height: 30px;background-color:lightyellow;">
+									<td th:text="${iterStat.count}"></td>
+									<td><p th:text="${alarm.message}" th:onclick="|move(*{reqIdx},*{senderIdx})|"></p></td>
+									<td th:text="*{sendDate}"></td>
+								</tr>
+								<tr th:if="*{alarmType=='평점요청' && isRead == 1}" style="height: 30px; line-height: 30px;">
+									<td th:text="${iterStat.count}"></td>
+									<td><p th:text="${alarm.message}" th:onclick="|move(*{reqIdx},*{senderIdx})|"></p></td>
+									<td th:text="*{sendDate}"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+		</div>
+
+        <!-- 페이징 -->
+        <div class="pagin-wrap">
+			<nav class="paging" th:object=${paging}>
+				<ul class="pagination">
+					<li class="page-item"><a class="page-link"
+						th:href="|*{url}?page=*{prev}|" aria-label="Previous"> 
+						<span aria-hidden="true">&laquo;</span>
+					</a></li>
+
+					<li class="page-item"
+						th:each="p : ${#numbers.sequence(paging.start,paging.end)}">
+						<a th:href="|*{url}?page=${p}|" class="page-link" th:text="${p}">1</a>
+					</li>
+
+					<li class="page-item"><a class="page-link" href="#"
+						th:href="|*{url}?page=*{next}|"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		</div>
+	<form id="sendResponse"></form>
+    </section>
+
+	<footer>
+		<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	
+	<div class="noticePopUp notice">
+		  <div class="notice-container">
+                <div class="notice_close_wrap">
+                    <i class="fas fa-times" id="notice_close"></i>
+                </div>
+            </div>
+		<div id="myform">
+			<fieldset>
+		        <legend>사용자 별점</legend>
+		        <input type="radio" name="rate" value="5" id="rate1"><label for="rate1"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="4" id="rate2"><label for="rate2"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="3" id="rate3"><label for="rate3"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="2" id="rate4"><label for="rate4"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="1" id="rate5"><label for="rate5"><i class="fas fa-star full-star"></i></label>
+		    </fieldset>
+		</div>
+		<div class="notice_btn_wrap">
+			<button type="button" id="submit_btn">제출</button>
+		</div>
+		<input type="hidden" id="reqIdx">
+	</div>
+	
+	<script type="text/javascript" th:inline="javascript">
+	//알림 읽음 처리
+	function updateIsRead(e,alarmIdx){
+		fetch("/alarm/read?alarmIdx=" + alarmIdx, { headers : getCsrfHeader()})
+		.then(response => {
+			if(response.ok){
+				e.style.backgroundColor = "lightyellow";
+			} else {
+				throw new Error(response.status);
+			}
+		})
+	}
+	<!-- alarm type: 교환완료 -->
+	function exchangeComplete(reqIdx){
+		<!-- 사용자평가 모달창 생성 -->
+		document.querySelector(".noticePopUp").style.zIndex = 1000;
+		document.querySelector(".noticePopUp").style.setProperty("visibility","visible");
+		document.querySelector("#reqIdx").setAttribute("value",reqIdx);
+	}
+	//평점요청 알림 팝업 닫기 버튼
+	document.querySelector("#notice_close").addEventListener("click", (e)=> {
+		noticeInitialize();
+	});
+	//평점요청 알림 팝업 초기화 (hidden)
+	function noticeInitialize(){
+		document.querySelector(".noticePopUp").style.setProperty("visibility","hidden");
+	}
+
+	//평점요청 알림 시 평점요청 창 생성
+	function move(reqIdx, senderIdx){
+		let alarm = {
+				"reqIdx" : reqIdx,
+				"senderIdx" : senderIdx
+		};
+		
+		let header = function (){
+			let headerObj = new Headers();
+	       let csrfHeader = "[(${_csrf.headerName})]";
+	       let csrfToken = "[(${_csrf.token})]";
+	       headerObj.append(csrfHeader,csrfToken);
+	       headerObj.append("Content-Type","application/json");
+	       return headerObj;
+		}
+		
+		console.log(alarm);
+		console.log(header());
+		
+		let myInit = {
+				'method' : 'post',
+				'headers' : header(),
+				'body' : JSON.stringify(alarm)
+		};
+		fetch("/alarm/check-rating", myInit)
+		.then((response)=>{
+			if(response.ok){
+				return response.text();
+			} else {
+				throw new Error(response.status);
+			}
+		}).then((text)=>{
+			if(text != 'exist'){
+				exchangeComplete(reqIdx);
+			} else {
+				location.href = "/exchange/detail/"+ reqIdx;
+			}
+		})
+	}
+	
+	$("#submit_btn").on("click", function(){
+		$(".notice").appendTo("#sendResponse");
+		<!-- 제출 -->
+		let reqIdx = $("#reqIdx").val();
+		$("#sendResponse").attr("action", "/exchange/complete/"+reqIdx);
+		$("#sendResponse").submit();
+	})
+	
+	</script>
+
+
+</body>
+</html>

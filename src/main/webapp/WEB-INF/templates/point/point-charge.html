@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<body>
+
+   	<header th:replace="fragments/subBodyHeader :: header">
+    </header>
+	
+	
+   
+    <section>
+
+        <div class="ref-title-container">
+            <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>포인트</h1>
+                    <p>잔여포인트</p><th:block th:if="${savePoint.balance}"><span>[[${savePoint.balance}]]</span></th:block>
+                    			  <th:block th:unless="${savePoint.balance}"><span>0</span></th:block>
+                    <p>가용포인트</p><th:block th:if="${savePoint.availableBal}"><span>[[${savePoint.availableBal}]]</span></th:block>
+                    			  <th:block th:unless="${savePoint.availableBal}"><span>0</span></th:block>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/pointCoin.png" alt="">
+                </div>
+
+            </div>
+
+            <div class="single-title inner-size">
+
+                <p>충전</p>
+                
+            </div>
+
+            <div class="refund-container inner-size">
+
+                <div class="refund-input">
+                    <div class="refund-form" id="refundInfo">
+                        <div class="charge-input">
+	                        <div class="req_point">
+	                            <p>신청금액</p>
+	                            <input type="number" id="point" name="refundPoint">
+	                        </div>
+							<!-- 계좌조회 버튼 필요  -->
+	                        <button class="ref-submit-button" onclick="requestPay()" type="submit">신청하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <footer>
+       <div th:replace="fragments/footer :: footer" ></div>
+   	</footer>
+    
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+
+    IMP.init("imp40776009");
+	
+    function requestPay() {
+        // IMP.request_pay(param, callback) 결제창 호출
+        IMP.request_pay({ // param
+            pg: "html5_inicis",
+            pay_method: "card",
+            merchant_uid: 'merchant_' + new Date().getTime() + "_" + (1 + Math.random()) * 10000,
+            name: "포인트 충전",
+            amount: $("#point").val(),
+            buyer_email: [[${#authentication.name}]],
+            buyer_name: [[${#authentication.principal.memberName}]],
+            buyer_tel: [[${#authentication.principal.memberTell}]]
+        }, function (rsp) { // callback
+        	console.dir(rsp);
+            if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+            	console.dir("여기는 success");
+            	// jQuery로 HTTP 요청
+                $.ajax({
+                    url: "/point/verifyIamport/" + rsp.imp_uid, // 예: https://www.myservice.com/payments/complete
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    data: JSON.stringify({
+                        "points": rsp.paid_amount,
+                    })
+                }).done(function (data) {
+                  // 가맹점 서버 결제 API 성공시 로직
+                  console.dir(data)
+                })
+            } else {
+            	 alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+            }
+        });
+      }
+	</script>
+	
+</body>
+</html>

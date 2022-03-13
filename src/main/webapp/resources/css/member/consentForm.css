@@ -1,0 +1,91 @@
+.home_btn {
+    width: 100%;
+    padding: 10px 50px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+    font-size: 20px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 12px;
+    margin-top: 40px;
+    background-color: rgb(211, 211, 211);
+}
+
+.home_btn:hover {
+	background-color: rgb(129, 129, 129);
+	color: #fff;
+}
+
+.next_btn {
+    width: 100%;
+    padding: 10px 50px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+    font-size: 20px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 12px;
+    background-color: antiquewhite;
+}
+.next_btn:hover {
+	background-color: rgb(233, 195, 146);
+	color: rgb(121, 121, 121);
+}
+
+a:hover,a:focus{
+    text-decoration: none;
+    outline: none;
+}
+
+.demo
+{
+	padding: 100px 0;
+}
+
+#accordion .panel{
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin-top: 0;
+}
+
+#accordion .panel-heading{
+    padding: 0;
+    border-radius: 0;
+    border: none;
+}
+
+#accordion .panel-title p{
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #7a7a7a129129129;
+    padding: 15px 48px 15px 20px;
+    background: white;
+    position: relative;
+    transition: all 0.3s ease 0s;
+}
+
+#accordion .panel-body{
+    background: white;
+    color: rgb(129, 129, 129);
+    padding: 20px 50px 15px 20px;
+    line-height: 25px;
+    border: none;
+    position: relative;
+}
+
+.radio_box{
+	text-align: right;
+	padding-right: 40px;
+}
+
+.radio{
+	display: inline-block;
+}
+
+@charset "utf-8";
+/* CSS Document */
+

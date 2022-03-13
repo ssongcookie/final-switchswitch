@@ -1,0 +1,140 @@
+section {
+    padding: 60px 0;
+    background-color: #f7f7f9;
+    z-index: -1;
+}
+
+.wscd-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wscd-innerwrap {
+    height: 170px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    box-sizing: border-box;
+    background-color: #ff5403;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.wscd-title {
+    color: #fff;
+    font-size: 30px;
+}
+
+.wscd-img {
+    position: absolute;
+    left: 75%;
+}
+
+.wscd-img img {    
+    width: 230px; 
+}
+
+.single-title p{
+    margin-top: 40px;
+    font-size: 23px;
+}
+
+.select-form {
+    display: flex;
+    margin-top: 40px;
+}
+
+.select-form div{
+    margin-right: 15px;
+}
+
+.category select { 
+    width: 140px;
+    border-radius: 50px;
+    border: 1px solid black;
+    padding: 5px 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none; 
+    appearance: none; 
+    background: url("/image/arrow.png") no-repeat 85% 50%; 
+}
+
+.location select { 
+    width: 120px;
+    border-radius: 50px;
+    border: 1px solid black;
+    padding: 5px 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none; 
+    appearance: none; 
+    background: url("/image/arrow.png") no-repeat 80% 50%; 
+}
+
+.search input {
+    width: 200px;
+    background: none;
+    padding: 5px 25px;
+    border: none;
+    border-bottom: 1px solid black;
+    background: url("/image/searchicon.png") no-repeat 2% 45%;
+}
+
+.search input:focus {
+    outline: none;
+}
+
+.mk-card-list {
+    margin-top: 50px;
+}
+
+.search-info {
+    display: flex;
+    color: rgb(138, 138, 138);
+    font-weight: 100;
+}
+
+.card-list {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
+    grid-gap: 40px;
+}
+
+.card-container {
+    z-index: 1;
+}
+
+/* JUNG 211129 */
+.sc-input,
+.sc-location {
+    background-color: #ff5403;
+    border-radius: 8px;
+    color: #fff;
+    padding: 1px 8px;
+    margin-left: 4px;
+    font-weight: 500;
+    font-size: 14px;
+} 
+
+/* 미디어쿼리 */
+
+@media all and (min-width:320px) {
+    .card-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media all and (min-width:768px) {
+    .card-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media all and (min-width:1024px) {
+    .card-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

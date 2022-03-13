@@ -1,0 +1,162 @@
+
+section {
+    padding: 100px 0;
+    height: 100%;
+    background-color: #fff;
+    z-index: -1;
+}
+
+.login-conainer {
+    display: flex;
+    justify-content: center;
+}
+
+.login-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[id="idSave"] {
+    display: none;
+}
+
+input[id="idSave"] + label {
+  display: inline-block;
+   position: relative;
+   top: 0;
+   left: 5px;
+   width: 20px;
+   height: 20px;
+   margin-bottom: 15px;
+   background: url("/resources/img/checkbox.png") no-repeat center/10px 10px;
+}
+
+input[id="idSave"]:checked + label {
+    background: url("/resources/img/checkboxCkecked.png") no-repeat center/10px 10px;
+}
+
+input[id="idSave"] + label span{ 
+    position: absolute;
+    width: 100px;
+    top: 3px;
+    left: 20px;
+    font-size: 13px;
+    font-weight: 100;
+    color: rgb(172, 172, 172);
+    
+}
+
+.error-msg-id, .error-msg-pw {
+    color: rgb(255, 30, 30);
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.memberEmail {
+    padding: 20px 50px;
+    text-align: center;
+    color: rgb(53, 53, 53);
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid rgb(218, 218, 218);
+    margin-bottom: 12px;
+}
+
+input::placeholder {
+    color: rgb(206, 206, 206);
+}
+
+.id-input input:focus,
+.pass-input input:focus {
+    outline-color: rgb(230, 178, 95);;
+    border: 1px solid rgb(230, 178, 95);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.password {
+    width: 70%;
+    padding: 20px 50px;
+    text-align: center;
+    color: rgb(53, 53, 53);
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid rgb(218, 218, 218);
+    margin-bottom: 12px;
+    margin-top: 20px;
+}
+
+.login-sm,
+.kakao-sm {
+    width: 100%;
+}
+
+.kakao-sm {
+    display: flex;
+    justify-content: center;
+}
+
+.login-sm button,
+.kakao-sm button {
+    transition: 0.3s;
+}
+
+.kakao-sm button:hover {
+    color: rgb(121, 121, 121);
+}
+
+.login-sm button:hover {
+	color: #fff;
+}
+
+.loginButton {
+    width: 100%;
+    padding: 10px 50px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+    font-size: 20px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 12px;
+    margin-top: 40px;
+    background-color: rgb(211, 211, 211);
+}
+
+.loginButton:hover {
+	background-color: rgb(129, 129, 129);
+}
+
+.kakaoButton {
+    width: 345px;
+    padding: 10px 50px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+    font-size: 20px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 12px;
+    background-color: antiquewhite;
+}
+
+.kakaoButton:hover {
+	background-color: rgb(233, 195, 146);
+}
+
+.find-container {
+    display: flex;
+    font-size: 13px;
+    font-weight: 100;
+    margin-top: 10px;
+}
+
+.find-container a{
+    color: rgb(110, 110, 110);
+}

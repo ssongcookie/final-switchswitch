@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="admin/fragments/head :: admin_head"></th:block>
+<style type="text/css">
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:500;
+}
+</style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<th:block th:replace="admin/fragments/nav :: admin_nav"></th:block>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<th:block th:replace="admin/fragments/sidebar :: admin_sidebar"></th:block>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">페이지 설정</h3>
+					<div class="row" style="white-space: nowrap;">
+						<div class="col-md-6" style="display: inline-block; width: 400px;">
+							<!-- TABLE STRIPED -->
+							<div class="panel" style="background-color: white;">
+								<div class="panel-heading">
+									<h3 class="panel-title">페이지 구조</h3>
+								</div>
+								<div class="panel-body">
+									<div id="menu" style="display: flex;">
+										<i class="fa fa-plus-square-o" id="expandMenu" aria-hidden="true" style="display: block; margin-top: 0.7%; height: 100%;"></i>
+										<i class="fa fa-minus-square-o" id="foldMenu" aria-hidden="true" style="display: none; margin-top: 0.7%; height: 100%;"></i>
+										<div id="menuWrapper" style="display: flex; flex-direction: column;">
+											<div>메뉴</div>
+											<div id="subMenuByMenu" style="display: none; padding-left: 33%;">
+												<div th:each="entry : ${childMenuList}" style="display: flex;">
+													<div id="subMenuWrapper" style="display: flex; flex-direction: column;">
+													<div th:text="${entry.key}"></div>
+														<div id="subMenuBySubMenu" th:each="list : ${entry.value}" style="display: block; padding-left: 20%; ">
+																<div th:text="${list.urlName}"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="sideMenu" style="display: flex;">
+										<i class="fa fa-plus-square-o" id="expandSideMenu" aria-hidden="true" style="display: block; margin-top: 0.7%; height: 100%;"></i>
+										<i class="fa fa-minus-square-o" id="foldSideMenu" aria-hidden="true" style="display: none; margin-top: 0.7%; height: 100%;"></i>
+										<div id="menuWrapper" style="display: flex; flex-direction: column;">
+											<div>사이드메뉴</div>
+											<div id="subMenuBySideMenu" style="display: none; padding-left: 20%;">
+												<div th:each="entry : ${childSideMenuList}" style="display: flex;">
+													<div id="subMenuWrapper" style="display: flex; flex-direction: column;">
+													<div th:text="${entry.key}"></div>
+														<div id="subMenuBySideSubMenu" th:each="list : ${entry.value}" style="display: block; padding-left: 20%; ">
+																<div th:text="${list.urlName}"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END TABLE STRIPED -->
+						</div>
+						<div class="" style="display: inline-block; width: 1225px;">
+							<!-- TABLE HOVER -->
+							<div class="panel" style="background-color: white;">
+								<div class="panel-heading">
+									<h3 class="panel-title">설정</h3>
+								</div>
+								<div class="panel-body">
+									<table class="table table-hover text-center">
+										<thead>
+											<tr>
+												<th class="text-center">상위경로명</th>
+												<th class="text-center">경로명</th>
+												<th class="text-center">경로</th>
+												<th class="text-center">위치</th>
+												<th class="text-center">집근권한</th>
+												<th class="text-center"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="menu : ${menuAllList}">
+												<td th:text="${menu.parent}"></td>
+												<td th:text="${menu.urlName}"></td>
+												<td th:text="${menu.url}"></td>
+												<td th:text="${menu.position}"></td>
+												<td th:text="${menu.code}"></td>
+												<td><a th:href="@{/admin/delete-menu(urlIdx=${menu.urlIdx})}"><i class="fa fa-minus-square-o" aria-hidden="true"></i></a></td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- 경로 추가 팝업창 -->
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="float: right;">페이지 추가</button>
+										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+										  <div class="modal-dialog" role="document">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        <h4 class="modal-title" id="exampleModalLabel">페이지 추가</h4>
+										      </div>
+										      <form th:action="|/admin/add-menu?${_csrf.headerName}=${_csrf.token}|" method="post">
+										      <div class="modal-body">
+										          <div class="form-group">
+										            <label class="control-label">위치:</label>
+										            <select name="position" class="form-control" id="recipient-name select1" onchange="changeMenuType(this.value)">
+										            	<option value="메뉴바">메뉴바</option>
+										            	<option value="사이드바">사이드바</option>
+										            </select>
+										          </div>
+										          <div class="form-group">
+										            <label class="control-label">상위경로:</label>
+										            <select name="parent" class="form-control menu" id="recipient-name">
+										            	<option value="없음">없음</option>
+										            	<option th:each="parentsMenu : ${parentsMenuList}" th:value="${parentsMenu.urlName}" th:text="${parentsMenu.urlName}"></option>
+										            </select>
+										            <select name="parent" class="form-control side-menu" id="recipient-name" style="display: none;" disabled="disabled">
+										            	<option value="없음">없음</option>
+										            	<option th:each="parentsSideMenu : ${parentsSideMenuList}" th:value="${parentsSideMenu.urlName}" th:text="${parentsSideMenu.urlName}"></option>
+										            </select>
+										          </div>
+										          <div class="form-group">
+										            <label class="control-label">접근권한:</label>
+										            <select name="code" class="form-control" id="recipient-name">
+										            	<option th:each="code : ${codeList}" th:value="${code.code}" th:text="${code.name}"></option>
+										            </select>
+										          </div>
+										          <div class="form-group">
+										            <label class="control-label">경로명:</label>
+										            <input type="text" class="form-control" id="recipient-name" required="required" name="urlName">
+										          </div>
+										          <div class="form-group">
+										            <label class="control-label">경로:</label>
+										            <input type="text" class="form-control" id="recipient-name" required="required" name="url">
+										          </div>
+										      </div>
+										      <div class="modal-footer">
+										        <button class="btn btn-primary">추가</button>
+										      </div>
+										      </form>
+										    </div>
+										  </div>
+										</div>
+								</div>
+							</div>
+							<!-- END TABLE HOVER -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">© 2021 SwitchSwitch. All rights reserved.</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<th:block th:replace="admin/fragments/footer :: admin_footer"></th:block>
+	<script src="/resources/js/admin/menu-folder.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	
+	function changeMenuType(key) {
+		
+		const menu = document.querySelector('.menu');
+		const sideMenu = document.querySelector('.side-menu');
+		if(key == '메뉴바'){
+			sideMenu.style.display = 'none';
+			sideMenu.disabled = true;
+			sideMenu.disabled = 'disabled';
+			menu.style.display = '';
+			menu.disabled = false;
+			menu.removeAttribute("disabled");
+		}
+		if(key == '사이드바'){
+			menu.style.display = 'none';
+			menu.disabled = true;
+			menu.disabled = 'disabled';
+			sideMenu.style.display = '';
+			sideMenu.disabled = false;
+			sideMenu.removeAttribute("disabled");
+		}
+	}
+	</script>
+</body>
+
+</html>

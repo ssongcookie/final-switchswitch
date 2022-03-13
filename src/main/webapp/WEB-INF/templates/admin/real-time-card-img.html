@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="admin/fragments/head :: admin_head"></th:block>
+	<style type="text/css">
+	.test{
+		margin-top:100px;
+		-ms-touch-action:pan-y;
+		touch-action:pan-y;
+	}
+	body{
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight:500;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<th:block th:replace="admin/fragments/nav :: admin_nav"></th:block>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<th:block th:replace="admin/fragments/sidebar :: admin_sidebar"></th:block>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+				<div style="display: flex; justify-content: space-between;">
+					<h3 class="page-title">실시간 카드이미지 조회</h3>
+					<div>
+						    <select class="form-control" style="width: 120px; float: right; margin-top: 2%;" onchange="changeReloadTime(this.value)">
+								  <option>시간선택</option>
+								  <option value="7000">7초</option>
+								  <option value="5000">5초</option>
+								  <option value="3000">3초</option>
+							</select>
+						</div>
+ 					 </div>
+					<div class="panel panel-headline demo-icons" style="background-color: white;">
+						<div class="test" th:if="${cardImg}">
+							<ul class="list-unstyled row" style="padding-left: 6%;">
+							<li class="card col-md-2 col-sm-4 col-xs-6" style="width: 18rem; height: 24rem;" th:each="img:${cardImg}">
+							  <img class="card-img-top" th:src="${img.getDownloadURL()}" alt="Card image cap" style="width: 100%; height: 60%;">
+							  <div class="card-body" style="height: 40%;">
+							  <div class="card-title" style="height: 30%; width: 100%;display: flex;justify-content: space-between;">
+							    <span class="input-group-text border-0" id="search-addon">
+							  </span>
+							    <span class="lnr lnr-trash small" aria-hidden="true" style="font-size: 15px !important;width: 20%;margin-top: 6.5%;" th:onclick="'deleteCard('+${img.flIdx}+')'" th:value="${img.flIdx}"></span>
+							  </div>
+							  </div>
+							</li>
+						</ul>
+
+						</div>
+					</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">© 2021 SwitchSwitch. All rights reserved.</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+</div>
+	<!-- Javascript -->
+	<th:block th:replace="admin/fragments/footer :: admin_footer"></th:block>
+	<script type="text/javascript">
+	/*	
+	$(function boxscroll(){
+			if($('.test').height() >= 1000){
+			$('.test').slimScroll({
+		    	height: '1000px',
+		    	railVisible: true,
+		    	railColor: '#222',
+		    	railOpacity: 0.3,
+		    	wheelStep: 10,
+		    	allowPageScroll: false,
+		    	disableFadeOut: false
+				})
+			}
+		})
+		
+		let cnt = 0;
+		
+		var seconds = 5000;
+		var interval;
+		
+		function changeReloadTime(optionValue){
+			seconds = optionValue;
+			window.clearInterval(interval);
+			interval = window.setInterval(reloadFunction, seconds);
+		}
+		
+		var reloadFunction = () =>{
+			location.reload();
+			 if ($('div').hasClass('modal-backdrop')) {
+					$("div").remove(".modal-backdrop");
+					$('#myModal').removeClass("in");
+					$('#myModal').css("display","none");
+				 	console.dir('태그삭제');
+				}
+		}
+		
+		interval = window.setInterval(reloadFunction, seconds);
+		*/
+		function deleteCard(FlIdx) {
+			if(FlIdx){
+				fetch("/admin/card-delete-by-Img?flIdx="+FlIdx)
+				.then(response=>{
+					if(response.ok){
+						return response.text()
+					}else{
+						throw new Error(response.status);
+					}
+				})
+				.then(text=>{
+					if(text == 'success'){
+						location.reload();
+					}
+				})
+				.catch(error=>{
+					alert('응답에 실패했습니다 상태코드 : '+error)
+				})
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head>
+<!-- card -->
+<link rel="stylesheet" th:href="@{/resources/css/card/card.css}">
+<!-- bodycss -->
+<link rel="stylesheet" th:href="@{/resources/css/exchange/exchangeCard.css}">
+<!-- alarm -->
+<link rel="stylesheet" th:href="@{/resources/css/alarm/alarm.css}">
+<!-- star -->
+<link rel="stylesheet" th:href="@{/resources/css/exchange/detail.css}">
+</head>
+
+<body>
+
+	<header th:replace="fragments/subBodyHeader :: header"> </header>
+
+	<div class="sub-menu hide">
+		<div th:replace="fragments/subMenu" :: subNav></div>
+	</div>
+
+	<section>
+
+		<div class="exc-title-container">
+			<div class="exc-single-title inner-size">
+
+				<p>희망카드</p>
+
+			</div>
+
+			<div class="exc-innerwrap inner-size">
+
+				<div class="exc-title">
+					<h1>[[${wishCard.cardInfo.name}]]</h1>
+					<p>사용자별점</p>
+					<span> 
+					<th:block th:if="${userRate} >= 1">
+							<th:block th:each="num : ${#numbers.sequence(1,userRate)}">
+								<i class="fas fa-star full-star"></i>
+							</th:block>
+					</th:block> 
+					<th:block th:if="${userRate%1!=0}">
+							<i class="fas fa-star-half-alt"></i>
+					</th:block> 
+					<th:block th:each="num : ${#numbers.sequence(0,5-userRate)}">
+							<i th:unless="${num == 0}" class="far fa-star"></i>
+					</th:block>
+					</span>
+					<p>물건별점</p>
+					<span>
+					<th:block th:each="num : ${#numbers.sequence(1,wishCard.cardInfo.condition)}">
+							<i class="fas fa-star full-star"></i>
+					</th:block> 
+					<th:block th:each="num : ${#numbers.sequence(0,5-wishCard.cardInfo.condition)}">
+							<i th:unless="${num == 0}" class="far fa-star"></i>
+					</th:block>
+					</span>
+					<p>지역</p>
+					<strong>[[${wishCard.cardInfo.region}]]</strong><strong>[[${wishCard.cardInfo.regionDetail}]]</strong>
+				</div>
+
+				<div class="exc-img">
+					<div class="whish-img-container">
+						<img th:src="${wishCard.fileDTO.getDownloadURL()}" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="exc-title-container">
+		<div class="exc-single-title inner-size">
+
+			<p>교환희망카드</p>
+
+		</div>
+		<div class="refund-container inner-size">
+			
+			
+			
+			<div class="exc-whish-card-table" id="appendArea">
+				<th:block th:if="${requestCardlist}">
+					<div class="card-container" th:each="card : ${requestCardlist}"
+						th:object="${card}" th:id="*{cardInfo.cardIdx}">
+						<div class="card">
+							<div class="card-name">
+								<p>[[*{cardInfo.name}]]</p>
+							</div>
+							<div class="grade-container">
+								<div class="icon">
+									<!-- 아이콘 변경 -->
+									<input type="hidden" th:value="*{cardInfo.category}"> <i
+										id="icon-val"></i>
+								</div>
+								<div class="user-grade">
+									<p>사용자 평점</p>
+									<!-- 사용자 별점 -->
+									<div class="star">
+										<th:block th:if="${reqMemRate} >= 1">
+											<th:block th:each="num : ${#numbers.sequence(1,reqMemRate)}">
+												<i class="fas fa-star full-star"></i>
+											</th:block>
+										</th:block>
+										<th:block th:if="${reqMemRate%1!=0}">
+											<i class="fas fa-star-half-alt"></i>
+										</th:block>
+										<th:block th:each="num : ${#numbers.sequence(0,5-reqMemRate)}">
+											<i th:unless="${num == 0}" class="far fa-star"></i>
+										</th:block>
+									</div>
+								</div>
+								<div class="item-grade">
+									<p>물건 평점</p>
+									<!-- 물건 별점 -->
+									<div class="star">
+										<th:block
+											th:each="num : *{#numbers.sequence(1,cardInfo.condition)}">
+											<i class="fas fa-star full-star"></i>
+										</th:block>
+										<th:block
+											th:each="num : *{#numbers.sequence(0,5-cardInfo.condition)}">
+											<i th:unless="${num == 0}" class="far fa-star"></i>
+										</th:block>
+									</div>
+								</div>
+							</div>
+							<div class="address">
+								<!-- 주소 -->
+								<p>
+									지역 <span th:text="*{cardInfo.region}"></span> <span
+										th:text="*{cardInfo.regionDetail}"></span>
+								</p>
+							</div>
+							<div class="card">
+								<input type="hidden" th:value="*{cardInfo.condition}"> <img
+									class="card-box" alt="">
+								<div class="card-img">
+									<!-- 카드 물건 이미지 -->
+									<img th:src="*{fileDTO.getDownloadURL()}" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>	
+			</div>
+			</div>
+
+		</div>
+		
+		<input type="hidden" name="reqIdx" id="reqIdx" th:value="${cardRequestList.reqIdx}">
+		
+		<div class="button-container">
+			<div class="button-wrap inner-size">
+				<span>요청포인트</span>
+				<strong>[[${cardRequestList.propBalance}]]P</strong><span>P</span>
+				<!-- 신청자 -->
+				<th:block th:if="${#authentication.principal.MemberIdx} == ${cardRequestList.requestMemIdx}">
+					<!-- 요청취소 & 요청수정 -->
+					<th:block th:if="${#strings.isEmpty(status)}">
+						<button type="button" class="request-cancel-button" onclick="requestCancel()">요청취소</button>
+						<button type="button"class="revise-button" onclick="requestRevise()">요청수정</button>
+					</th:block>
+					<!-- 교환 취소 요청 -->
+					<th:block th:if="${status} == 'ONGOING'">
+						<button type="button" class="exchange-cancel-button" onclick="exchangeCancelRequest()">교환취소요청</button>
+					</th:block>
+					<!-- 신청자 취소 요청 받은 경우 -->
+					<th:block th:if="${status} == 'APPLICANTCANCEL'">
+						<strong>교환취소요청 대기중</strong>
+						<button type="button" class="exchange-complete-button" onclick="cancelExchangeRequestCancel()">교환취소요청 취소</button>
+						<script>
+						</script>
+					</th:block>
+					<!-- 카드 주인 취소 요청 받은 경우 -->
+					<th:block th:if="${status} == 'OWNERCANCEL'">
+						<button type="button" class="exchange-cancel-button" onclick="exchangeRequestCancel()">교환취소요청 수락</button>
+						<button type="button" class="exchange-complete-button" onclick="exchangeRequestCancelReject()">교환취소요청 거절</button>
+					</th:block>
+				</th:block>
+					
+				<!-- 카드 주인 -->
+				<th:block th:if="${#authentication.principal.MemberIdx} == ${cardRequestList.requestedMemIdx}">	
+					<!-- 요청수락 & 요청거절 -->
+					<th:block th:unless="${status} || ">
+						<button type="button" class="request-cancel-button" onclick="requestAccept()">요청수락</button>
+						<button type="button"class="revise-button" onclick="requestReject()">요청거절</button>
+					</th:block>
+					<!-- 교환취소요청 & 교환 완료 -->
+					<th:block th:if="${status} == 'ONGOING'">
+						<button type="button" class="exchange-cancel-button" onclick="exchangeCancelRequest()">교환취소요청</button>
+						<button type="button" class="exchange-complete-button" onclick="exchangeComplete()">교환완료</button>
+					</th:block>
+					<!-- 신청자 취소 요청 받은 경우 -->
+					<th:block th:if="${status} == 'APPLICANTCANCEL'">
+						<button type="button" class="exchange-cancel-button" onclick="exchangeRequestCancel()">교환취소요청 수락</button>
+						<button type="button" class="exchange-complete-button" onclick="exchangeRequestCancelReject()">교환취소요청 거절</button>
+					</th:block>
+					<!-- 카드 주인 취소 요청 받은 경우 -->
+					<th:block th:if="${status} == 'OWNERCANCEL'">
+						<strong>교환취소요청 대기중</strong>
+						<button type="button" class="exchange-complete-button" onclick="cancelExchangeRequestCancel()">교환취소요청 취소</button>
+					</th:block>
+				</th:block>
+				<th:block th:if="${status} == 'DONE'">
+					<strong>교환완료</strong>
+				</th:block>
+				<th:block th:if="${status} == 'REJECT'">
+					<strong>취소 또는 거절된 거래</strong>
+				</th:block>
+				<th:block th:if="${status} == 'CANCELED'">
+					<strong>취소 또는 거절된 거래</strong>
+				</th:block>
+			</div>
+		</div>
+		<form id="sendResponse"></form>
+	</section>
+
+	<footer>
+		<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	
+	<!-- 상대방 평가요청 폼 -->
+	<div class="noticePopUp notice">
+		 <div class="notice-container">
+                <div class="notice_close_wrap">
+                    <i class="fas fa-times" id="notice_close"></i>
+                </div>
+         </div>
+		<div id="myform">
+			<fieldset>
+		        <legend>사용자 별점</legend>
+		        <input type="radio" name="rate" value="5" id="rate1"><label for="rate1"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="4" id="rate2"><label for="rate2"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="3" id="rate3"><label for="rate3"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="2" id="rate4"><label for="rate4"><i class="fas fa-star full-star"></i></label>
+		        <input type="radio" name="rate" value="1" id="rate5"><label for="rate5"><i class="fas fa-star full-star"></i></label>
+		    </fieldset>
+		</div>
+		<div class="notice_btn_wrap">
+			<button type="button" id="submit_btn">제출</button>
+		</div>
+	</div>
+	
+	<script type="text/javascript" th:inline="javascript" th:replace="fragments :: card"></script>
+	<script type="text/javascript" th:inline="javascript">
+		let reqIdx = [[${cardRequestList.reqIdx}]];
+		let requestMemIdx = [[${cardRequestList.requestMemIdx}]];
+		let requestor = [[${#authentication.principal.memberIdx}]];
+		console.dir(reqIdx);
+		let updateStatus = requestor == requestMemIdx ? "APPLICANTCANCEL" : "OWNERCANCEL";
+		console.dir(updateStatus);
+		let previousStatus = [[${status}]];
+		let counterpartNick = [[${counterpartNick}]];
+	</script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/resources/js/exchange/detail.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header"></head>
+<head>
+<!-- slick -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<!-- detailpop -->
+<link rel="stylesheet" th:href="@{/resources/css/card/carddetail.css}">  
+</head>
+<body>
+	<div th:replace="fragments/carddetail :: cardDetail"></div>
+
+    <header th:replace="fragments/bodyHeader :: bodyHeader"></header>
+
+    <section>
+
+        <div class="pop-card-list-container">
+
+            <div class="pop-card-title inner-size">
+                <p class="font-line">인기카드list</p>
+            </div>
+
+            <div class="pop-card-list inner-size">
+
+                <div class="card-container" th:each="card : ${cardsTop5}" th:object="${card}" th:attr="onclick=|cardClick(*{card.cardIdx})|">
+                    <div class="card-name">
+                        <p>[[*{card.name}]]</p>
+                    </div>
+                    <div class="grade-container">
+                        <div class="icon">
+                            <!-- 아이콘 변경 -->
+                            <input type="hidden" th:value="*{card.category}">
+	                        <i id="icon-val"></i>
+                        </div>
+                        <div class="user-grade">
+                            <p>사용자 평점</p>
+                            <!-- 사용자 별점 -->
+							<div class="star">
+								<th:block th:if="*{cardOwnerRate} >= 1">
+									<th:block th:each="num : *{#numbers.sequence(1,cardOwnerRate)}">
+										<i class="fas fa-star full-star"></i>
+									</th:block>
+								</th:block>
+								<th:block th:if="*{cardOwnerRate%1!=0}">
+									<i class="fas fa-star-half-alt"></i>
+								</th:block>
+								<th:block th:each="num : *{#numbers.sequence(0,5-cardOwnerRate)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+                        <div class="item-grade">
+                            <p>물건 평점</p>
+                            <!-- 물건 별점 -->
+							<div class="star">
+								<th:block th:each="num : *{#numbers.sequence(1,card.condition)}">
+									<i class="fas fa-star full-star"></i>
+								</th:block>
+								<th:block
+									th:each="num : *{#numbers.sequence(0,5-card.condition)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+                    </div>
+                    <div class="address">
+                        <!-- 주소 -->
+                        <p>지역 <span th:text="*{card.region}"></span> <span th:text="*{card.regionDetail}"></span></p>
+                    </div>
+					<div class="card">
+						<input type="hidden" th:value="*{card.condition}"> 
+						<img class="card-box" alt="">
+						<div class="card-img">
+							<!-- 카드 물건 이미지 -->
+							<img th:src="*{fileDTO.getDownloadURL()}" alt="">
+						</div>
+					</div>
+				</div>
+
+            </div>
+            
+            <div class="more-cardlist ">
+                <a href="">인기카드 더보기</a>
+            </div>
+
+        </div>
+
+        <div class="reco-user-list-contaienr">
+
+            <div class="reco-user-title inner-size">
+                <p class="font-line">추천회원list</p>
+            </div>
+
+            <div class="reco-user-inner-list inner-size">
+                <div class="user-container" th:each="user : ${usersTop5}" th:object="${user}">
+                    <div class="user-image">
+                        <img th:unless="*{fileDTO.flIdx}" th:src="@{../resources/img/default-user.png}" alt="">
+                        <img th:if="*{fileDTO.flIdx}" th:src="*{fileDTO.getDownloadURL()}" alt="">
+                    </div>
+                    <div class="user-name">
+                        <p>[[*{user.memberNick}]]</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+       <div th:replace="fragments/footer :: footer"></div>
+    </footer>
+    
+    <input class="id-Check" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.memberNick} != null" type="hidden" th:value="${#authentication.principal.memberNick}">
+    <script type="text/javascript" th:inline="javascript">
+    let csrfHeader = "[(${_csrf.headerName})]";
+    let csrfToken = "[(${_csrf.token})]";
+    </script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/resources/js/index/index.js}"></script>
+    <script type="text/javascript" th:inline="javascript" th:replace="fragments :: card"></script>
+    <script type="text/javascript" th:inline="javascript" th:replace="fragments :: view"></script>
+</body>
+
+</html>

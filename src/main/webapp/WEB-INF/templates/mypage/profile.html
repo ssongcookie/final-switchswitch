@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/subHeader :: subHeader"></head>
+
+<head>
+    <link rel="stylesheet" href="../resources/css/mypage/profile.css">
+</head>
+<body>
+
+    <header th:replace="fragments/subBodyHeader :: subBodyHeader">
+	</header>
+
+    <section>
+
+        <div class="prof-title-container">
+            <div class="prof-innerwrap inner-size">
+
+                <div class="prof-title">
+                    <h1>내프로필</h1>
+                </div>
+
+                <div class="prof-img">
+                    <img src="../resources/img/profileBack.png" alt="">
+                </div>
+
+            </div>
+
+            <form class="porfile-form" th:object="${modifyForm}" th:action="|/mypage/profile?${_csrf.parameterName}=${_csrf.token}|" method="post" id="frm_modify"  enctype="multipart/form-data">
+            <div class="profile-warp inner-size">
+
+                <div class="profile" th:if ="${profileImage == null}">
+                    <img class="profile-image" src="../resources/img/no-img.jpg" alt="">
+                </div>
+                
+                <div class="profile" th:unless ="${profileImage == null}">
+                    <img class="profile-image" th:src="${profileImage.getDownloadURL()}" alt="">
+                </div>
+                
+                <div class="file-input">
+                    <label for="profileImage">Upload new picture</label>
+                    <input type="file" name="profileImage" id="profileImage" onchange="fileCheck(this.files)">
+                </div>
+                <div class="rejectMsg"></div>
+			    <div class="preview">
+                    <p>No files currently selected for upload</p>
+                </div>
+            </div>
+
+            <div class="prof-container inner-size">
+                    <div class="prof-detail">
+                        <p>Name</p>
+                        <input type="text" th:value="${#authentication.principal.memberName}" readonly>
+                    </div>
+                    <div class="prof-detail">
+                        <p>Email</p>
+                        <input type="text" name="memberEmail" id="memberEmail" th:value="${#authentication.name}" readonly="readonly">
+                    </div>
+                    <div class="prof-detail">
+                        <p>Password</p>
+                        <input type="password" name="memberPass" id="memberPass">
+                        <button type="button" name="btnPwCheck" id="btnPwCheck" class="pass-confirm">확인</button>
+                        <p id="passwordCheck" class="valid-msg"></p>
+                    </div>
+                    <div class="prof-detail">
+                        <p>New Password</p>
+                        <input type="password" name="newMemberPass" id="newMemberPass" placeholder="띄어쓰기 없는 6~15자 영문 대/소문자 포함" >
+                        <p th:if="${#fields.hasErrors('newMemberPass')}" th:errors="*{newMemberPass}" class="valid-msg"></p>
+                    </div>
+                    <div class="prof-detail">
+                        <p>confirm New Password</p>
+                        <input type="password"  name="checkMemberPss" id="checkMemberPss">
+                        <p th:if="${#fields.hasErrors('checkMemberPss')}" th:errors="*{checkMemberPss}" class="valid-msg"></p>
+                    </div>
+                    <div class="prof-detail">
+                        <p>NickName</p>
+                        <input type="text" name="memberNick" id="memberNick" size="6"  placeholder="2~6자의 한글,영문" 
+						th:value="${#authentication.principal.memberNick}?${#authentication.principal.memberNick}:''" required>
+						<button class="pass-confirm" id="btnNickCheck" type="button">중복확인</button>
+						<span th:unless="${#fields.hasErrors('memberNick')}" id="nickNameCheck" class="valid-msg"></span>
+           	  			<span th:if="${#fields.hasErrors('memberNick')}" th:errors="*{memberNick}" class="valid-msg"></span>
+                    </div>
+                    
+                    <div class="prof-detail">
+                        <p>Tell</p>
+                        <input type="tel" id="memberTell" name="memberTell" placeholder="숫자만 입력" 
+						th:value="${#authentication.principal.memberTell}" required>
+						<p th:if="${#fields.hasErrors('memberTell')}" th:errors="*{memberTell}" class="valid-msg"></p>
+                    </div>
+                    
+                    <div class="prof-detail-address">
+                         <div class="address-title">
+                            <p>Address</p><button type="button" id="searchAddr">주소검색</button>
+                        </div>
+                        <div class="address-input">
+                        	<input id="zipNo" name="zipNo" placeholder="우편번호" type="text" readonly="readonly"  
+							th:value="${#authentication.principal.memberAddress}?${#strings.arraySplit(#strings.replace(#authentication.principal.memberAddress,'[',''),']')[0]}:''"
+							required>
+                            <input class="form-control" id="address" name="address" type="text" readonly="readonly" 
+						    th:value="${#authentication.principal.memberAddress}?${#strings.arraySplit(#authentication.principal.memberAddress,']')[1]}:''"	
+						    required>
+                        </div>
+                        <p th:if="${#fields.hasErrors('zipNo')}" th:errors="*{zipNo}" class="valid-msg"></p>
+                    </div>	
+                    <button type="submit" class="form-submit">변경하기</button>
+
+                    <div class="my-score">
+                        <p>내 평점</p> <span th:text="${myRate.score}">4.0</span>
+                        <span> 
+                          <th:block th:if="${myRate.score} >= 1">
+                       		<th:block th:each="num : ${#numbers.sequence(1,myRate.score)}">
+							<i class="fas fa-star full-star"></i>
+							</th:block>
+                       	</th:block>
+						<th:block th:if="${myRate.score%1!=0}">
+							<i class="fas fa-star-half-alt"></i>
+						</th:block>
+						<th:block th:each="num : ${#numbers.sequence(0,5-myRate.score)}">
+							<i th:unless="${num == 0}" class="far fa-star"></i>
+						</th:block>
+                            <i th:unless="${num == 0}" class="far fa-star"></i>
+                        </th:block>    
+                        <span>( [[${myRate.cnt}]]개의 평가 )</span>
+                        </span>
+                    </div>
+
+                    <div class="my-score">
+                        <p>내가 받은 평점</p>
+                    </div>
+
+                    <div class="star-score">
+                        <div class="star">
+                            <i class="fas fa-star full-star"></i>
+                        </div>
+                        <p>[[${rateList.one}]]%</p>
+                    </div>
+                    <div class="score-bar">
+                        <div class="gage" th:style="|width: ${rateList.one}%|"></div>
+                    </div>
+
+                    <div class="star-score">
+                        <div class="star">
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                        </div>
+                        <p>[[${rateList.two}]]%</p>
+                    </div>
+                    <div class="score-bar">
+                        <div class="gage" th:style="|width: ${rateList.two}%|"></div>
+                    </div>
+
+                    <div class="star-score">
+                        <div class="star">
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                        </div>
+                        <p>[[${rateList.three}]]%</p>
+                    </div>
+                    <div class="score-bar">
+                        <div class="gage" th:style="|width: ${rateList.three}%|"></div>
+                    </div>
+
+                    <div class="star-score">
+                        <div class="star">
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                        </div>
+                        <p>[[${rateList.four}]]%</p>
+                    </div>
+                    <div class="score-bar">
+                        <div class="gage" th:style="|width: ${rateList.four}%|"></div>
+                    </div>
+
+                    <div class="star-score">
+                        <div class="star">
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                            <i class="fas fa-star full-star"></i>
+                        </div>
+                        <p>[[${rateList.five}]]%</p>
+                    </div>
+                    <div class="score-bar" style="margin-bottom: 30px;">
+                        <div class="gage" th:style="|width: ${rateList.five}%|"></div>
+                    </div>
+            </div>
+
+            <button type="button"  onclick="location.href='leave-member'" class="get-out inner-size">탈퇴하기</button>
+            </form>
+
+        </div>
+
+
+    </section>
+
+   <footer>
+	<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	<script type="text/javascript" src="../resources/js/member/modifyForm.js"></script>
+    <script type="text/javascript" src="../resources/js/member/profile.js" th:inline="javascript" ></script>
+
+</body>
+</html>
+

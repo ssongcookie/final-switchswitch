@@ -1,0 +1,60 @@
+/* sub-menu css */
+.sub-menu {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+    background-color: #fff;
+    z-index: 3;
+}
+
+.sub-menu-inner {
+    max-width: 900px;
+}
+
+.first-line-sub {
+    
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.first-line-sub > div {
+    width: 20%;
+    margin-left: 40px;
+}
+.second-line-sub > div {
+    width: 20%;
+    margin-left: 70px;
+}
+
+.second-line-sub {
+
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 400;
+
+}
+
+.point {
+    display: flex;
+    flex-direction: column;
+}
+
+.point-sub {
+    margin-top: 10px;
+    display: flex;
+    font-weight: 100;
+    flex-direction: column;
+}
+
+.point-sub a {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.hide {
+    display: none;
+}

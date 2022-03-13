@@ -1,0 +1,92 @@
+/* 2021-11-05 정현직 */
+.hot-card-title {
+    font-size: 15px;
+    margin-bottom: 30px;
+    margin-left: 20px;
+  }
+  
+  .login-join a{
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+  }
+  
+  .login {
+    margin-right: 5px;
+  }
+  
+  .hot-keyword {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 60%;
+  }
+  
+  .hot-keyword span {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  .card {
+    border: none;
+    background: none;
+  }
+  
+  .item-image {
+    position: absolute;
+    z-index: -1;
+    max-width: 75%;
+    width: 100%;
+    max-height: 39%;
+    height: 100%;
+    background-color: #04414d;
+    top: 10%;
+    left: 10%;
+    background-image: url("../../img/아이폰.jpg");
+  }
+  
+  .category {
+    position: absolute;
+    height: 60px;
+    width: 60px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px #000;
+  }
+  
+  .category i {
+    margin: 0 auto;
+    text-align: center;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 30px;
+  }
+  
+  .item-name {
+    position: absolute;
+    top: 47%;
+    left: 41%;
+  }
+  
+  .item-info {
+    text-align: center;
+    line-height: 7px;
+    position: absolute;
+    top: 72%;
+    left: 27%;
+  }
+
+  /* jung 211112 */
+  .exchange-button {
+    margin-top: 20px;
+    display: inline-block;
+    width: 40%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #1f1f1f;
+    border-radius: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+  }

@@ -1,0 +1,21 @@
+
+.wish-popup {
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.hide{
+	display: none;
+}
+
+.wish-popup a{
+    margin: 20px;
+}
+
+.wish-popup img {
+    width: 200px;
+}

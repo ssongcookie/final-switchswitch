@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head>
+<!-- card -->
+<link rel="stylesheet" th:href="@{/resources/css/card/card.css}">
+<!-- bodycss -->
+<link rel="stylesheet" th:href="@{/resources/css/exchange/exchangeCard.css}">
+</head>
+
+<body>
+
+	<header th:replace="fragments/subBodyHeader :: header"> </header>
+
+	<div class="sub-menu hide">
+		<div th:replace="fragments/subMenu" :: subNav></div>
+	</div>
+
+	<section>
+
+		<div class="exc-title-container">
+			<div class="exc-single-title inner-size">
+
+				<p>희망카드</p>
+
+			</div>
+
+			<div class="exc-innerwrap inner-size">
+
+				<div class="exc-title">
+					<h1>[[${wishCard.cardInfo.name}]]</h1>
+					<p>사용자별점</p>
+					<span> 
+					<th:block th:if="${userRate} >= 1">
+							<th:block th:each="num : ${#numbers.sequence(1,userRate)}">
+								<i class="fas fa-star full-star"></i>
+							</th:block>
+					</th:block> 
+					<th:block th:if="${userRate%1!=0}">
+							<i class="fas fa-star-half-alt"></i>
+					</th:block> 
+					<th:block th:each="num : ${#numbers.sequence(0,5-userRate)}">
+							<i th:unless="${num == 0}" class="far fa-star"></i>
+					</th:block>
+					</span>
+					<p>물건별점</p>
+					<span>
+					<th:block th:each="num : ${#numbers.sequence(1,wishCard.cardInfo.condition)}">
+							<i class="fas fa-star full-star"></i>
+					</th:block> 
+					<th:block th:each="num : ${#numbers.sequence(0,5-wishCard.cardInfo.condition)}">
+							<i th:unless="${num == 0}" class="far fa-star"></i>
+					</th:block>
+					</span>
+					<p>지역</p>
+					<strong>[[${wishCard.cardInfo.region}]]</strong><strong>[[${wishCard.cardInfo.regionDetail}]]</strong>
+				</div>
+
+				<div class="exc-img">
+					<div class="whish-img-container">
+						<img th:src="${wishCard.fileDTO.getDownloadURL()}" alt="">
+					</div>
+				</div>
+
+			</div>
+
+			<div class="exc-single-title inner-size">
+
+				<p>내카드리스트</p>
+				<span>사용가능포인트 
+				<strong th:if="${availableBal}">[[${availableBal}]]P</strong>
+				<strong th:unless="${availableBal}">0P</strong>
+				</span>
+
+			</div>
+
+			<div class="refund-container inner-size">
+
+				<div class="exc-card-table">
+					<th:block th:if="${cardlist}">
+						<div class="card-container" th:each="card : ${cardlist}"
+							th:object="${card}" th:id="*{cardInfo.cardIdx}"
+							onclick="transfer(this)">
+							<div class="card">
+								<input type="hidden" th:value="*{cardInfo.cardIdx}">
+								<div class="card-name">
+									<p>[[*{cardInfo.name}]]</p>
+								</div>
+								<div class="grade-container">
+									<div class="icon">
+										<!-- 아이콘 변경 -->
+										<input type="hidden" th:value="*{cardInfo.category}"> 
+										<i id="icon-val"></i>
+									</div>
+									<div class="user-grade">
+										<p>사용자 평점</p>
+										<!-- 사용자 별점 -->
+										<div class="star">
+											<th:block th:if="${myRate} >= 1">
+												<th:block th:each="num : ${#numbers.sequence(1,myRate)}">
+													<i class="fas fa-star full-star"></i>
+												</th:block>
+											</th:block>
+											<th:block th:if="${myRate%1!=0}">
+												<i class="fas fa-star-half-alt"></i>
+											</th:block>
+											<th:block th:each="num : ${#numbers.sequence(0,5-myRate)}">
+												<i th:unless="${num == 0}" class="far fa-star"></i>
+											</th:block>
+										</div>
+									</div>
+									<div class="item-grade">
+										<p>물건 평점</p>
+										<!-- 물건 별점 -->
+										<div class="star">
+											<th:block
+												th:each="num : *{#numbers.sequence(1,cardInfo.condition)}">
+												<i class="fas fa-star full-star"></i>
+											</th:block>
+											<th:block
+												th:each="num : *{#numbers.sequence(0,5-cardInfo.condition)}">
+												<i th:unless="${num == 0}" class="far fa-star"></i>
+											</th:block>
+										</div>
+									</div>
+								</div>
+								<div class="address">
+									<!-- 주소 -->
+									<p>
+										지역 <span th:text="*{cardInfo.region}"></span> 
+										<span th:text="*{cardInfo.regionDetail}"></span>
+									</p>
+								</div>
+								<div class="card">
+									<input type="hidden" th:value="*{cardInfo.condition}"> 
+									<img class="card-box" alt="">
+									<div class="card-img">
+										<!-- 카드 물건 이미지 -->
+										<img th:src="*{fileDTO.getDownloadURL()}" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+				</th:block>
+			</div>
+
+		</div>
+	<div class="whish-card-container">
+	<div class="whish-card-inner">
+	
+		<div class="exc-single-title inner-size">
+
+			<p>교환희망카드</p>
+
+		</div>
+		<form id="submit" th:action="@{/exchange/exchangeForm}" method="post">
+		<div class="refund-container inner-size">
+
+			<div class="exc-whish-card-table" id="appendArea">
+				<div class="card-container" id="default-card">
+                        <div class="card">
+                            <img th:src="@{/resources/img/defaultCard.png}" alt="">
+                        </div>
+                </div>
+                
+                <div class="card-container" id="default-card">
+                        <div class="card">
+                            <img th:src="@{/resources/img/defaultCard.png}" alt="">
+                        </div>
+                </div>
+                
+                <div class="card-container" id="default-card">
+                        <div class="card">
+                            <img th:src="@{/resources/img/defaultCard.png}" alt="">
+                        </div>
+                </div>
+                
+                <div class="card-container" id="default-card">
+                        <div class="card">
+                            <img th:src="@{/resources/img/defaultCard.png}" alt="">
+                        </div>
+                </div>
+				
+			</div>
+
+		</div>
+		<input type="hidden" name="wishCardIdx" th:value="${wishCard.cardInfo.cardIdx}">
+		<input type="hidden" id="available_bal" name="availableBal" th:value="${availableBal}">
+		<div class="button-container">
+				<div class="button-wrap inner-size">
+					<span>요청포인트</span> 
+					<input class="present-point" type="text"
+						id="offerPoint" name="offerPoint" onchange="checkBalance(this)"
+						placeholder="포인트를입력하세요."> 
+					<span>P</span>
+					<button type="button" class="req-button">요청</button>
+					<button type="button" class="cancel-button">취소</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	
+	</section>
+
+	<footer>
+		<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	
+	<script type="text/javascript" th:inline="javascript" th:replace="fragments :: card"></script>
+	<script type="text/javascript" th:inline="javascript">  	
+ 	
+	 	function transfer(e) {
+	 		let appendArea;
+	 		let currArea;
+	 		
+	 		if(e.parentElement.className == 'exc-card-table'){
+	 			appendArea = document.querySelector("#appendArea");
+	 			console.dir(appendArea);
+	 			if(appendArea.lastElementChild.id == "default-card" || document.querySelector("#appendArea").childElementCount < 4){
+	 				let cardIdx = e.getElementsByTagName("input")[0].value;
+	 				let input = document.createElement("input");
+	 				input.setAttribute("type","hidden");
+	 				input.setAttribute("name","cardIdxList");
+	 				input.setAttribute("value",cardIdx);
+	 				$('.card-container').css('width','230px')
+	 				e.appendChild(input);
+	 				appendArea.lastElementChild.remove();
+	 				appendArea.prepend(e);
+	 				
+	 			} else {
+	 				alert("카드는 최대 4개만 교환 가능합니다.");
+	 			}
+	 		} else {
+	 			appendArea = document.querySelector(".exc-card-table");
+	 			e.lastChild.remove();
+	 			appendArea.appendChild(e);
+	 			let cardContainer = document.createElement("div");
+	 			let card = document.createElement("div");
+	 			let img = document.createElement("img");
+	 			img.setAttribute("src", "/resources/img/defaultCard.png");
+	 			cardContainer.setAttribute("class", "card-contatiner");
+	 			cardContainer.setAttribute("style", "width:230px;");
+	 			cardContainer.setAttribute("id", "default-card")
+	 			card.setAttribute("class", "card");
+	 			cardContainer.appendChild(card);
+	 			card.appendChild(img);
+	 			document.querySelector("#appendArea").appendChild(cardContainer);
+	 		}
+	 	}
+	 	
+	 	function checkBalance(e){
+	 		let myBalance = document.querySelector("#available_bal").value;
+	 		let offerPoint = e.value;
+	 		if(parseInt(offerPoint,10) > parseInt(myBalance,10)){
+	 			alert("사용 가능 포인트보다 많은 포인트는 제시할 수 없습니다.");
+	 			e.value = 0;
+	 			return false;
+	 		}
+	 		if(offerPoint == ""){
+	 			e.value = 0;
+	 		}
+	 		return true;
+	 	}
+
+		document.querySelector(".req-button").addEventListener("click", function(e){
+			let checkPoint = document.querySelector("#offerPoint");
+			if(!checkBalance(checkPoint)){
+				return;
+			};
+			let cardCount = document.querySelector(".exc-whish-card-table").childElementCount;
+			console.dir(cardCount);
+			if(cardCount == 0){
+				alert("교환할 카드를 선택해 주세요.");
+				return;
+			}
+			document.querySelector("#submit").submit();
+		})
+		
+		document.querySelector(".cancel-button").addEventListener("click", function(e){
+			history.back();
+		})
+	</script>
+
+</body>
+</html>
+

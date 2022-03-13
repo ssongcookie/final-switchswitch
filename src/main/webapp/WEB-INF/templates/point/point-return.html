@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<body>
+
+   	<header th:replace="fragments/subBodyHeader :: header">
+    </header>
+	
+	
+   
+    <section>
+
+        <div class="ref-title-container">
+            <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>포인트</h1>
+                    <p>잔여포인트</p>
+                    <span th:if="${savePoint.balance}">[[${savePoint.balance}]]</span>
+					<span th:unless="${savePoint.balance}">0</span>
+                    <p>가용포인트</p>
+                    <span th:if="${savePoint.availableBal}">[[${savePoint.availableBal}]]</span>
+                    <span th:unless="${savePoint.availableBal}">0</span>
+                </div>
+
+                <div class="ref-img">
+                    <img th:src="@{/resources/img/pointCoin.png}" alt="">
+                </div>
+
+            </div>
+
+            <div class="single-title inner-size">
+
+                <p>환급</p>
+                
+            </div>
+
+            <div class="refund-container inner-size">
+
+                <div class="refund-input">
+                    <form class="refund-form" th:action="@{/point/refund}" id="refundInfo">
+	                     <div class="refund-input-wrap">
+							<div class="req_point">
+	                            <p>생년월일</p>
+	                            <input type="number" id="birth" placeholder="YYMMDD">
+	                        </div>
+							 <div class="account">
+		                            <p>환급계좌번호</p>
+		                            <input type="number" id="account" name="account">
+		                            <select name="bankName" style="font-size: 20px;">
+										<option value="004">국민은행</option>
+										<option value="020">우리은행</option>
+										<option value="081">하나은행</option>
+										<option value="088">신한은행</option>
+										<option value="090">카카오뱅크</option>
+									</select>
+		                      </div>
+		                      <!-- 계좌조회 버튼 -->
+		                      <button class="ref-submit-button"  type="button" onclick="checkAccount()" >계좌조회</button>
+						</div>
+						<div class="refund-button-wrap">
+							<div class="refund-input-wrap">
+		                        <div class="req_point">
+		                            <p>신청금액</p>
+		                            <input type="number" id="refundPoint" name="refundPoint">
+		                            <button class="ref-submit-button2 request" type="submit">신청하기</button>
+		                        </div>
+							</div>
+                        </div>
+                    </form>
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <footer>
+       <div th:replace="fragments/footer :: footer" ></div>
+   	</footer>
+    
+    <script type="text/javascript" th:inline="javascript">
+    	let memberName = [[${#authentication.principal.memberName}]]; //이름
+    	let availableBal = [[${savePoint.availableBal}]]; //가용포인트
+    	console.dir(typeof availableBal);
+    </script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/resources/js/point/point-return.js}"></script>
+</body>
+</html>

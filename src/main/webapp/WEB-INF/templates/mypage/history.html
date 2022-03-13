@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/subHeader :: subHeader"></head>
+
+<head>
+    <link rel="stylesheet" href="../resources/css/card/wishCard.css">
+    <link rel="stylesheet" href="../resources/css/point/refundHistory.css">
+</head>
+
+<body>
+
+    <header th:replace="fragments/subBodyHeader :: subBodyHeader">
+	</header>
+
+    <section>
+
+        <div class="wscd-title-container">
+
+            <div class="wscd-innerwrap inner-size">
+                <div class="wscd-title">
+                    <h1>나의 거래 내역</h1>
+                </div>
+
+                <div class="wscd-img">
+                    <img src="../resources/img/wishCardBack.png" alt="">
+                </div>
+
+            </div>
+
+            <div class="mk-card-list inner-size">
+
+                <div class="card-list" style="overflow-y: scroll;">
+    
+	            <div class="card-container" style="width: 180px; "  th:each="doneCard : ${doneCardList}" th:object="${doneCard}">
+					<input type="hidden" id="memberIdx" th:value="${#authentication.principal.memberIdx}"> 
+					<div class="card-name">
+						<p>[[*{doneCard.name}]]</p>
+					</div>
+					<div class="grade-container">
+						<div class="icon">
+							<!-- 아이콘 변경 -->
+							<i class="fas fa-bolt"></i>
+						</div>
+						<div class="user-grade">
+							<p>사용자 평점</p>
+							<!-- 사용자 별점 -->
+							<div class="star">
+								<th:block th:if="${myRate} >= 1">
+									<th:block
+										th:each="num : ${#numbers.sequence(1,myRate)}">
+										<i class="fas fa-star full-star"></i>
+									</th:block>
+								</th:block>
+								<th:block th:if="${myRate%1!=0}">
+									<i class="fas fa-star-half-alt"></i>
+								</th:block>
+								<th:block
+									th:each="num : ${#numbers.sequence(0,5-myRate)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+						<div class="item-grade">
+							<p>물건 평점</p>
+							<!-- 물건 별점 -->
+							<div class="star">
+								<th:block th:each="num : *{#numbers.sequence(1,doneCard.condition)}">
+									<i class="fas fa-star full-star"></i>
+								</th:block>
+								<th:block
+									th:each="num : *{#numbers.sequence(0,5-doneCard.condition)}">
+									<i th:unless="${num == 0}" class="far fa-star"></i>
+								</th:block>
+							</div>
+						</div>
+					</div>
+					<div class="address">
+						<!-- 주소 -->
+						<p>
+							지역 <span th:text="*{doneCard.region}"></span> <span
+								th:text="*{doneCard.regionDetail}"></span>
+						</p>
+					</div>
+					<div class="card">
+						<input type="hidden" th:value="*{doneCard.condition}"> <img
+							class="card-box" alt="">
+						<div class="card-img">
+							<!-- 카드 물건 이미지 -->
+							<img th:src="*{fileDTO.getDownloadURL()}" alt="">
+						</div>
+					</div>
+				</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="ref-title-container" style="margin-top: 15px;">
+           <div class="single-title inner-size">
+                <p>거래내역</p>
+                <a href="#" class="title-button" id="exchange">교환 기록</a>
+               <!--  <a href="#" class="title-button" id="freeSharing">나눔 기록</a>    -->  
+            </div>
+
+            <div class="refund-container inner-size">
+
+                <div class="histroy-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>거래 일자</th>
+                                <th>기존 카드</th>
+                                <th>교한 카드</th>
+                                <th>포인트</th>
+                                <th>상대방 닉네임</th>
+                                <th>별점</th>
+                            </tr>  
+                        </thead>
+                        <tbody class="historyList">
+                          
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        
+
+    </section>
+
+   <footer>
+	<div th:replace="fragments/footer :: footer"></div>
+	</footer>
+	
+<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/member/history.js}"></script>
+</body>
+
+</html>

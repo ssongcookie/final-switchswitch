@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head th:replace="fragments/subHeader :: join-header"></head>
+</head>
+
+<body>
+<header th:replace="fragments/subBodyHeader :: header"></header>
+<section>
+<div class="demo form-bg">
+	<div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <form class="form-horizontal"
+                	th:object="${joinForm}" th:action="@{/member/join}" method="post" id="frm_join">
+                    <div class="header">회원가입</div>
+                    <div class="form-content">
+                    	<h4 class="heading">이름</h4>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                               <input class="form-control" id="name" name="memberName" placeholder="NAME" type="text"
+                               th:value="*{#fields.hasErrors('memberName') ? '' : memberName}"
+                               required/>
+                            </div>
+                        </div>
+                        <span th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="valid-msg-e"></span>
+                    	<h4 class="heading">EMAIL</h4>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                               <input class="form-control" id="email" name="memberEmail" placeholder="EMAIL" type="email"
+                               th:value="*{#fields.hasErrors('memberEmail') ? '' : memberEmail}"
+                               required/>
+                            </div>
+                            <button type="button" id="btnEmailCheck" class="inner_btn">중복확인</button>
+                        </div>
+                        <span th:unless="*{#fields.hasErrors('memberEmail')}" id="emailCheck" class="valid-msg"></span>
+                        <span th:if="*{#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" class="valid-msg-e"></span>
+                        <h4 class="heading">비밀번호</h4>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                               <input class="form-control" id="password" name="memberPass" placeholder="Password" type="password"
+                               th:value="*{#fields.hasErrors('memberPass') ? '' : memberPass}"
+                               required/>
+                            </div>
+                            <div class="col-sm-6">
+                               <input class="form-control" id="passwordCheck" placeholder="Password Check" type="password">
+                            </div>
+                        </div>
+                        <span th:unless="*{#fields.hasErrors('memberPass')}" id="passwordNotMatched" class="valid-msg"></span>
+                        <span th:if="*{#fields.hasErrors('memberPass')}" th:errors="*{memberPass}" class="valid-msg-e"></span>
+                        <h4 class="heading">휴대전화</h4>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                               <input class="form-control" id="tell" name="memberTell" placeholder="Phone Number" type="tel"
+                               th:value="*{#fields.hasErrors('memberTell') ? '' : memberTell}"
+                               required/>
+                            </div>
+                        </div>
+                        <span th:if="*{#fields.hasErrors('memberTell')}" th:errors="*{memberTell}" class="valid-msg-e"></span>
+                        <h4 class="heading">닉네임</h4>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                               <input class="form-control" id="nickname" name="memberNick"  placeholder="Nickname" type="text" 
+                               th:value="*{#fields.hasErrors('memberNick') ? '' : memberNick}"
+                               required/>
+                            </div>
+                            <button type="button" id="btnNickCheck" class="inner_btn">중복확인</button>
+                        </div>
+                        <span th:unless="*{#fields.hasErrors('memberNick')}" id="nickCheck" class="valid-msg"></span>
+                        <span th:if="*{#fields.hasErrors('memberNick')}" th:errors="*{memberNick}" class="valid-msg-e"></span>
+                        <h4 class="heading">주소</h4>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                               <input class="form-control" id="zipNo" name="zipNo" placeholder="우편번호" type="text" 
+                               th:value="*{#fields.hasErrors('zipNo') ? '' : zipNo}"
+                               readonly="readonly" required/>
+                            </div>
+							<button type="button" id="searchAddr" class="inner_btn">주소검색</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                               <input class="form-control" id="address" name="address" type="text" 
+                               th:value="*{#fields.hasErrors('address') ? '' : address}"
+                               readonly="readonly" required/>
+                            </div>
+                        </div>
+                        <span th:if="*{#fields.hasErrors('zipNo')}" th:errors="*{zipNo}" class="valid-msg-e"></span>
+                        <div class="clearfix">
+                        	<button type="button" class="btn btn-default" id="btn_cancel">취소</button>
+                            <button type="submit" class="btn btn-default">회원가입</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<footer>
+	<div th:replace="fragments/footer :: footer"></div>
+</footer>
+
+<script type="text/javascript" th:inline="javascript" th:replace="fragments :: ajax-csrf-header"></script>
+<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/member/join.js}" th:insert="fragments :: ajax-csrf-header"></script>
+</body>
+</html>

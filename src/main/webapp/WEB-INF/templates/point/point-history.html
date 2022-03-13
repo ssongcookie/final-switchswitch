@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head>
+		<!-- refund -->
+	    <link rel="stylesheet" href="../resources/css/point/refundHistory.css">
+	</head>
+	
+	<body>
+
+   	<header th:replace="fragments/subBodyHeader :: header">
+    </header>
+	
+	<div class="sub-menu hide">
+		<div th:replace="fragments/subMenu" :: subNav>
+	    </div>
+	</div>
+   
+    <section>
+
+        <div class="ref-title-container">
+            <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>포인트</h1>
+                    <p>잔여포인트</p><th:block th:if="${savePoint.balance}"><span>[[${savePoint.balance}]]</span></th:block>
+                    			  <th:block th:unless="${savePoint.balance}"><span>0</span></th:block>
+                    <p>가용포인트</p><th:block th:if="${savePoint.availableBal}"><span>[[${savePoint.availableBal}]]</span></th:block>
+                    			  <th:block th:unless="${savePoint.availableBal}"><span>0</span></th:block>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/pointCoin.png" alt="">
+                </div>
+
+            </div>
+
+           <div class="single-title inner-size">
+
+                <p>거래내역</p>
+                <a href="#" class="title-button" id="pointUse">포인트사용내역</a>
+                <a href="#" class="title-button" id="pointCharge">포인트충전내역</a>
+                <a href="#" class="title-button" id="pointRefund">환급내역</a>
+                
+            </div>
+
+            <div class="refund-container inner-size">
+
+                <div class="histroy-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>일시</th>
+                                <th>사용내역</th>
+                                <th>금액</th>
+                                <th>잔액</th>
+                            </tr>  
+                        </thead>
+                        <tbody class="poinHistoryList">
+                          
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <footer>
+       <div th:replace="fragments/footer :: footer" ></div>
+   	</footer>
+    <script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/point/history.js}"></script>
+</body>
+</html>

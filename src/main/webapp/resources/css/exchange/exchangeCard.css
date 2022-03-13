@@ -1,0 +1,237 @@
+section {
+    padding: 60px 0;
+    background-color: #f7f7f9;
+    z-index: -1;
+}
+
+.exc-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.exc-innerwrap {
+    height: 170px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 50px;
+    border: 1px solid #000;
+}
+
+.exc-title {
+    color: #000;
+    font-size: 30px;
+    
+}
+
+.exc-title p{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 25px;
+}
+
+.exc-title span {
+    color: #000;
+    font-size: 16px;
+    font-weight: 100;
+    animation: bring 1s infinite;
+    margin-right: 5px;
+}
+
+.exc-title strong {
+    font-size: 16px;
+    font-weight: 100;
+    margin-left: 5px;
+}
+
+.exc-img {
+    width: 30%;
+}
+
+.whish-img-container {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.whish-img-container img {
+	width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.exc-single-title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.exc-single-title p{
+    font-size: 23px;
+}
+
+.exc-single-title span {
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 4px 10px;
+    font-size: 13px;
+    margin-left: 5px;
+    font-weight: 100;
+    vertical-align: middle;
+}
+
+.exc-single-title strong {
+    font-weight: 500;
+}
+
+.exc-card-table {
+    z-index: -1;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns:repeat(4, 1fr) ;
+    place-items: center;
+    grid-gap: 30px;
+    padding: 20px 30px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.247);
+    margin-bottom: 40px;
+    height: 370px;
+    overflow: scroll;
+}
+
+.exc-whish-card-table {
+    z-index: -1;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns:repeat(4, 1fr) ;
+    place-items: center;
+    grid-gap: 30px;
+    padding: 20px 30px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.247);
+    margin-bottom: 40px;
+}
+
+.title-button {
+    font-weight: 300;
+    font-size: 14px;
+    padding: 2px 20px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: 20px;
+    line-height: 50px;
+    margin-right: 5px;
+}
+
+.title-button:hover {
+    background-color: #ff5403;
+    color: #fff;
+    border:1px solid #ff5403;
+}
+
+.card-container {
+    z-index: 1;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.button-wrap button {
+    /* width: 15%; */
+    background-color: #ff5403;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 70px;
+    color: #fff;
+    
+    margin-left: 10px;
+}
+
+.button-wrap span {
+    margin-right: 5px;
+    font-weight: 300;
+}
+
+.button-wrap input {
+    padding: 4px 10px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #000;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.button-wrap input:focus {
+    outline: none;
+}
+
+.card-container:hover {
+	width: 220px;
+}
+
+/* jung 2021 modi */
+.whish-card-container {
+	display: flex;
+	justify-content: center;
+}
+
+
+@keyframes bring {
+    0% {
+        color: #000;
+    }
+
+    50% {
+        color: rgb(255, 251, 0);
+    }
+
+    100% {
+        color: #000;
+    }
+}
+
+/* 미디어쿼리 */
+
+@media all and (min-width:320px) {
+    .exc-card-table,
+    .exc-whish-card-table {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media all and (min-width:768px) {
+    .exc-card-table,
+    .exc-whish-card-table {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media all and (min-width:1024px) {
+    .exc-card-table,
+    .exc-whish-card-table {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<head th:replace="fragments/subHeader :: subHeader"></head>
+<head th:replace="fragments/subHeader :: consentForm-header"></head>
+</head>
+<body>
+	<header th:replace="fragments/subBodyHeader :: subBodyHeader"></header>
+	<section>
+		<div class="login-conainer">
+			<div class="login-inner inner-size">
+				<div id="collapseOne" class="panel-collapse collapse in"
+					role="tabpanel" aria-labelledby="headingOne">
+					<div class="row">
+						<div class="col-md-offset-3 col-md-6">
+							<div class="panel-group" id="accordion" role="tablist"
+								aria-multiselectable="true">
+								<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="headingOne">
+										<h4 class="panel-title">
+											<p data-parent="#accordion"
+												aria-expanded="true">
+												 [필수]
+												개인정보 수집·이용 동의 </p>
+										</h4>
+									</div>
+									<div class="panel-body">
+										본인은 귀사에 회원가입 양식을 제출함에 따라 [개인정보 보호법] 제15조 및 제17조에 따라 아래의 내용으로
+										개인정보를 수집, 이용 및 제공하는데 동의합니다. <br>□ 개인정보의 수집 및 이용에 관한 사항 <br>-
+										수집하는 개인정보 항목 (회원가입 양식 내용 일체) : 성명, 전화번호, 주소, 이메일, 등과 그 外 회원가입
+										양식 기재 내용 일체 <br>- 개인정보의 이용 목적 : 수집된 개인정보를 사이트 운영에 활용하며,
+										목적 외의 용도로는 사용하지 않습니다. <br>□ 개인정보의 보관 및 이용 기간 <br>-
+										귀하의 개인정보를 다음과 같이 보관하며, 수집, 이용 및 제공목적이 달성된 경우 [개인정보 보호법] 제21조에
+										따라 처리합니다.
+									</div>
+									<form th:action="@{/member/consentForm}" method="post">
+										<div class="radio_box">
+											비동의 <input type="radio" value="refuse" class="radio"
+												name="requiredConsent"> 동의 <input type="radio"
+												value="consent" class="radio" name="requiredConsent">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-offset-3 col-md-6">
+					<div class="btn_box">
+						<button type="button" class="next_btn">Next</button>
+						<button type="button" class="home_btn" onclick="location.href='/'">메인페이지로 이동</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+       <div th:replace="fragments/footer :: footer"></div>
+    </footer>
+	<script type="text/javascript" th:inline="javascript">
+	let csrfHeader = "[(${_csrf.headerName})]";
+    let csrfToken = "[(${_csrf.token})]";
+	</script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/member/consentForm.js}"></script>
+	
+</body>
+</html>

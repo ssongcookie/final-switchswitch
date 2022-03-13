@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="admin/fragments/head :: admin_head"></th:block>
+<style type="text/css">
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:500;
+}
+</style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<th:block th:replace="admin/fragments/nav :: admin_nav"></th:block>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<th:block th:replace="admin/fragments/sidebar :: admin_sidebar"></th:block>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">환급 신청 내역</h3>
+					<div class="col-md-13 row">
+						<!-- TABLE HOVER -->
+						<div class="panel" style="background-color: white;">
+							<div class="panel-heading" style="height: 70px">
+								<form action="/admin/refunds-history" method="get" >
+									<div style="display: flex; float: right;">
+									<select class="form-control" style="width: 120px;" name="statusCode">
+									  <option th:selected="${#strings.equals(param.statusCode, '전체보기')}" value="전체보기">전체보기</option>
+									  <option th:selected="${#strings.equals(param.statusCode, '심사중')}" value="심사중">심사중</option>
+									  <option th:selected="${#strings.equals(param.statusCode, '보류중')}" value="보류중">보류중</option>
+									  <option th:selected="${#strings.equals(param.statusCode, '승인')}" value="승인">승인</option>
+									  <option th:selected="${#strings.equals(param.statusCode, '취소')}" value="취소">취소</option>
+									</select>
+									<select class="form-control" style="width: 120px;" name="searchType">
+									  <option th:selected="${#strings.equals(param.searchType, 'member_idx')}" value="member_idx">회원번호</option>
+									  <option th:selected="${#strings.equals(param.searchType, 'member_name')}" value="member_name">회원이름</option>
+									  <option th:selected="${#strings.equals(param.searchType, 'member_nick')}" value="member_nick">회원닉네임</option>
+									  <option th:selected="${#strings.equals(param.searchType, 'member_tell')}" value="member_tell">연락처</option>
+									</select>
+									<div class="" style="display: flex; width: 250px;">
+									  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+									  aria-describedby="search-addon" name="searchKeyword" th:value="${param.searchKeyword}" />
+									  <span class="input-group-text border-0" id="search-addon">
+									    <button class="fa fa-search" aria-hidden="true" style="font-size: 30px;"></button>
+									  </span>
+									</div>
+									</div>
+								</form>
+							</div>
+							<div class="panel-body">
+								<table class="table table-hover text-center">
+									<thead>
+										<tr class="">
+											<th class="text-center">신청번호</th>
+											<th class="text-center">회원번호</th>
+											<th class="text-center">이름</th>
+											<th class="text-center">닉네임</th>
+											<th class="text-center">연락처</th>
+											<th class="text-center">신청금액(원)</th>
+											<th class="text-center">은행명</th>
+											<th class="text-center">계좌번호</th>
+											<th class="text-center">신청일시</th>
+											<th class="text-center">처리결과</th>
+											<th class="text-center">상태변경</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="" th:if="${pointRefund}" th:each="point:${pointRefund}" th:object="${point}">
+											<td th:text="*{point.prIdx}"></td>
+											<td th:text="*{point.memberIdx}"></td>
+											<td th:text="*{member.memberName}"></td>
+											<td th:text="*{member.memberNick}"></td>
+											<td th:text="*{member.memberTell}"></td>
+											<td th:text="*{point.refundPoint}"></td>
+											<td th:text="*{point.bankName}"></td>
+											<td th:text="*{point.account}"></td>
+											<td th:text="*{point.regDate}"></td>
+											<td th:text="*{point.statusCode}"></td>
+											<td><div class="dropdown">
+											  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											    선택
+											    <span class="caret"></span>
+											  </button>
+											  <ul class="dropdown-menu" aria-labelledby="dLabel">
+											    <li><a th:href="@{/admin/change-refund-status(${_csrf.headerName}=${_csrf.token},statusCode=보류중,prIdx=*{point.prIdx},refundPoint=*{point.refundPoint})}">보류중</a></li>
+											    <li><a th:href="@{/admin/change-refund-status(${_csrf.headerName}=${_csrf.token},statusCode=완료,prIdx=*{point.prIdx},refundPoint=*{point.refundPoint})}">완료</a></li>
+											    <li><a th:href="@{/admin/change-refund-status(${_csrf.headerName}=${_csrf.token},statusCode=취소,prIdx=*{point.prIdx},refundPoint=*{point.refundPoint})}">취소</a></li>
+											  </ul>
+											</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div style="display: flex; justify-content: center;">
+								<ul class="pagination" th:object="${paging}">
+							    <th:block th:if="${param.searchKeyword}" >
+							    <li>
+							      <a th:if="${param.searchType}" th:href="|*{url}?page=*{prev}&statusCode=${param.statusCode}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}|" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							      <a th:unless="${param.searchType}" th:href="|*{url}?page=*{prev}|" aria-label="Previous">
+							    	<span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a th:if="${param.searchType}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}&statusCode=${param.statusCode}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}|" th:text="${p}"></a></li>
+							    <li><a th:unless="${param.searchType}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}|" th:text="${p}"></a></li>
+							    <li>
+							      <a th:if="${param.searchType}" th:href="|*{url}?page=*{next}&statusCode=${param.statusCode}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}|" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							      <a th:unless="${param.searchType}" th:href="|*{url}?page=*{next}|" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							    </th:block>
+							    <th:block th:unless="${param.searchKeyword}">
+								    <li>
+								      <a th:if="${param.searchType}" th:href="|*{url}?page=*{prev}&statusCode=${param.statusCode}&searchType=${param.searchType}|" aria-label="Previous">
+								        <span aria-hidden="true" style="color: black">&laquo;</span>
+								      </a>
+								      <a th:unless="${param.searchType}" th:href="|*{url}?page=*{prev}|" aria-label="Previous">
+								    	<span aria-hidden="true" style="color: black">&laquo;</span>
+								      </a>
+								    </li>
+								    <li><a th:if="${param.searchType}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}&statusCode=${param.statusCode}&searchType=${param.searchType}|" th:text="${p}" style="color: black"></a></li>
+								    <li><a th:unless="${param.statusCode}" th:each="p : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" th:href="|*{url}?page=${p}|" th:text="${p}" style="color: black"></a></li>
+								    <li>
+								      <a th:if="${param.searchType}" th:href="|*{url}?page=*{next}&statusCode=${param.statusCode}&searchType=${param.searchType}|" aria-label="Next">
+								        <span aria-hidden="true" style="color: black">&raquo;</span>
+								      </a>
+								      <a th:unless="${param.searchType}" th:href="|*{url}?page=*{next}|" aria-label="Next">
+								        <span aria-hidden="true" style="color: black">&raquo;</span>
+								      </a>
+								    </li>
+							    </th:block>
+							  </ul>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">
+					© 2021 SwitchSwitch. All rights reserved.
+				</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<th:block th:replace="admin/fragments/footer :: admin_footer"></th:block>
+
+</body>
+
+</html>

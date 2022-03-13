@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head th:replace="fragments/subHeader :: boardDetail-header"></head>
+    
+    <body>
+         <header th:replace="fragments/subBodyHeader :: header">
+    	</header>
+        
+        <nav th:replace="fragments/subMenu" :: subNav>
+    	</nav>
+    	
+  <section>
+  <div class="ref-title-container">
+              <div class="ref-innerwrap inner-size">
+
+                <div class="ref-title">
+                    <h1>정보공유 수정페이지</h1>
+                </div>
+
+                <div class="ref-img">
+                    <img src="../resources/img/infoback.png" alt="">
+                </div>
+
+            </div>
+		<div class='section' th:object="${datas}">
+			<form class='frm_post' th:action="|/top/modify?${_csrf.parameterName}=${_csrf.token}|" method="post" enctype="multipart/form-data">
+				<div class='frm_header_area'>
+					<h2 class='sub_title'>문의사항 수정페이지</h2>
+					
+				</div>
+				<div class='frm_title_area' th:object="${datas}">
+					<div>
+					<input type='text' class="post_title" name="title" required="required" th:value="*{topInquiry.title}" placeholder='제목을 입력하세요'>
+					</div>
+				</div>
+				<div class='frm_content_area' >
+					<textarea id="editor1" name="content" required="required" th:text="*{topInquiry.content}" data-sample-short></textarea>
+				</div>
+
+				<div class='btn_area'>
+						<button id="btnModify" class="btn">수정</button>
+						<a id="btnSubmit" class="btn" th:href="@{/top/top-list2}">목록</a>
+					</div>
+				<input type="hidden" name="supIdx" th:value="*{topInquiry.supIdx}"/>
+			</form>
+		</div>	
+	</div>
+  </section> 
+ <footer>
+    <div th:replace="fragments/footer :: footer" ></div>
+</footer>
+</body>
+</html>

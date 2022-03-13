@@ -1,0 +1,120 @@
+section {
+    padding: 60px 0;
+    background-color: #f7f7f9;
+    z-index: -1;
+}
+
+.ref-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ref-innerwrap {
+    height: 170px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    box-sizing: border-box;
+    background-color: #ff5403;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ref-title {
+    color: #fff;
+    font-size: 30px;
+}
+
+.ref-title p{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 25px;
+}
+
+.ref-title span {
+    border: 1px solid #fff;
+    border-radius: 15px;
+    padding: 0 15px;
+    font-size: 20px;
+    margin-left: 10px;
+    animation: bring 1s infinite;
+}
+
+.ref-img {
+    position: absolute;
+    left: 70%;
+}
+
+.ref-img img {    
+    width: 310px; 
+}
+
+.single-title p{
+    margin-top: 40px;
+    font-size: 23px;
+}
+
+.histroy-table {
+    box-sizing: border-box;
+    display: flex;
+    padding: 20px 30px;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.247);
+}
+
+.histroy-table table {
+    width: 100%;
+}
+
+.histroy-table th {
+    font-weight: 400;
+    vertical-align: middle;
+    height: 50px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+.histroy-table td {
+    height: 60px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 100;
+}
+
+.title-button {
+    font-weight: 300;
+    font-size: 14px;
+    padding: 2px 20px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: 20px;
+    line-height: 50px;
+    margin-right: 5px;
+}
+
+.title-button:hover {
+    background-color: #ff5403;
+    color: #fff;
+    border:1px solid #ff5403;
+}
+
+@keyframes bring {
+    0% {
+        color: #fff;
+    }
+
+    50% {
+        color: rgb(255, 251, 0);
+    }
+
+    100% {
+        color: #fff;
+    }
+}

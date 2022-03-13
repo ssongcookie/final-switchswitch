@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.exchange.model.repository.ExchangeRepository">
+  	<insert id="insertExchangeStatus">
+  		insert into exchange_status
+  		<trim prefix="(" suffixOverrides=",">
+  		e_idx,
+  		<if test="requestMemIdx != null">request_mem_idx,</if>
+  		<if test="requestedMemIdx != null">requested_mem_idx,</if>
+  		<if test="propBalance != null">prop_balance,</if>
+  		<if test="reqIdx != null">req_idx,</if>
+  		<if test="freqIdx != null">freq_idx,</if>
+  		</trim>
+  		)
+  		
+  		<trim prefix="values(" suffixOverrides=",">
+  		sc_e_idx.nextval,
+  		<if test="requestMemIdx != null">#{requestMemIdx},</if>
+  		<if test="requestedMemIdx != null">#{requestedMemIdx},</if>
+  		<if test="propBalance != null">#{propBalance},</if>
+  		<if test="reqIdx != null">#{reqIdx},</if>
+  		<if test="freqIdx != null">#{freqIdx},</if>
+  		</trim>
+  		)
+  	</insert>
+  </mapper>

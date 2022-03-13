@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.switchswitch.board.model.repository.BoardRepository">
+
+
+  		<update id="modifyBoard">
+  		update community
+  		<trim prefix="set" suffixOverrides=",">
+  		<if test="title != null">title=#{title},</if>
+  		<if test="content != null">content=#{content},</if>
+  		<if test="regDate != null">reg_date=#{regDate},</if>
+  		<if test="isDel != null">is_del=#{isDel},</if>
+  		</trim>
+  		where bd_idx = #{bdIdx}
+  	</update>
+
+
+  </mapper>

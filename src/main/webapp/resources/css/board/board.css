@@ -1,0 +1,269 @@
+@charset "UTF-8";
+body{
+	/* background-image: url("../../img/background.jpg"); */
+}
+.section *{
+	font-size: 13px;
+}
+.section{
+	margin-top: 30px;
+	width: 1200px;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 60px;
+}
+.section_wrap{
+	width: 80%;
+}
+.section_top{
+	width: 100%;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: solid;
+	border-width: 1px;
+}
+.section_top>h2{
+	font-size: 22px;
+	font-weight: bolder;
+}
+.btn_area{
+	height: 36px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.btn_area>a{
+	width: 100px;
+	height: 30px;
+	font-size: 15px;
+	background-color: #554131;
+	/* line-height: 28px; */
+	text-align: center;
+	margin-left: 10px;
+	color: white;
+	text-decoration: none;
+}
+.btn_area>a>span{
+	font-size: 15px;
+}
+.section_content_box{
+	padding: 0px 20px 0 20px;
+	border: 1px solid;
+	margin-top: 15px;
+}
+.section_content_box *{
+	padding-bottom: 5px;
+}
+.section_header{
+	height: 120px;
+	border-bottom: 1px solid #dddddd;
+}
+.section_title{
+	display: flex;
+	align-items: center;
+	height: 50px;
+}
+.section_title *{
+	padding-right: 5px;
+}
+.section_title>div{
+	padding-right: 0;
+	padding-left: 5px;
+}
+.section_title>p{
+	font-size: 18px;
+	padding-left: 25px;
+}
+.writer_info{
+	width: 100%;
+	height: 50px;
+	display: flex;
+}
+.writer_thumb{
+	width: 50px;
+	height: 50px;
+	position: relative;
+	border-radius: 50%;
+	overflow: hidden; 
+}
+.writer_thumb img{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.writer_profile{
+	width: 250px;
+	height: 50px;
+	margin-left: 10px;
+}
+.writer_profile>div{
+	margin-bottom: 5px;
+}
+.writer_board_info{
+	height: 50px;
+}
+.writer_board_info>div{
+	margin-bottom: 5px;
+}
+.dep1>li>a{
+	display: block;
+}
+.dep1>li>ul{
+	display: none;
+}
+.dep1>li:hover > .dep2{
+	display: block;
+}
+.section_container{
+	width: 100%;
+}
+.content_area{
+	border-bottom: 1px solid #dddddd;
+	margin-top: 15px;
+	height: 300px;
+
+}
+.comment_area{
+	width: 100%;
+	min-height: 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.line_btns{
+	heigth: 100px;
+}
+.line_btns>span{
+	width: 70px;
+	margin-right: 10px;
+}
+.cmt_wrap{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	display: flex;
+}
+.cmter_picture{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	overflow: hidden; 
+	margin-right: 10px;
+}
+.cmter_picture img{
+	width: 100%;
+	height: 100%;
+}
+.cmt_info{
+	height: 10px;
+	display: flex;
+	margin-bottom: 5px;
+}
+.cmt_info>div{
+	width: 150px;
+}
+.frm_write_cmt{
+	height: 98px;
+}
+.write_box{
+	width: 100%;
+}
+.cmt_writer_id{
+	height: 13px;
+}
+.cmt_write_box>textarea{
+	width: 99.4%;
+	resize: none;
+	height: 50px;
+	border: 1px solid #dddddd;
+}
+.cmt_write_btn{
+	float: right;
+	background-color: #eeeeee;
+}
+.btn{
+	border-color: transparent;
+}
+
+/* board-form */
+.frm_post{
+	width: 80%;
+	height: 100%;
+}
+.frm_header_area{
+	width: 100%;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: solid;
+	border-width: 1px;
+}
+.sub_title{
+	font-size: 22px;
+	font-weight: bolder;
+}
+.btn_area{
+	height: 36px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.btn_area>button{
+	width: 100px;
+	height: 30px;
+	font-size: 15px;
+	background-color: #eeeeee;
+	margin-left:10px;
+	
+	
+}
+/* test */
+/*  */
+.frm_title_area{
+	width: 100%;
+	height: 70px;
+	display: flex;
+	align-items: center;
+}
+.frm_title_area>div{
+	width: 100%;
+	height: 40px;
+	display: flex;
+	border: solid;
+	border-width: 1px;
+}
+.select_subject{
+	width: 20%;
+	height: 40px;
+	font-size: 15px;
+	border: none;
+	background-color: rgba(0,0,0,0.1);
+	text-align: center;
+}
+.post_title{
+	width: 80%;
+	height: 38px;
+	font-size: 15px;
+	border: none;
+	margin-left: 5px;
+}
+
+/*  */
+.frm_content_area{
+	width: 100%;
+	height:100%;
+	display: flex;
+	justify-content: center;
+}
+.frm_content_area>textarea{
+	width:1000px; 
+	height:400px; 
+    resize:none;
+}
+.btn{
+	border-color: transparent;
+}
+.add_file_box{
+	margin-top: 10px;
+}

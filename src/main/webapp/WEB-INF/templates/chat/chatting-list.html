@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+	<head th:replace="fragments/subHeader :: subHeader"></head>
+	<head>
+		<!-- chatList -->
+	    <link rel="stylesheet" href="../resources/css/mypage/chatList.css">
+	</head>
+	
+	<body>
+
+   	<header th:replace="fragments/subBodyHeader :: header">
+    </header>
+	
+	<div class="sub-menu hide">
+		<div th:replace="fragments/subMenu" :: subNav>
+	    </div>
+	</div>
+   
+    <section>
+
+         <div class="chat-title-container">
+            <div class="chat-innerwrap inner-size">
+
+                <div class="chat-title">
+                    <h1>채팅리스트</h1>
+                </div>
+
+                <div class="chat-img">
+                    <img src="../resources/img/chatListback.png" alt="">
+                </div>
+
+            </div>
+
+            <div class="refund-container inner-size">
+
+                <div class="chatList-input">
+					<th:block th:if="${chattingList}" th:each="chatting : ${chattingList}" th:object="${chatting}">
+	                    <div class="info">
+	                        <a class="chat-list-a" th:href="@{/chat/chat(chattingIdx=*{chatting.chattingIdx})}">
+	                            <div class="info-img">
+	                            	<th:block  th:if ="*{FileInfo == null}">
+                                        <img src="../resources/img/no-img.jpg" >
+                                    </th:block>
+                                    <th:block  th:unless ="*{FileInfo == null}">
+                                    	<th:block th:if="*{memberNick} != '(알수없음)'">
+                                        	<img th:src="*{FileInfo.getDownloadURL()}" >
+                                        </th:block>
+                                        <th:block th:if="*{memberNick} == '(알수없음)'">
+                                        	<img src="../resources/img/no-img.jpg" >
+                                        </th:block>
+                                    </th:block>
+	                            </div>
+	                            <div class="info-detail">
+	                                <div class="info-name">
+	                                    <p>[[*{memberNick}]]</p>
+	                                </div>
+	                                <div class="message">
+	                                    <div class="content">
+	                                        <p>[[*{lastMessage}]]</p>
+	                                    </div>
+	                                    <th:block th:if="*{isRead} != 0">
+		                                    <div class="email-icon">
+		                                        <i class="fas fa-envelope"></i>
+		                                    </div>
+	                                    </th:block>
+	                                </div>
+	                            </div>
+	                        </a>
+	                            <a th:href="@{/chat/delete(chattingIdx=*{chatting.chattingIdx})}" onclick="alert('채팅방이 삭제되었습니다')" class="trash-a">
+	                                <div class="trash">
+	                                  <i class="fas fa-minus-circle"></i>
+	                                </div>
+	                            </a>
+	                    </div>
+					</th:block>
+					<th:block th:unless="${chattingList}">
+               			<div>채팅방이 존재하지 않습니다</div>
+               		</th:block>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+       <div th:replace="fragments/footer :: footer" ></div>
+   	</footer>
+    <script type="text/javascript" th:inline="javascript" th:src="@{../resources/js/point/history.js}"></script>
+</body>
+</html>
